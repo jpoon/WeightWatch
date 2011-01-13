@@ -1,0 +1,11 @@
+﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="WeightWatch" EntryPointType="WeightWatch.App" RuntimeVersion="3.0.40624.0">
+  <Deployment.Parts>
+    <AssemblyPart x:Name="WeightWatch" Source="WeightWatch.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="System.Windows.Controls.DataVisualization.Toolkit" Source="System.Windows.Controls.DataVisualization.Toolkit.dll" />
+    <AssemblyPart x:Name="System.Windows.Controls.Toolkit" Source="System.Windows.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="System.Windows.Controls" Source="System.Windows.Controls.dll" />
+    <AssemblyPart x:Name="System.Reactive" Source="System.Reactive.dll" />
+  </Deployment.Parts>
+</Deployment>
