@@ -47,7 +47,7 @@ namespace WeightWatch
         {
             get
             {
-                return _weightInDefaultSystem.ToString() + " " + MeasurementFactory.GetSystem(_defaultSystem).Abbreviation;
+                return Math.Ceiling(_weightInDefaultSystem).ToString() + " " + MeasurementFactory.GetSystem(_defaultSystem).Abbreviation;
             }
         }
 
