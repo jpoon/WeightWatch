@@ -40,15 +40,9 @@
         </DataTemplate>
         <!-- Chart -->
         <Style x:Key="WeightChart_DateTimeAxisStyle" TargetType="chartingToolkit:DateTimeAxisLabel">
-            <Setter Property="StringFormat" Value="{}{0:MMM d}"/>
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <CompositeTransform Rotation="90"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="DaysIntervalStringFormat" Value="{}{0:M/d}"/>
+            <Setter Property="MonthsIntervalStringFormat" Value="{}{0:MMM}"/>
+            <Setter Property="YearsIntervalStringFormat" Value="{}{0:yy}"/>
         </Style>
         <Style x:Key="ChartStyle" TargetType="chartingToolkit:Chart">
             <!-- Make plot area background transparent -->
@@ -93,7 +87,7 @@
             <Setter Property="PathStyle" Value="{StaticResource AreaSeriesPathStyle}" />
         </Style>
     </Application.Resources>
-
+   
     <Application.ApplicationLifetimeObjects>
         <!--Required object that handles lifetime events for the application-->
         <shell:PhoneApplicationService 

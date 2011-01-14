@@ -7,6 +7,30 @@ namespace WeightWatch.Models
 {
     public class ApplicationSettings
     {
+        public enum GraphMode
+        {
+            Week,
+            Month,
+            Year
+        };
+
+        public static GraphMode DefaultGraphMode
+        {
+            get
+            {
+                if (ClientStorage.Instance["GraphMode"] == null)
+                {
+                    ClientStorage.Instance["GraphMode"] = GraphMode.Week;
+                }
+
+                return (GraphMode)ClientStorage.Instance["GraphMode"];
+            }
+            set
+            {
+                ClientStorage.Instance["GraphMode"] = value;
+            }
+        }
+
         public static MeasurementSystem DefaultMeasurementSystem
         {
             get

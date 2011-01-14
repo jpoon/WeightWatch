@@ -97,17 +97,5 @@ namespace WeightWatch.Models
             }
             return list;
         }
-
-        public static List<String> GetAllString()
-        {
-            List<String> list = new List<String>();
-            Type enumType = typeof(MeasurementSystem);
-            FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (FieldInfo item in enumDetail)
-            {
-                list.Add(item.Name);
-            }
-            return list;
-        }
     }
 }

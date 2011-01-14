@@ -42,9 +42,26 @@ namespace WeightWatch
                 {
                     DateTimeAxis tmp = axis as DateTimeAxis;
                     tmp.IntervalType = DateTimeIntervalType.Days;
-                    tmp.Interval = 1;
-                    tmp.Minimum = DateTime.Today.AddHours(-24 * 5);
                     tmp.Maximum = DateTime.Today;
+
+                    switch (ApplicationSettings.DefaultGraphMode)
+                    {
+                        case ApplicationSettings.GraphMode.Week:
+                            tmp.Interval = 1;
+                            tmp.Minimum = DateTime.Today.AddDays(-6);
+                            break;
+                        case ApplicationSettings.GraphMode.Month:
+                            tmp.Interval = 6;
+                            tmp.Minimum = DateTime.Today.AddDays(-34);
+                            break;
+                        case ApplicationSettings.GraphMode.Year:
+                            tmp.IntervalType = DateTimeIntervalType.Months;
+                            tmp.Interval = 2;
+                            tmp.Minimum = DateTime.Today.AddMonths(-12);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else if (axisType == typeof(LinearAxis))
                 {
