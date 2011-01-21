@@ -6,8 +6,8 @@ namespace WeightWatch.Models
 {
     public enum MeasurementSystem
     {
-        Imperial,
-        Metric
+        Imperial = 1,
+        Metric = 2
     }
 
     public interface IMeasurementSystem
