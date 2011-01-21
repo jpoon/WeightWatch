@@ -15,14 +15,14 @@ namespace WeightWatch
         {
             InitializeComponent();
 
-            _viewModel = WeightListViewModel.GetInstance();
-            this.DataContext = _viewModel;
-
             Loaded += new System.Windows.RoutedEventHandler(MainPage_Loaded);
         }
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            _viewModel = new WeightListViewModel();
+            this.DataContext = _viewModel;
+
             weightGraph.Series.Clear();
 
             // Graph Series
@@ -35,6 +35,22 @@ namespace WeightWatch
             };
             weightGraph.Series.Add(series);
 
+            DateTime startDate = new DateTime();
+            switch (ApplicationSettings.DefaultGraphMode)
+            {
+                case ApplicationSettings.GraphMode.Week:
+                    startDate = DateTime.Today.AddDays(-6);
+                    break;
+                case ApplicationSettings.GraphMode.Month:
+                    startDate = DateTime.Today.AddDays(-35);
+                    break;
+                case ApplicationSettings.GraphMode.Year:
+                    startDate = DateTime.Today.AddMonths(-12);
+                    break;
+                default:
+                    break;
+            }
+
             foreach (IAxis axis in weightGraph.Axes)
             {
                 Type axisType = axis.GetType();
@@ -42,22 +58,20 @@ namespace WeightWatch
                 {
                     DateTimeAxis tmp = axis as DateTimeAxis;
                     tmp.IntervalType = DateTimeIntervalType.Days;
+                    tmp.Minimum = startDate;
                     tmp.Maximum = DateTime.Today;
 
                     switch (ApplicationSettings.DefaultGraphMode)
                     {
                         case ApplicationSettings.GraphMode.Week:
                             tmp.Interval = 1;
-                            tmp.Minimum = DateTime.Today.AddDays(-6);
                             break;
                         case ApplicationSettings.GraphMode.Month:
                             tmp.Interval = 6;
-                            tmp.Minimum = DateTime.Today.AddDays(-34);
                             break;
                         case ApplicationSettings.GraphMode.Year:
                             tmp.IntervalType = DateTimeIntervalType.Months;
                             tmp.Interval = 2;
-                            tmp.Minimum = DateTime.Today.AddMonths(-12);
                             break;
                         default:
                             break;
@@ -67,10 +81,12 @@ namespace WeightWatch
                 {
                     string weightAbbrev = MeasurementFactory.GetSystem((MeasurementSystem)ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
 
+                    WeightListViewModel.WeightMinMax weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
+
                     LinearAxis tmp = axis as LinearAxis;
                     tmp.Title = "Weight (" + weightAbbrev + ")";
-                    tmp.Minimum = 0;
-                    tmp.Maximum = 100;
+                    tmp.Minimum = weightMinMax.Min - 10;
+                    tmp.Maximum = weightMinMax.Max + 10;
                     tmp.Interval = 10;
                 }
             }

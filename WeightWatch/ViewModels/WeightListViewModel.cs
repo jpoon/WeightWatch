@@ -10,12 +10,64 @@ namespace WeightWatch
 {
     public class WeightListViewModel : INotifyPropertyChanged
     {
+        public struct WeightMinMax
+        {
+            static float DEFAULT_MIN = 0;
+            static float DEFAULT_MAX = 100;
+
+            public WeightMinMax(float? min, float? max)
+                : this()
+            {
+                Min = min;
+                Max = max;
+            }
+
+            private float _min;
+            public float? Min
+            {
+                get
+                {
+                    return _min;
+                }
+
+                private set
+                {
+                    if (value == null)
+                    {
+                        _min = DEFAULT_MIN;
+                    }
+                    else
+                    {
+                        _min = (float)value;
+                    }
+                }
+            }
+
+            private float _max;
+            public float? Max
+            {
+                get
+                {
+                    return _max;
+                }
+
+                private set
+                {
+                    if (value == null)
+                    {
+                        _max = DEFAULT_MAX;
+                    }
+                    else
+                    {
+                        _max = (float)value;
+                    }
+                }
+            }
+        }
+
         WeightListModel _dataList;
 
-        static WeightListViewModel _instance = null;
-        static readonly object _singletonLock = new object();
-
-        private WeightListViewModel()
+        public WeightListViewModel()
         {
             WeightHistoryList = new ObservableCollection<WeightViewModel>();
 
@@ -24,24 +76,12 @@ namespace WeightWatch
             _dataList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_dataList_CollectionChanged);
         }
 
-        public static WeightListViewModel GetInstance()
-        {
-            lock (_singletonLock)
-            {
-                if (_instance == null)
-                {
-                    _instance = new WeightListViewModel();
-                }
-                return _instance;
-            }
-        }
-
         #region properties
 
         public ObservableCollection<WeightViewModel> WeightHistoryList
         {
             get;
-            set;
+            private set;
         }
 
         public IEnumerable<LongListSelectorGroup<WeightViewModel>> WeightHistoryGroup
@@ -61,9 +101,27 @@ namespace WeightWatch
         public void Save(float weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
-            WeightListModel.GetInstance().add(_model);
+            WeightListModel.GetInstance().Add(_model);
             InvokePropertyChanged("WeightHistoryList");
             InvokePropertyChanged("WeightHistoryGroup");
+        }
+
+        public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)
+        {
+            var resultSet =
+                from item in WeightHistoryList
+                where item.Date >= start && item.Date <= end
+                select item;
+
+            float? min =
+                (from item in resultSet
+                 select (float?)item.Weight).Min();
+
+            float? max =
+                (from item in resultSet
+                 select (float?)item.Weight).Max();
+
+            return new WeightMinMax(min, max);
         }
 
         #endregion

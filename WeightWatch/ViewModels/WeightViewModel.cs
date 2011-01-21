@@ -6,15 +6,10 @@ namespace WeightWatch
     public class WeightViewModel
     {
         WeightModel _data;
-        float _weightInDefaultSystem;
-        MeasurementSystem _defaultSystem;
 
         public WeightViewModel(WeightModel data)
         {
             _data = data;
-
-            _defaultSystem = (MeasurementSystem)ApplicationSettings.DefaultMeasurementSystem;
-            _weightInDefaultSystem = MeasurementFactory.GetSystem(_data.MeasurementUnit).ConvertTo(_defaultSystem, _data.Weight);
         }
 
         #region Properties
@@ -47,7 +42,8 @@ namespace WeightWatch
         {
             get
             {
-                return Math.Ceiling(_weightInDefaultSystem).ToString() + " " + MeasurementFactory.GetSystem(_defaultSystem).Abbreviation;
+                MeasurementSystem defaultSystem = (MeasurementSystem)ApplicationSettings.DefaultMeasurementSystem;
+                return Math.Ceiling(this.Weight).ToString() + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
 
@@ -55,7 +51,8 @@ namespace WeightWatch
         {
             get
             {
-                return _weightInDefaultSystem;
+                MeasurementSystem defaultSystem = (MeasurementSystem)ApplicationSettings.DefaultMeasurementSystem;
+                return MeasurementFactory.GetSystem(_data.MeasurementUnit).ConvertTo(defaultSystem, _data.Weight);
             }
         }
 

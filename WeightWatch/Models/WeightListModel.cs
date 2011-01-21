@@ -35,7 +35,7 @@ namespace WeightWatch.Models
 
         #region Public Methods
 
-        public void add(WeightModel data)
+        public void Add(WeightModel data)
         {
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
@@ -48,7 +48,7 @@ namespace WeightWatch.Models
             notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public void delete(DateTime date)
+        public void Delete(DateTime date)
         {
             // ToDo: Implement
             notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
