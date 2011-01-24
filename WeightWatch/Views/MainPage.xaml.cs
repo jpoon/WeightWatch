@@ -6,10 +6,13 @@ using WeightWatch.Models;
 
 namespace WeightWatch
 {
-
     public partial class MainPage : PhoneApplicationPage
     {
         WeightListViewModel _viewModel;
+        ApplicationSettings _appSettings = new ApplicationSettings();
+
+        const int GRAPH_DEFAULT_MAX = 100;
+        const int GRAPH_DEFAULT_MIN = 0;
 
         public MainPage()
         {
@@ -20,7 +23,7 @@ namespace WeightWatch
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            _viewModel = new WeightListViewModel();
+            _viewModel = WeightListViewModel.GetInstance();
             this.DataContext = _viewModel;
 
             weightGraph.Series.Clear();
@@ -36,7 +39,7 @@ namespace WeightWatch
             weightGraph.Series.Add(series);
 
             DateTime startDate = new DateTime();
-            switch (ApplicationSettings.DefaultGraphMode)
+            switch (_appSettings.DefaultGraphMode)
             {
                 case ApplicationSettings.GraphMode.Week:
                     startDate = DateTime.Today.AddDays(-6);
@@ -50,45 +53,65 @@ namespace WeightWatch
                 default:
                     break;
             }
-
             foreach (IAxis axis in weightGraph.Axes)
             {
                 Type axisType = axis.GetType();
                 if (axisType == typeof(DateTimeAxis))
                 {
-                    DateTimeAxis tmp = axis as DateTimeAxis;
-                    tmp.IntervalType = DateTimeIntervalType.Days;
-                    tmp.Minimum = startDate;
-                    tmp.Maximum = DateTime.Today;
-
-                    switch (ApplicationSettings.DefaultGraphMode)
-                    {
-                        case ApplicationSettings.GraphMode.Week:
-                            tmp.Interval = 1;
-                            break;
-                        case ApplicationSettings.GraphMode.Month:
-                            tmp.Interval = 6;
-                            break;
-                        case ApplicationSettings.GraphMode.Year:
-                            tmp.IntervalType = DateTimeIntervalType.Months;
-                            tmp.Interval = 2;
-                            break;
-                        default:
-                            break;
-                    }
+                    SetupDateTimeAxis((DateTimeAxis)axis, startDate);
                 }
                 else if (axisType == typeof(LinearAxis))
                 {
-                    string weightAbbrev = MeasurementFactory.GetSystem((MeasurementSystem)ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
-
-                    WeightListViewModel.WeightMinMax weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
-
-                    LinearAxis tmp = axis as LinearAxis;
-                    tmp.Title = "Weight (" + weightAbbrev + ")";
-                    tmp.Minimum = weightMinMax.Min - 10;
-                    tmp.Maximum = weightMinMax.Max + 10;
-                    tmp.Interval = 10;
+                    SetupLinearAxis((LinearAxis)axis, startDate);
                 }
+            }
+        }
+
+        private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate)
+        {
+            MeasurementSystem defaultMeasurementSystem = _appSettings.DefaultMeasurementSystem;
+            string weightAbbrev = MeasurementFactory.GetSystem(defaultMeasurementSystem).Abbreviation;
+
+            WeightListViewModel.WeightMinMax weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
+
+            linearAxis.Title = "Weight (" + weightAbbrev + ")";
+
+            if (weightMinMax.Min == null)
+            {
+                weightMinMax.Min = GRAPH_DEFAULT_MIN;
+            }
+
+            if (weightMinMax.Max == null)
+            {
+                weightMinMax.Max = GRAPH_DEFAULT_MAX;
+            }
+
+            linearAxis.Minimum = Math.Floor((float)weightMinMax.Min / 10) * 10;
+            linearAxis.Maximum = Math.Ceiling((float)weightMinMax.Max / 10) * 10;
+
+            linearAxis.Interval = Math.Floor((double)(linearAxis.Maximum - linearAxis.Minimum) / 10);
+        }
+
+        private void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate)
+        {
+            dateTimeAxis.Minimum = startDate;
+            dateTimeAxis.Maximum = DateTime.Today;
+            switch (_appSettings.DefaultGraphMode)
+            {
+                case ApplicationSettings.GraphMode.Week:
+                    dateTimeAxis.IntervalType = DateTimeIntervalType.Days;
+                    dateTimeAxis.Interval = 1;
+                    break;
+                case ApplicationSettings.GraphMode.Month:
+                    dateTimeAxis.IntervalType = DateTimeIntervalType.Days;
+                    dateTimeAxis.Interval = 6;
+                    break;
+                case ApplicationSettings.GraphMode.Year:
+                    dateTimeAxis.IntervalType = DateTimeIntervalType.Months;
+                    dateTimeAxis.Interval = 2;
+                    break;
+                default:
+                    break;
             }
         }
 

@@ -2,19 +2,20 @@
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using WeightWatch.Classes;
+using System.ComponentModel;
 
 namespace WeightWatch.Models
 {
-    public class ApplicationSettings
+    public class ApplicationSettings : INotifyPropertyChanged
     {
         public enum GraphMode
         {
-            Week,
-            Month,
-            Year
+            Week = 1,
+            Month = 2,
+            Year = 3
         };
 
-        public static GraphMode DefaultGraphMode
+        public GraphMode DefaultGraphMode
         {
             get
             {
@@ -31,7 +32,7 @@ namespace WeightWatch.Models
             }
         }
 
-        public static MeasurementSystem DefaultMeasurementSystem
+        public MeasurementSystem DefaultMeasurementSystem
         {
             get
             {
@@ -45,7 +46,21 @@ namespace WeightWatch.Models
             set
             {
                 ClientStorage.Instance["MeasurementSystem"] = value;
+                NotifyPropertyChanged("DefaultMeasurementSystem");
             }
         }
+
+        #region Event Handlers
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
+        #endregion
     }
 }

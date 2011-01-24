@@ -41,7 +41,7 @@ namespace WeightWatch
             Loaded += new RoutedEventHandler(AddWeightPage_Loaded);
 
             _newEntry = new WeightEntry();
-            _weightListViewModel = new WeightListViewModel();
+            _weightListViewModel = WeightListViewModel.GetInstance();
             this.DataContext = _newEntry;
         }
 

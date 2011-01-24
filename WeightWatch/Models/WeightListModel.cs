@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace WeightWatch.Models
 {
-    public class WeightListModel : INotifyCollectionChanged
+    public class WeightListModel
     {
         public List<WeightModel> WeightList { get; private set; }
 
@@ -44,14 +44,11 @@ namespace WeightWatch.Models
             }
             WeightList.Add(data);
             WeightList.Sort();
-
-            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public void Delete(DateTime date)
         {
             // ToDo: Implement
-            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public void Persist()
@@ -94,15 +91,6 @@ namespace WeightWatch.Models
             }
 
             return weightHistory;
-        }
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-        private void notifyCollectionChanged(NotifyCollectionChangedEventArgs args)
-        {
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(this, args);
-            }
         }
     }
 }

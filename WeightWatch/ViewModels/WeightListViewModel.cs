@@ -12,9 +12,6 @@ namespace WeightWatch
     {
         public struct WeightMinMax
         {
-            static float DEFAULT_MIN = 0;
-            static float DEFAULT_MAX = 100;
-
             public WeightMinMax(float? min, float? max)
                 : this()
             {
@@ -22,58 +19,73 @@ namespace WeightWatch
                 Max = max;
             }
 
-            private float _min;
+            private float? _min;
             public float? Min
             {
                 get
                 {
                     return _min;
                 }
-
-                private set
+                set
                 {
-                    if (value == null)
+                    if (value < 0)
                     {
-                        _min = DEFAULT_MIN;
+                        throw new ArgumentException("Minimum weight cannot be less than 0");
                     }
-                    else
+                    if (value > _max)
                     {
-                        _min = (float)value;
+                        throw new ArgumentException("Minimum weight cannot be greater than maximum weight");
                     }
+                    _min = value;
                 }
             }
 
-            private float _max;
+            private float? _max;
             public float? Max
             {
                 get
                 {
                     return _max;
                 }
-
-                private set
+                set
                 {
-                    if (value == null)
+                    if (value < _min)
                     {
-                        _max = DEFAULT_MAX;
+                        throw new ArgumentException("Maximum weight cannot be less than minimum weight");
                     }
-                    else
-                    {
-                        _max = (float)value;
-                    }
+                    _max = value;
                 }
             }
         }
 
         WeightListModel _dataList;
+        ApplicationSettings _appSettings = new ApplicationSettings();
+        static WeightListViewModel _instance = null;
+        static readonly object _singletonLock = new object();
 
-        public WeightListViewModel()
+        private WeightListViewModel()
         {
             WeightHistoryList = new ObservableCollection<WeightViewModel>();
 
             _dataList = WeightListModel.GetInstance();
             _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
-            _dataList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_dataList_CollectionChanged);
+
+            _appSettings.PropertyChanged += new PropertyChangedEventHandler(ApplicationSettings_PropertyChanged);
+        }
+
+        /// <summary>
+        /// WeightHistoryModel object instantiated once and shared thereafter (singleton pattern).
+        /// </summary>
+        public static WeightListViewModel GetInstance()
+        {
+            lock (_singletonLock)
+            {
+                if (_instance == null)
+                {
+                    _instance = new WeightListViewModel();
+                }
+                return _instance;
+            }
         }
 
         #region properties
@@ -101,7 +113,9 @@ namespace WeightWatch
         public void Save(float weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
+            WeightHistoryList.Add(new WeightViewModel(_model));
             WeightListModel.GetInstance().Add(_model);
+
             InvokePropertyChanged("WeightHistoryList");
             InvokePropertyChanged("WeightHistoryGroup");
         }
@@ -128,13 +142,10 @@ namespace WeightWatch
 
         #region Event Handlers
 
-        void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            WeightHistoryList.Clear();
-            _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
+            InvokePropertyChanged("WeightHistoryList");
         }
-
-        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void InvokePropertyChanged(string propertyName)
@@ -142,5 +153,7 @@ namespace WeightWatch
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }
