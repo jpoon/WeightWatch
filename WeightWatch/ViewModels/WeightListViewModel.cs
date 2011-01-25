@@ -59,7 +59,6 @@ namespace WeightWatch
         }
 
         WeightListModel _dataList;
-        ApplicationSettings _appSettings = new ApplicationSettings();
         static WeightListViewModel _instance = null;
         static readonly object _singletonLock = new object();
 
@@ -69,8 +68,7 @@ namespace WeightWatch
 
             _dataList = WeightListModel.GetInstance();
             _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
-
-            _appSettings.PropertyChanged += new PropertyChangedEventHandler(ApplicationSettings_PropertyChanged);
+            _dataList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_dataList_CollectionChanged);
         }
 
         /// <summary>
@@ -113,11 +111,7 @@ namespace WeightWatch
         public void Save(float weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
-            WeightHistoryList.Add(new WeightViewModel(_model));
             WeightListModel.GetInstance().Add(_model);
-
-            InvokePropertyChanged("WeightHistoryList");
-            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)
@@ -142,16 +136,20 @@ namespace WeightWatch
 
         #region Event Handlers
 
-        void ApplicationSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            InvokePropertyChanged("WeightHistoryList");
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void InvokePropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            WeightHistoryList.Clear();
+            _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
+
+            InvokePropertyChanged("WeightHistoryList");
+            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         #endregion

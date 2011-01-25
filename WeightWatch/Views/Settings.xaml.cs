@@ -10,13 +10,9 @@ namespace WeightWatch.Views
 {
     public partial class Settings : PhoneApplicationPage
     {
-        ApplicationSettings _appSettings;
-
         public Settings()
         {
             InitializeComponent();
-
-            _appSettings = new ApplicationSettings();
 
             this.Loaded += new RoutedEventHandler(Settings_Loaded);
         }
@@ -32,7 +28,7 @@ namespace WeightWatch.Views
             int index = 0;
             foreach (string system in Helpers.EnumToStringList(typeof(MeasurementSystem)))
             {
-                if (system == _appSettings.DefaultMeasurementSystem.ToString())
+                if (system == ApplicationSettings.DefaultMeasurementSystem.ToString())
                 {
                     Measurement_ListPicker.SelectedIndex = index;
                     break;
@@ -50,7 +46,7 @@ namespace WeightWatch.Views
             index = 0;
             foreach (string system in Helpers.EnumToStringList(typeof(GraphMode)))
             {
-                if (system == _appSettings.DefaultGraphMode.ToString())
+                if (system == ApplicationSettings.DefaultGraphMode.ToString())
                 {
                     Graph_ListPicker.SelectedIndex = index;
                     break;
@@ -65,12 +61,12 @@ namespace WeightWatch.Views
 
         private void Measurement_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _appSettings.DefaultMeasurementSystem = (MeasurementSystem)Enum.Parse(typeof(MeasurementSystem), (string)Measurement_ListPicker.SelectedItem, true);
+            ApplicationSettings.DefaultMeasurementSystem = (MeasurementSystem)Enum.Parse(typeof(MeasurementSystem), (string)Measurement_ListPicker.SelectedItem, true);
         }
 
         private void Graph_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _appSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
+            ApplicationSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
         }
 
         #endregion

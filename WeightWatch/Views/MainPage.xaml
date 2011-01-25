@@ -36,6 +36,7 @@
                 <chartingToolkit:Chart x:Name="weightChart" Style="{StaticResource WeightChart_Style}">
                     <chartingToolkit:AreaSeries
                         x:Name="weightChart_areaSeries"
+                        ItemsSource="{Binding WeightHistoryList}"
                         DependentValuePath="Weight"
                         IndependentValuePath="Date"
                         DataPointStyle="{StaticResource WeightChart_AreaDataPointStyle}"

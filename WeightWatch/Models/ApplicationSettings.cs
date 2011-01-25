@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace WeightWatch.Models
 {
-    public class ApplicationSettings : INotifyPropertyChanged
+    public static class ApplicationSettings
     {
         public enum GraphMode
         {
@@ -15,7 +15,7 @@ namespace WeightWatch.Models
             Year = 3
         };
 
-        public GraphMode DefaultGraphMode
+        public static GraphMode DefaultGraphMode
         {
             get
             {
@@ -32,7 +32,7 @@ namespace WeightWatch.Models
             }
         }
 
-        public MeasurementSystem DefaultMeasurementSystem
+        public static MeasurementSystem DefaultMeasurementSystem
         {
             get
             {
@@ -46,21 +46,7 @@ namespace WeightWatch.Models
             set
             {
                 ClientStorage.Instance["MeasurementSystem"] = value;
-                NotifyPropertyChanged("DefaultMeasurementSystem");
             }
         }
-
-        #region Event Handlers
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-
-        #endregion
     }
 }
