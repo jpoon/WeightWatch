@@ -33,7 +33,13 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="graph">
-                <chartingToolkit:Chart x:Name="weightGraph" Style="{StaticResource ChartStyle}">
+                <chartingToolkit:Chart x:Name="weightChart" Style="{StaticResource WeightChart_Style}">
+                    <chartingToolkit:AreaSeries
+                        x:Name="weightChart_areaSeries"
+                        DependentValuePath="Weight"
+                        IndependentValuePath="Date"
+                        DataPointStyle="{StaticResource WeightChart_AreaDataPointStyle}"
+                        PathStyle="{StaticResource WeightChart_AreaSeriesPathStyle}"/>
                     <chartingToolkit:Chart.Axes>
                         <chartingToolkit:DateTimeAxis 
                             x:Name="weightChart_dateTimeAxis" 

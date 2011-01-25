@@ -18,25 +18,16 @@ namespace WeightWatch
         {
             InitializeComponent();
 
+            _viewModel = WeightListViewModel.GetInstance();
+            this.DataContext = _viewModel;
+
             Loaded += new System.Windows.RoutedEventHandler(MainPage_Loaded);
         }
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            _viewModel = WeightListViewModel.GetInstance();
-            this.DataContext = _viewModel;
-
-            weightGraph.Series.Clear();
-
-            // Graph Series
-            AreaSeries series = new AreaSeries()
-            {
-                ItemsSource = _viewModel.WeightHistoryList,
-                DependentValuePath = "Weight",
-                IndependentValuePath = "Date",
-                AnimationSequence = AnimationSequence.FirstToLast,
-            };
-            weightGraph.Series.Add(series);
+            AreaSeries areaSeries = weightChart.Series[0] as AreaSeries;
+            areaSeries.ItemsSource = _viewModel.WeightHistoryList;
 
             DateTime startDate = new DateTime();
             switch (_appSettings.DefaultGraphMode)
@@ -53,7 +44,7 @@ namespace WeightWatch
                 default:
                     break;
             }
-            foreach (IAxis axis in weightGraph.Axes)
+            foreach (IAxis axis in weightChart.Axes)
             {
                 Type axisType = axis.GetType();
                 if (axisType == typeof(DateTimeAxis))

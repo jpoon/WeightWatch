@@ -44,7 +44,7 @@
             <Setter Property="MonthsIntervalStringFormat" Value="{}{0:MMM}"/>
             <Setter Property="YearsIntervalStringFormat" Value="{}{0:yy}"/>
         </Style>
-        <Style x:Key="ChartStyle" TargetType="chartingToolkit:Chart">
+        <Style x:Key="WeightChart_Style" TargetType="chartingToolkit:Chart">
             <!-- Make plot area background transparent -->
             <Setter Property="PlotAreaStyle">
                 <Setter.Value>
@@ -73,18 +73,13 @@
             </Setter>
         </Style>
 
-        <Style x:Key="AreaSeriesDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
+        <Style x:Key="WeightChart_AreaDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
             <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
         </Style>
-        <Style x:Key="AreaSeriesPathStyle" TargetType="Path">
-            <Setter Property="Stroke" Value="Gray" />
+        <Style x:Key="WeightChart_AreaSeriesPathStyle" TargetType="Path">
+            <Setter Property="Stroke" Value="{StaticResource PhoneBorderBrush}" />
             <Setter Property="StrokeThickness" Value="2" />
-            <Setter Property="Opacity" Value="0.5" />
-        </Style>
-        <Style x:Key="AreaSeriesStyle" TargetType="chartingToolkit:AreaSeries">
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="DataPointStyle" Value="{StaticResource AreaSeriesDataPointStyle}" />
-            <Setter Property="PathStyle" Value="{StaticResource AreaSeriesPathStyle}" />
+            <Setter Property="Opacity" Value="0.7" />
         </Style>
     </Application.Resources>
    
@@ -94,5 +89,4 @@
             Launching="Application_Launching" Closing="Application_Closing" 
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
     </Application.ApplicationLifetimeObjects>
-
 </Application>
