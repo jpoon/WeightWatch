@@ -45,7 +45,7 @@ namespace WeightWatch
             get
             {
                 MeasurementSystem defaultSystem = _appSettings.DefaultMeasurementSystem;
-                return Math.Ceiling(this.Weight).ToString() + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
+                return Math.Ceiling(_data.Weight).ToString() + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
 
