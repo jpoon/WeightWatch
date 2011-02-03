@@ -75,6 +75,21 @@
 
         <Style x:Key="WeightChart_AreaDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
             <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
+            <Setter Property="Height" Value="10" />
+            <Setter Property="Width"  Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="chartingToolkit:AreaDataPoint">
+                        <Grid x:Name="Root" Opacity="1">
+                            <Ellipse Width="10" Height="10" 
+                                 StrokeThickness="{StaticResource PhoneBorderThickness}" 
+                                 Stroke="White" 
+                                 Fill="White"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
         </Style>
         <Style x:Key="WeightChart_AreaSeriesPathStyle" TargetType="Path">
             <Setter Property="Stroke" Value="{StaticResource PhoneBorderBrush}" />
