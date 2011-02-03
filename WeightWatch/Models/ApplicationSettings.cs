@@ -1,8 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.Collections.Generic;
-using WeightWatch.Classes;
-using System.ComponentModel;
+﻿using WeightWatch.Classes;
 
 namespace WeightWatch.Models
 {
@@ -10,6 +6,7 @@ namespace WeightWatch.Models
     {
         public enum GraphMode
         {
+            None = 0,
             Week = 1,
             Month = 2,
             Year = 3

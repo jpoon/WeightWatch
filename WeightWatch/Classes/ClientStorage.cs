@@ -55,13 +55,22 @@ namespace WeightWatch.Classes
 
         #region Private Helper Methods
 
-        private void ReadKeys(IsolatedStorageFile isoStore)
+        private void ReadKeys(IsolatedStorageFile isoStoreFile)
         {
-            IsolatedStorageFileStream iStream = new IsolatedStorageFileStream(ISOLATED_KEY_FILE_NAME,
-                                                                    FileMode.Open, isoStore);
+            IsolatedStorageFileStream iStream = new IsolatedStorageFileStream(ISOLATED_KEY_FILE_NAME, FileMode.Open, isoStoreFile);
             DataContractSerializer serializer = new DataContractSerializer(keysNTypes.GetType());
-            keysNTypes = serializer.ReadObject(iStream) as Dictionary<string, TypeAndValue>;
+
+            try
+            {
+                keysNTypes = serializer.ReadObject(iStream) as Dictionary<string, TypeAndValue>;
+            }
+            finally
+            {
+                iStream.Dispose();
+            }
+
         }
+
         private void AddKey(string key, object value)
         {
             if (!keysNTypes.ContainsKey(key))
@@ -70,13 +79,11 @@ namespace WeightWatch.Classes
             keysNTypes[key].StoredObject = value;
             WriteKeyFile();
         }
+
         private void WriteKeyFile()
         {
-            using (IsolatedStorageFileStream oStream = new IsolatedStorageFileStream(ISOLATED_KEY_FILE_NAME,
-                                                        FileMode.Create, isoStore))
+            using (IsolatedStorageFileStream oStream = new IsolatedStorageFileStream(ISOLATED_KEY_FILE_NAME, FileMode.Create, isoStore))
             {
-                //StreamWriter writer = new StreamWriter(oStream);
-
                 DataContractSerializer serializer = new DataContractSerializer(keysNTypes.GetType());
 
                 serializer.WriteObject(oStream, keysNTypes);
@@ -106,8 +113,11 @@ namespace WeightWatch.Classes
                                 {
                                     // Do nothing simply retrun null
                                 }
-                                keysNTypes[key].StoredObject = value;
-                                iStream.Close();
+                                finally
+                                {
+                                    keysNTypes[key].StoredObject = value;
+                                    iStream.Close();
+                                }
                             }
                         }
                     }
@@ -126,12 +136,19 @@ namespace WeightWatch.Classes
 
         private void AddOrUpdate(string key, object value)
         {
-            IsolatedStorageFileStream oStream = new IsolatedStorageFileStream(key + KEY_OBJECT_FILE,
-                                                    FileMode.Create, isoStore);
+            IsolatedStorageFileStream oStream = new IsolatedStorageFileStream(key + KEY_OBJECT_FILE, FileMode.Create, isoStore);
             DataContractSerializer serializer = new DataContractSerializer(value.GetType());
 
-            serializer.WriteObject(oStream, value);
-            oStream.Close();
+            try
+            {
+                serializer.WriteObject(oStream, value);
+                oStream.Close();
+            }
+            finally
+            {
+                oStream.Dispose();
+            }
+
         }
 
         private void Add(string key, object value, bool throwErrorOnDuplicate)

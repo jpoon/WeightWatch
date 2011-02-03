@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
-using WeightWatch.Models;
 using WeightWatch.Classes;
+using WeightWatch.Models;
 using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
 
 namespace WeightWatch.Views

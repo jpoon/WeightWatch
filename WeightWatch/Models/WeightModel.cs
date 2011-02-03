@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
 
 namespace WeightWatch.Models
 {
@@ -57,10 +56,17 @@ namespace WeightWatch.Models
             this._unit = unit;
         }
 
-        public int CompareTo(WeightModel obj)
+        public int CompareTo(WeightModel other)
         {
-            // reverse chronological order
-            return -(this.Date.CompareTo(obj.Date));
+            if (other != null)
+            {
+                // reverse chronological order
+                return -(this.Date.CompareTo(other.Date));
+            }
+            else
+            {
+                return 0;
+            }
         }
 
     }
