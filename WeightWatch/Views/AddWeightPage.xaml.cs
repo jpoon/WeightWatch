@@ -74,12 +74,8 @@ namespace WeightWatch
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             binding.UpdateSource();
 
-            try
-            {
-                _weightListViewModel.Save((float)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
-                GoBackOrMainMenu();
-            }
-            catch (Exception) { }
+            _weightListViewModel.Save((float)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+            GoBackOrMainMenu();
         }
 
         private void AppBarIconButton_DeleteClick(object sender, EventArgs e)

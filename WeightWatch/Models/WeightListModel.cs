@@ -40,18 +40,24 @@ namespace WeightWatch.Models
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
+                WeightModel oldItem = WeightList[index];
                 WeightList.RemoveAt(index);
+                WeightList.Add(data);
+                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, data, oldItem, index));
             }
-            WeightList.Add(data);
-            WeightList.Sort();
-
-            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            else
+            {
+                WeightList.Add(data);
+                WeightList.Sort();
+                index = WeightList.BinarySearch(data);
+                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
+            }
         }
 
         public void Delete(DateTime date)
         {
             // ToDo: Implement
-            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
         }
 
         public void Persist()
