@@ -144,7 +144,7 @@ namespace WeightWatch
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             WeightModel weightModel;
 

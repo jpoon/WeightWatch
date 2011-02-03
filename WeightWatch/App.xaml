@@ -72,7 +72,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
         <Style x:Key="WeightChart_AreaDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
             <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
             <Setter Property="Height" Value="10" />
@@ -89,7 +88,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
         </Style>
         <Style x:Key="WeightChart_AreaSeriesPathStyle" TargetType="Path">
             <Setter Property="Stroke" Value="{StaticResource PhoneBorderBrush}" />

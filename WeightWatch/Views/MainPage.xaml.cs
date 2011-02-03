@@ -25,6 +25,11 @@ namespace WeightWatch
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
+
+            AreaSeries areaSeries = (AreaSeries)weightChart.Series[0];
+            areaSeries.Refresh();
+
             DateTime startDate = new DateTime();
             switch (ApplicationSettings.DefaultGraphMode)
             {

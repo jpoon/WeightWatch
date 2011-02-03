@@ -58,6 +58,7 @@
 
             <controls:PivotItem Header="details">
                 <toolkit:LongListSelector
+                    x:Name="weightLongListSelector"
                     ItemsSource="{Binding WeightHistoryGroup}"
                     ItemTemplate="{StaticResource LongListSelector_Item}" 
                     GroupHeaderTemplate="{StaticResource LongListSelector_GroupHeader}"
