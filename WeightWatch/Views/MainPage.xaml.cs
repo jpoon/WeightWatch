@@ -4,7 +4,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using WeightWatch.Models;
 
-namespace WeightWatch
+namespace WeightWatch.Views
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -89,7 +89,7 @@ namespace WeightWatch
             linearAxis.Interval = Math.Floor((double)(linearAxis.Maximum - linearAxis.Minimum) / 10);
         }
 
-        private void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate)
+        private static void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate)
         {
             dateTimeAxis.Minimum = startDate;
             dateTimeAxis.Maximum = DateTime.Today;

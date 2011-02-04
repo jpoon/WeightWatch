@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using WeightWatch.Classes;
 using WeightWatch.Models;
-using System.Collections.Specialized;
 
 namespace WeightWatch
 {
@@ -87,7 +87,7 @@ namespace WeightWatch
             }
         }
 
-        #region properties
+        #region Properties
 
         public ObservableCollection<WeightViewModel> WeightHistoryList
         {
@@ -105,7 +105,7 @@ namespace WeightWatch
             }
         }
 
-        #endregion properties
+        #endregion Properties
 
         #region Public Methods
 
