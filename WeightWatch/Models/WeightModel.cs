@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace WeightWatch.Models
+﻿namespace WeightWatch.Models
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [DataContract(Name = "WeightModel")]
     public class WeightModel : IComparable<WeightModel>
     {

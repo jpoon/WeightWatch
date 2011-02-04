@@ -1,9 +1,8 @@
-﻿using System;
-using System.Globalization;
-using WeightWatch.Models;
-
-namespace WeightWatch
+﻿namespace WeightWatch.ViewModels
 {
+    using System;
+    using WeightWatch.Models;
+
     public class WeightViewModel
     {
         WeightModel _data;
@@ -19,7 +18,7 @@ namespace WeightWatch
         {
             get
             {
-                return _data.Date.ToString("MMM. d, yyyy", CultureInfo.CurrentCulture);
+                return _data.Date.ToString("MMM. d, yyyy");
             }
         }
 
@@ -27,7 +26,7 @@ namespace WeightWatch
         {
             get
             {
-                return _data.Date.ToString("MMM yyyy", CultureInfo.CurrentCulture);
+                return _data.Date.ToString("MMM yyyy");
             }
         }
 
@@ -44,7 +43,7 @@ namespace WeightWatch
             get
             {
                 MeasurementSystem defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return Math.Ceiling(this.Weight).ToString(CultureInfo.CurrentCulture) + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
+                return Math.Round(this.Weight).ToString() + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
 

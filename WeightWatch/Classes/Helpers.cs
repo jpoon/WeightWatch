@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Reflection;
-
-namespace WeightWatch.Classes
+﻿namespace WeightWatch.Classes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+
     public static class Helpers
     {
-        public static Collection<String> EnumToStringList(Type enumType)
+        public static List<String> EnumToStringList(Type enumType)
         {
-            Collection<String> list = new Collection<String>();
+            List<String> list = new List<String>();
             FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo item in enumDetail)
             {

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Runtime.Serialization;
-
-namespace WeightWatch.Models
+﻿namespace WeightWatch.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.IO;
+    using System.IO.IsolatedStorage;
+    using System.Runtime.Serialization;
+
     public class WeightListModel : INotifyCollectionChanged
     {
         public List<WeightModel> WeightList { get; private set; }

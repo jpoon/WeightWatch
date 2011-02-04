@@ -1,11 +1,12 @@
-﻿using System;
-using System.Windows.Controls.DataVisualization.Charting;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using WeightWatch.Models;
-
-namespace WeightWatch.Views
+﻿namespace WeightWatch.Views
 {
+    using System;
+    using System.Windows.Controls.DataVisualization.Charting;
+    using System.Windows.Navigation;
+    using Microsoft.Phone.Controls;
+    using WeightWatch.Models;
+    using WeightWatch.ViewModels;
+
     public partial class MainPage : PhoneApplicationPage
     {
         WeightListViewModel _viewModel;

@@ -1,11 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using WeightWatch.Models;
-
-namespace WeightWatch
+﻿namespace WeightWatch
 {
+    using System.Windows;
+    using System.Windows.Navigation;
+    using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Shell;
+    using WeightWatch.Models;
+
     public partial class App : Application
     {
         /// <summary>

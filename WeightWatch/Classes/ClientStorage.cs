@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Runtime.Serialization;
-
-namespace WeightWatch.Classes
+﻿namespace WeightWatch.Classes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.IO.IsolatedStorage;
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Client Storage class for storing objects in IsolatedStorage
     /// </summary>

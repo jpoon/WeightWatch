@@ -1,12 +1,11 @@
-﻿using WeightWatch.Classes;
-
-namespace WeightWatch.Models
+﻿namespace WeightWatch.Models
 {
+    using WeightWatch.Classes;
+
     public static class ApplicationSettings
     {
         public enum GraphMode
         {
-            None = 0,
             Week = 1,
             Month = 2,
             Year = 3

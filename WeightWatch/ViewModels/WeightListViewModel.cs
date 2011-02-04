@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using WeightWatch.Classes;
-using WeightWatch.Models;
-
-namespace WeightWatch
+﻿namespace WeightWatch.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    using System.Linq;
+    using WeightWatch.Classes;
+    using WeightWatch.Models;
+
     public class WeightListViewModel : INotifyPropertyChanged
     {
         public struct WeightMinMax

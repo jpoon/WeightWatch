@@ -1,15 +1,15 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Phone.Controls;
-using WeightWatch.Models;
-
-namespace WeightWatch.Views
+﻿namespace WeightWatch.Views
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using Microsoft.Phone.Controls;
+    using WeightWatch.Models;
+    using WeightWatch.ViewModels;
+
     public partial class AddWeightPage : PhoneApplicationPage
     {
-        private class WeightEntry
+        public class WeightEntry
         {
             private float? _weight = null;
             public float? Weight
@@ -62,7 +62,6 @@ namespace WeightWatch.Views
                 default:
                     throw new ArgumentException(
                         string.Format(
-                            CultureInfo.CurrentCulture,
                             "Measurement system of type {0} cannot be found",
                             Enum.GetName(typeof(MeasurementSystem), _newEntry.MeasurementUnit))
                         );

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Reflection;
-
-namespace WeightWatch.Models
+﻿namespace WeightWatch.Models
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Reflection;
+
     public enum MeasurementSystem
     {
-        None = 0,
         Imperial = 1,
         Metric = 2
     }
@@ -35,7 +33,7 @@ namespace WeightWatch.Models
                     // 1 lb = 0.4536 kgs
                     return weight * 0.4536F;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), system)));
+                    throw new ArgumentException(string.Format("Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), system)));
             }
         }
     }
@@ -57,12 +55,12 @@ namespace WeightWatch.Models
                 case MeasurementSystem.Metric:
                     return weight;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), system)));
+                    throw new ArgumentException(string.Format("Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), system)));
             }
         }
     }
 
-    public static class MeasurementFactory
+    public class MeasurementFactory
     {
         public const MeasurementSystem DefaultMeasurementUnit = MeasurementSystem.Imperial;
 
@@ -78,7 +76,7 @@ namespace WeightWatch.Models
                     measurementSystem = new Metric();
                     break;
                 default:
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), type)));
+                    throw new ArgumentException(string.Format("Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), type)));
             }
 
             return measurementSystem;

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace WeightWatch.Classes
+﻿namespace WeightWatch.Classes
 {
+    using System.Collections.Generic;
+
     public class LongListSelectorGroup<T> : IEnumerable<T>
     {
         public LongListSelectorGroup(string date, IEnumerable<T> items)
@@ -44,22 +44,8 @@ namespace WeightWatch.Classes
         public override bool Equals(object obj)
         {
             LongListSelectorGroup<T> that = obj as LongListSelectorGroup<T>;
-
             return (that != null) && (this.GroupHeader.Equals(that.GroupHeader));
         }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var result = 0;
-                result = (result * 397) ^ this.GroupHeader.GetHashCode();
-                result = (result * 397) ^ this.GroupItem.GetHashCode();
-                result = (result * 397) ^ this.Items.GetHashCode();
-                return result;
-            }
-        }
-
 
         #endregion
     }
