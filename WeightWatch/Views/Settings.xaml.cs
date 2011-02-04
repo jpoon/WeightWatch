@@ -5,6 +5,7 @@ using Microsoft.Phone.Controls;
 using WeightWatch.Models;
 using WeightWatch.Classes;
 using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
+using Microsoft.Phone.Tasks;
 
 namespace WeightWatch.Views
 {
@@ -21,6 +22,8 @@ namespace WeightWatch.Views
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
+            versionTextBlock.Text = "Version: " + App.Version;
+
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
             Measurement_ListPicker.SelectionChanged += new SelectionChangedEventHandler(Measurement_ListPicker_SelectionChanged);
@@ -70,5 +73,19 @@ namespace WeightWatch.Views
         }
 
         #endregion
+
+        private void sendFeedBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            EmailComposeTask email = new EmailComposeTask();
+            email.To = App.FeedbackEmail;
+            email.Show();
+        }
+
+        private void githubButton_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask browser = new WebBrowserTask();
+            browser.URL = Uri.EscapeDataString(App.ContributeUrl);
+            browser.Show();
+        }
     }
 }

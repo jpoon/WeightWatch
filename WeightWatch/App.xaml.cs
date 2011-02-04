@@ -14,6 +14,21 @@ namespace WeightWatch
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
 
+        public static string Version
+        {
+            get { return "1.0"; }
+        }
+
+        public static string ContributeUrl
+        {
+            get { return "https://www.github.com/jpoon/WeightWatch"; }
+        }
+
+        public static string FeedbackEmail
+        {
+            get { return "weightwatch@jasonpoon.ca"; }
+        }
+
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
