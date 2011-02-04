@@ -1,14 +1,14 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Phone.Controls;
-using WeightWatch.Classes;
-using WeightWatch.Models;
-using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
-using Microsoft.Phone.Tasks;
-
-namespace WeightWatch.Views
+﻿namespace WeightWatch.Views
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Tasks;
+    using WeightWatch.Classes;
+    using WeightWatch.Models;
+    using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
+
     public partial class Settings : PhoneApplicationPage
     {
         public Settings()
@@ -86,6 +86,12 @@ namespace WeightWatch.Views
             WebBrowserTask browser = new WebBrowserTask();
             browser.URL = Uri.EscapeDataString(App.ContributeUrl);
             browser.Show();
+        }
+
+        private void reviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            MarketplaceReviewTask review = new MarketplaceReviewTask();
+            review.Show();
         }
     }
 }
