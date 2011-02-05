@@ -29,6 +29,8 @@
             get { return "weightwatch@jasonpoon.ca"; }
         }
 
+        private WeightListModel _weightListModel;
+
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -62,6 +64,7 @@
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            _weightListModel = WeightListModel.GetInstance();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -74,14 +77,14 @@
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            _weightListModel.Persist();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            WeightListModel weightHistory = WeightListModel.GetInstance();
-            weightHistory.Persist();
+            _weightListModel.Persist();
         }
 
         // Code to execute if a navigation fails
@@ -117,7 +120,7 @@
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures
