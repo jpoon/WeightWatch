@@ -1,6 +1,5 @@
 ﻿namespace WeightWatch.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.IO;
@@ -54,10 +53,14 @@
             }
         }
 
-        public void Delete(DateTime date)
+        public void Delete(WeightModel data)
         {
-            // ToDo: Implement
-            notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+            int index = WeightList.BinarySearch(data);
+            if (index >= 0)
+            {
+                WeightList.RemoveAt(index);
+                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+            }
         }
 
         public void Persist()
