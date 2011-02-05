@@ -13,6 +13,8 @@
 
         const int GRAPH_DEFAULT_MAX = 100;
         const int GRAPH_DEFAULT_MIN = 0;
+        Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
+        Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
 
         public MainPage()
         {
@@ -28,6 +30,37 @@
         {
             weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
 
+            SetupSummary();
+            SetupGraph();
+        }
+
+        private void SetupSummary()
+        {
+            WeightViewModel first = _viewModel.FirstWeightEntry;
+            WeightViewModel last = _viewModel.LastWeightEntry;
+
+            if (first != null && last != null)
+            {
+                string deltaTextBlock = String.Empty;
+                float weightDelta = last.Weight - first.Weight;
+                if (weightDelta > 0)
+                {
+                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
+                }
+                else
+                {
+                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(DOWN_ARROW);
+                }
+                summary_weightTextBlock.Text = weightDelta.ToString("+#;-#;0");
+                summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
+                summary_messageTextBlock.Text = "Hey Fatty, \r\n lay off the donuts";
+            }
+        }
+
+        #region Graph
+
+        private void SetupGraph()
+        {
             AreaSeries areaSeries = (AreaSeries)weightChart.Series[0];
             areaSeries.Refresh();
 
@@ -113,6 +146,10 @@
             }
         }
 
+        #endregion Graph
+
+        #region Event Handlers
+
         private void AppBarIconClick_AddWeight(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/AddWeightPage.xaml", UriKind.RelativeOrAbsolute));
@@ -122,5 +159,7 @@
         {
             NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        #endregion Event Handlers
     }
 }

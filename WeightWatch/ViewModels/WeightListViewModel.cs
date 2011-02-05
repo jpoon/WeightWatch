@@ -105,6 +105,36 @@
             }
         }
 
+        public WeightViewModel FirstWeightEntry
+        {
+            get
+            {
+                if (WeightHistoryList.Count > 0)
+                {
+                    return WeightHistoryList.LastOrDefault();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public WeightViewModel LastWeightEntry
+        {
+            get
+            {
+                if (WeightHistoryList.Count > 0)
+                {
+                    return WeightHistoryList.FirstOrDefault();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         #endregion Properties
 
         #region Public Methods

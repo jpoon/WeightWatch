@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.0">
-  <App xmlns="" ProductID="{50439666-e543-454d-bda7-28aaf70665cd}" Title="WeightWatch" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="WeightWatch author" Description="Sample description" Publisher="WeightWatch">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
+  <App xmlns="" ProductID="{50439666-e543-454d-bda7-28aaf70665cd}" Title="WeightWatch" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="Jason Poon" Description="WeightWatch" Publisher="Jason Poon">
+    <IconPath IsRelative="true" IsResource="false">ApplicationIcon_200x200.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES"/>
       <Capability Name="ID_CAP_IDENTITY_DEVICE"/>

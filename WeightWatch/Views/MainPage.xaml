@@ -19,8 +19,8 @@
     
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/icons/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/appbar.feature.settings.rest.png" Text="settings" Click="AppBarIconClick_Settings"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.feature.settings.rest.png" Text="settings" Click="AppBarIconClick_Settings"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -29,13 +29,19 @@
         <!--Pivot Control-->
         <controls:Pivot Title="WEIGHT WATCH">
             <controls:PivotItem Header="summary">
-                <Grid></Grid>
+                <Grid>
+                    <Image Name="summary_arrowImage" Width="175" Height="215" Margin="31,33,250,0" VerticalAlignment="Top" />
+                    <TextBlock Height="90" HorizontalAlignment="Left" Margin="224,56,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="200" FontSize="72" TextAlignment="Center" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="224,153,0,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" Width="200" TextAlignment="Center" FontSize="22" />
+                    <TextBlock Height="145" HorizontalAlignment="Left" Margin="32,314,0,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="390" />
+                </Grid>
             </controls:PivotItem>
 
             <controls:PivotItem Header="graph">
                 <chartingToolkit:Chart x:Name="weightChart" Style="{StaticResource WeightChart_Style}">
                     <chartingToolkit:AreaSeries
                         x:Name="weightChart_areaSeries"
+                        AnimationSequence="FirstToLast"
                         ItemsSource="{Binding WeightHistoryList}"
                         DependentValuePath="Weight"
                         IndependentValuePath="Date"

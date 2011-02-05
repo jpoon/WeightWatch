@@ -6,6 +6,7 @@
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using WeightWatch.Classes;
 
     public partial class AddWeightPage : PhoneApplicationPage
     {
@@ -96,7 +97,7 @@
         {
             RadioButton rb = sender as RadioButton;
             string rbContent = (string)rb.Content;
-            foreach (MeasurementSystem system in MeasurementFactory.GetAllMeasurementSystem())
+            foreach (MeasurementSystem system in Helpers.GetAllEnum<MeasurementSystem>())
             {
                 if (MeasurementFactory.GetSystem(system).Abbreviation.Equals(rbContent))
                 {

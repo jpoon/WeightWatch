@@ -1,8 +1,6 @@
 ﻿namespace WeightWatch.Models
 {
     using System;
-    using System.Collections.ObjectModel;
-    using System.Reflection;
 
     public enum MeasurementSystem
     {
@@ -80,22 +78,6 @@
             }
 
             return measurementSystem;
-        }
-
-        public static Collection<MeasurementSystem> GetAllMeasurementSystem()
-        {
-            Collection<MeasurementSystem> list = new Collection<MeasurementSystem>();
-            Type enumType = typeof(MeasurementSystem);
-            FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (FieldInfo item in enumDetail)
-            {
-                try
-                {
-                    list.Add((MeasurementSystem)Enum.Parse(enumType, item.Name, true));
-                }
-                catch (Exception) { }
-            }
-            return list;
         }
     }
 }
