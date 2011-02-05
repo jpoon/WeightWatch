@@ -28,10 +28,10 @@
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
-
-            SetupSummary();
             SetupGraph();
+            SetupSummary();
+
+            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
         }
 
         private void SetupSummary()
@@ -41,7 +41,6 @@
 
             if (first != null && last != null)
             {
-                string deltaTextBlock = String.Empty;
                 float weightDelta = last.Weight - first.Weight;
                 if (weightDelta > 0)
                 {

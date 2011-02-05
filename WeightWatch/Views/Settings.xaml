@@ -37,10 +37,9 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <!--Pivot Control-->
+    <Grid Background="Transparent">
         <controls:Pivot Title="WEIGHT WATCH">
-            <!--Pivot item one-->
+            <!--Settings Pivot -->
             <controls:PivotItem Header="settings">
                 <StackPanel>
                     <toolkit:ListPicker
@@ -54,18 +53,17 @@
                 </StackPanel>
             </controls:PivotItem>
 
-            <!--Pivot item two-->
+            <!-- About Pivot-->
             <controls:PivotItem Header="about">
                 <Grid>
                     <TextBlock Height="30" HorizontalAlignment="Left" Margin="28,10,0,0" Name="versionTextBlock" Text="Version: " VerticalAlignment="Top" />
                     <TextBlock Height="30" HorizontalAlignment="Left" Margin="26,49,0,0" Name="aboutTextBlock" Text="Author: Jason Poon" VerticalAlignment="Top" />
 
-                    <Button Content="Rate/Review App" Height="72" HorizontalAlignment="Left" Margin="3,373,0,0" Name="reviewButton" VerticalAlignment="Top" Width="448" Click="reviewButton_Click" />
-                    <Button Content="Send Feedback" Height="72" HorizontalAlignment="Left" Margin="3,446,0,0" Name="sendFeedBackButton" VerticalAlignment="Top" Width="448" Click="sendFeedBackButton_Click" />
-                    <Button Content="Contribute to the Project" Height="72" HorizontalAlignment="Left" Margin="3,517,0,0" Name="githubButton" VerticalAlignment="Top" Width="448" Click="githubButton_Click" />
+                    <Button Content="Rate/Review App" Height="72" HorizontalAlignment="Left" Margin="3,373,0,0" VerticalAlignment="Top" Width="448" Click="reviewButton_Click" />
+                    <Button Content="Send Feedback" Height="72" HorizontalAlignment="Left" Margin="3,446,0,0" VerticalAlignment="Top" Width="448" Click="sendFeedBackButton_Click" />
+                    <Button Content="Contribute to the Project" Height="72" HorizontalAlignment="Left" Margin="3,517,0,0" VerticalAlignment="Top" Width="448" Click="githubButton_Click" />
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>
-    
 </phone:PhoneApplicationPage>

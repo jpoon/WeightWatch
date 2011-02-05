@@ -26,7 +26,7 @@
                 set { _date = value; }
             }
 
-            private MeasurementSystem _unit = MeasurementFactory.DefaultMeasurementUnit;
+            private MeasurementSystem _unit = ApplicationSettings.DefaultMeasurementSystem;
             public MeasurementSystem MeasurementUnit
             {
                 get { return _unit; }
@@ -49,9 +49,6 @@
 
         void AddWeightPage_Loaded(object sender, RoutedEventArgs e)
         {
-            // setup radio buttons
-            radioButton_lbs.Content = MeasurementFactory.GetSystem(MeasurementSystem.Imperial).Abbreviation;
-            radioButton_kgs.Content = MeasurementFactory.GetSystem(MeasurementSystem.Metric).Abbreviation;
             switch (_newEntry.MeasurementUnit)
             {
                 case MeasurementSystem.Imperial:
@@ -77,7 +74,7 @@
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             binding.UpdateSource();
 
-            _weightListViewModel.Save((float)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+            WeightListViewModel.Save((float)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
             GoBackOrMainMenu();
         }
 

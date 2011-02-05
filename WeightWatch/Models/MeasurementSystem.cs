@@ -60,8 +60,6 @@
 
     public class MeasurementFactory
     {
-        public const MeasurementSystem DefaultMeasurementUnit = MeasurementSystem.Imperial;
-
         public static IMeasurementSystem GetSystem(MeasurementSystem type)
         {
             IMeasurementSystem measurementSystem = null;

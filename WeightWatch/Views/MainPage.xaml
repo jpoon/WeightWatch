@@ -25,7 +25,7 @@
     </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid Background="Transparent">
         <!--Pivot Control-->
         <controls:Pivot Title="WEIGHT WATCH">
             <controls:PivotItem Header="summary">
@@ -40,8 +40,7 @@
             <controls:PivotItem Header="graph">
                 <chartingToolkit:Chart x:Name="weightChart" Style="{StaticResource WeightChart_Style}">
                     <chartingToolkit:AreaSeries
-                        x:Name="weightChart_areaSeries"
-                        AnimationSequence="FirstToLast"
+                        AnimationSequence="Simultaneous"
                         ItemsSource="{Binding WeightHistoryList}"
                         DependentValuePath="Weight"
                         IndependentValuePath="Date"
@@ -49,12 +48,10 @@
                         PathStyle="{StaticResource WeightChart_AreaSeriesPathStyle}"/>
                     <chartingToolkit:Chart.Axes>
                         <chartingToolkit:DateTimeAxis 
-                            x:Name="weightChart_dateTimeAxis" 
                             Orientation="X" 
                             Margin="0,15,0,0"
                             AxisLabelStyle="{StaticResource WeightChart_DateTimeAxisStyle}" />
                         <chartingToolkit:LinearAxis
-                            x:Name="weightChart_linearAxis"
                             Orientation="Y" 
                             Margin="0,0,10,0"
                             ShowGridLines="True" />
