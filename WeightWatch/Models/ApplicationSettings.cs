@@ -1,6 +1,7 @@
 ﻿namespace WeightWatch.Models
 {
     using WeightWatch.Classes;
+    using System.IO.IsolatedStorage;
 
     public static class ApplicationSettings
     {
@@ -15,16 +16,18 @@
         {
             get
             {
-                if (ClientStorage.Instance["GraphMode"] == null)
+                GraphMode defaultGraphMode;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("GraphMode", out defaultGraphMode))
                 {
-                    ClientStorage.Instance["GraphMode"] = GraphMode.Week;
+                    defaultGraphMode = GraphMode.Week;
+                    IsolatedStorageSettings.ApplicationSettings.Add("GraphMode", defaultGraphMode);
                 }
 
-                return (GraphMode)ClientStorage.Instance["GraphMode"];
+                return defaultGraphMode;
             }
             set
             {
-                ClientStorage.Instance["GraphMode"] = value;
+                IsolatedStorageSettings.ApplicationSettings["GraphMode"] = value;
             }
         }
 
@@ -32,16 +35,18 @@
         {
             get
             {
-                if (ClientStorage.Instance["MeasurementSystem"] == null)
+                MeasurementSystem defaultMeasurementSystem;
+                if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("MeasurementSystem", out defaultMeasurementSystem))
                 {
-                    ClientStorage.Instance["MeasurementSystem"] = MeasurementSystem.Imperial;
+                    defaultMeasurementSystem = MeasurementSystem.Imperial;
+                    IsolatedStorageSettings.ApplicationSettings.Add("MeasurementSystem", defaultMeasurementSystem);
                 }
 
-                return (MeasurementSystem)ClientStorage.Instance["MeasurementSystem"];
+                return defaultMeasurementSystem;
             }
             set
             {
-                ClientStorage.Instance["MeasurementSystem"] = value;
+                IsolatedStorageSettings.ApplicationSettings["MeasurementSystem"] = value;
             }
         }
     }

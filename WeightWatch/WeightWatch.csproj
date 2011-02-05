@@ -74,7 +74,6 @@
     <Compile Include="Classes\LongListSelectorGroup.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />
-    <Compile Include="Classes\ClientStorage.cs" />
     <Compile Include="Views\AddWeightPage.xaml.cs">
       <DependentUpon>AddWeightPage.xaml</DependentUpon>
     </Compile>
