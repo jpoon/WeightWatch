@@ -6,6 +6,8 @@
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -15,6 +17,29 @@
         const int GRAPH_DEFAULT_MIN = 0;
         Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
         Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
+
+        ReadOnlyCollection<String> NegativeComments = new ReadOnlyCollection<String>(
+            new List<String>() { 
+                "Hey Fatty!\r\nLay off the donuts! You've gained [DELTA_WEIGHT] since starting on [START_DATE].",
+                "[DELTA_WEIGHT]!?!?!\r\nYou're packing on the pounds there buddy.",
+                "Boom! Boom! Boom!\r\nHear that? That's the sound of [LAST_WEIGHT] walking into the room.",
+                "You're so fat, that you make free willy look like a goldfish.",
+                "[DELTA_WEIGHT]?! You're getting so fat that if I take a picture of you, it'll still be printing until next year.",
+                "On [START_DATE] you were [START_WEIGHT], on [LAST_DATE] you were [LAST_WEIGHT].\r\nWhat the heck happened?",
+                "How on earth did you manage to gain [DELTA_WEIGHT] between [START_DATE] and [LAST_DATE]?!",
+                "At [LAST_WEIGHT], you're getting so fat to the point where if your beeper goes off, people will think you are backing up.",
+                "You've gained [DELTA_WEIGHT]. Go hit the gym!",
+            }
+        );
+
+        ReadOnlyCollection<String> PositiveComments = new ReadOnlyCollection<String>(
+            new List<String>() { 
+                "Wow! [DELTA_WEIGHT]!\r\nI am impressed",
+                "What's your secret? You've lost [DELTA_WEIGHT]!",
+                "Since starting on [START_DATE] at [START_WEIGHT], you've lost an amazing [DELTA_WEIGHT]! Keep it up!",
+                "Before: [START_WEIGHT]\r\nAfter: [LAST_WEIGHT]\r\nDifference: [DELTA_WEIGHT]\r\n",
+            }
+        );
 
         public MainPage()
         {
@@ -39,20 +64,32 @@
             WeightViewModel first = _viewModel.FirstWeightEntry;
             WeightViewModel last = _viewModel.LastWeightEntry;
 
+            string message = String.Empty;
+            string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             if (first != null && last != null)
             {
                 float weightDelta = last.Weight - first.Weight;
+
                 if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
+                    message = NegativeComments[new Random().Next(NegativeComments.Count)];
                 }
                 else
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(DOWN_ARROW);
+                    message = PositiveComments[new Random().Next(PositiveComments.Count)];
                 }
+
                 summary_weightTextBlock.Text = weightDelta.ToString("+#;-#;0");
-                summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
-                summary_messageTextBlock.Text = "Hey Fatty, \r\n lay off the donuts";
+                summary_systemTextBlock.Text = "[" + measurementSystemAbbr + "]";
+
+                message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString() + " " + measurementSystemAbbr);
+                message = message.Replace("[START_DATE]", first.DateStr);
+                message = message.Replace("[START_WEIGHT]", first.WeightStr);
+                message = message.Replace("[LAST_DATE]", last.DateStr);
+                message = message.Replace("[LAST_WEIGHT]", last.WeightStr);
+                summary_messageTextBlock.Text = message;
             }
         }
 
