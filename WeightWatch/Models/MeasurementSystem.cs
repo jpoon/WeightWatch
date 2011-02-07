@@ -32,7 +32,7 @@ namespace WeightWatch.Models
     public interface IMeasurementSystem
     {
         string Abbreviation { get; }
-        float ConvertTo(MeasurementSystem obj, float weight);
+        Decimal ConvertTo(MeasurementSystem obj, Decimal weight);
     }
 
     class Imperial : IMeasurementSystem
@@ -42,7 +42,7 @@ namespace WeightWatch.Models
             get { return "lbs"; }
         }
 
-        public float ConvertTo(MeasurementSystem system, float weight)
+        public Decimal ConvertTo(MeasurementSystem system, Decimal weight)
         {
             switch (system)
             {
@@ -50,7 +50,7 @@ namespace WeightWatch.Models
                     return weight;
                 case MeasurementSystem.Metric:
                     // 1 lb = 0.4536 kgs
-                    return weight * 0.4536F;
+                    return weight * 0.4536m;
                 default:
                     throw new ArgumentException(string.Format("Measurement system of type {0} cannot be found", Enum.GetName(typeof(MeasurementSystem), system)));
             }
@@ -64,13 +64,13 @@ namespace WeightWatch.Models
             get { return "kgs"; }
         }
 
-        public float ConvertTo(MeasurementSystem system, float weight)
+        public Decimal ConvertTo(MeasurementSystem system, Decimal weight)
         {
             switch (system)
             {
                 case MeasurementSystem.Imperial:
                     // 1kg = 2.205 lbs
-                    return weight * 2.205F;
+                    return weight * 2.205m;
                 case MeasurementSystem.Metric:
                     return weight;
                 default:

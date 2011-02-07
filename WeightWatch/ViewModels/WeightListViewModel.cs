@@ -160,7 +160,7 @@ namespace WeightWatch.ViewModels
 
         #region Public Methods
 
-        public static void Save(float weight, DateTime date, MeasurementSystem unit)
+        public static void Save(Decimal weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
             WeightListModel.GetInstance().Add(_model);

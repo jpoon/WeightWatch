@@ -95,7 +95,7 @@ namespace WeightWatch.Views
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             binding.UpdateSource();
 
-            WeightListViewModel.Save((float)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+            WeightListViewModel.Save((Decimal)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
             GoBackOrMainMenu();
         }
 

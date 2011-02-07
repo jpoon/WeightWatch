@@ -89,7 +89,7 @@ namespace WeightWatch.Views
             string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             if (first != null && last != null)
             {
-                float weightDelta = last.Weight - first.Weight;
+                Decimal weightDelta = last.Weight - first.Weight;
 
                 if (weightDelta > 0)
                 {

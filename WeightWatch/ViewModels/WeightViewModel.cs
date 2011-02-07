@@ -22,6 +22,7 @@
 namespace WeightWatch.ViewModels
 {
     using System;
+    using System.Globalization;
     using WeightWatch.Models;
 
     public class WeightViewModel
@@ -64,11 +65,11 @@ namespace WeightWatch.ViewModels
             get
             {
                 MeasurementSystem defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return Math.Round(this.Weight).ToString() + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
+                return this.Weight.ToString("0.##", CultureInfo.InvariantCulture) + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
 
-        public float Weight
+        public Decimal Weight
         {
             get
             {
