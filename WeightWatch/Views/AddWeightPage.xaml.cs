@@ -53,6 +53,14 @@ namespace WeightWatch.Views
                 get { return _unit; }
                 set { _unit = value; }
             }
+
+            public bool Validate()
+            {
+                if (_weight == null) return false;
+                if (_date == null) return false;
+
+                return true;
+            }
         }
 
         WeightEntry _newEntry;
@@ -95,7 +103,10 @@ namespace WeightWatch.Views
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             binding.UpdateSource();
 
-            WeightListViewModel.Save((Decimal)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+            if (_newEntry.Validate())
+            {
+                WeightListViewModel.Save((Decimal)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+            }
             GoBackOrMainMenu();
         }
 
