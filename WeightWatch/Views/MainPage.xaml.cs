@@ -22,13 +22,14 @@
 namespace WeightWatch.Views
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Windows.Controls.DataVisualization.Charting;
     using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
-    using System.Collections.ObjectModel;
-    using System.Collections.Generic;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -36,6 +37,8 @@ namespace WeightWatch.Views
 
         const int GRAPH_DEFAULT_MAX = 100;
         const int GRAPH_DEFAULT_MIN = 0;
+        const int GRAPH_DEFAULT_SPACING = 15;
+
         Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
         Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
 
@@ -105,7 +108,7 @@ namespace WeightWatch.Views
                 summary_weightTextBlock.Text = weightDelta.ToString("+#;-#;0");
                 summary_systemTextBlock.Text = "[" + measurementSystemAbbr + "]";
 
-                message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString() + " " + measurementSystemAbbr);
+                message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.##", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
                 message = message.Replace("[START_DATE]", first.DateStr);
                 message = message.Replace("[START_WEIGHT]", first.WeightStr);
                 message = message.Replace("[LAST_DATE]", last.DateStr);
@@ -169,8 +172,19 @@ namespace WeightWatch.Views
                 weightMinMax.Max = GRAPH_DEFAULT_MAX;
             }
 
-            double graphMinimum = Math.Floor((float)weightMinMax.Min / 10) * 10;
-            double graphMaximum = Math.Ceiling((float)weightMinMax.Max / 10) * 10;
+            double graphMinimum;
+            double graphMaximum;
+            if (weightMinMax.Min != weightMinMax.Max)
+            {
+                graphMinimum = Math.Floor((float)weightMinMax.Min / 10) * 10;
+                graphMaximum = Math.Ceiling((float)weightMinMax.Max / 10) * 10;
+            }
+            else
+            {
+                double weightFloor = Math.Floor((float)weightMinMax.Max / 10) * 10;
+                graphMaximum = weightFloor + GRAPH_DEFAULT_SPACING;
+                graphMinimum = weightFloor - GRAPH_DEFAULT_SPACING;
+            }
 
             linearAxis.Minimum = 0;
 
