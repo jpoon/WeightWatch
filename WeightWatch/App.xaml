@@ -14,30 +14,7 @@
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
             <Setter Property="Padding" Value="5 15 25 0" />
 		</Style> 
-        <!-- LongListSelector -->
-        <DataTemplate x:Key="LongListSelector_GroupHeader">
-        	<StackPanel Orientation="Horizontal">
-	            <Border Background="{StaticResource PhoneAccentBrush}" Margin="8 10 0 13">
-	                <TextBlock Text="{Binding GroupHeader, Mode=TwoWay}" Style="{StaticResource PhoneTextGroupHeaderStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-	            </Border>
-			</StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="LongListSelector_Item">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="8"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="175"/>
-                    <ColumnDefinition Width="25"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DateStr, Mode=TwoWay}" Style="{StaticResource PhoneTextNormalStyle}" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding WeightStr, Mode=TwoWay}" Style="{StaticResource PhoneTextNormalStyle}" />
-            </Grid>
-        </DataTemplate>
         <!-- Chart -->
         <Style x:Key="WeightChart_DateTimeAxisStyle" TargetType="chartingToolkit:DateTimeAxisLabel">
             <Setter Property="DaysIntervalStringFormat" Value="{}{0:M/d}"/>

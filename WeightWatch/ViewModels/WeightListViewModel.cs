@@ -160,6 +160,11 @@ namespace WeightWatch.ViewModels
 
         #region Public Methods
 
+        public static void Delete(WeightViewModel data)
+        {
+            WeightListModel.GetInstance().Delete(data.weightModel);
+        }
+
         public static void Save(Decimal weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
@@ -197,24 +202,18 @@ namespace WeightWatch.ViewModels
 
         private void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            WeightModel weightModel;
-
-            weightModel = e.NewItems[0] as WeightModel;
-            if (weightModel != null)
+            switch (e.Action)
             {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(weightModel));
-                        break;
-                    case NotifyCollectionChangedAction.Replace:
-                        WeightHistoryList.RemoveAt(e.NewStartingIndex);
-                        WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(weightModel));
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        WeightHistoryList.RemoveAt(e.OldStartingIndex);
-                        break;
-                }
+                case NotifyCollectionChangedAction.Add:
+                    WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    WeightHistoryList.RemoveAt(e.NewStartingIndex);
+                    WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    WeightHistoryList.RemoveAt(e.OldStartingIndex);
+                    break;
             }
             InvokePropertyChanged("WeightHistoryList");
             InvokePropertyChanged("WeightHistoryGroup");

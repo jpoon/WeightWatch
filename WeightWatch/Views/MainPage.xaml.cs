@@ -79,8 +79,6 @@ namespace WeightWatch.Views
         {
             SetupGraph();
             SetupSummary();
-
-            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
         }
 
         private void SetupSummary()
@@ -232,5 +230,15 @@ namespace WeightWatch.Views
         }
 
         #endregion Event Handlers
+
+        private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
+            WeightListViewModel.Delete(item);
+
+            // hack to refresh list
+            weightLongListSelector.ItemsSource = null;
+            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
+        }
     }
 }

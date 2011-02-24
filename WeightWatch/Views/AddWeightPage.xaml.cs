@@ -33,8 +33,8 @@ namespace WeightWatch.Views
     {
         public class WeightEntry
         {
-            private float? _weight = null;
-            public float? Weight
+            private decimal? _weight = null;
+            public decimal? Weight
             {
                 get { return _weight; }
                 set { _weight = value; }
@@ -71,8 +71,9 @@ namespace WeightWatch.Views
             InitializeComponent();
             Loaded += new RoutedEventHandler(AddWeightPage_Loaded);
 
-            _newEntry = new WeightEntry();
             _weightListViewModel = WeightListViewModel.GetInstance();
+
+            _newEntry = new WeightEntry();
             this.DataContext = _newEntry;
         }
 

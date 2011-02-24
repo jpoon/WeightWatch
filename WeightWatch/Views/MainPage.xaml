@@ -84,9 +84,39 @@
                 <toolkit:LongListSelector
                     x:Name="weightLongListSelector"
                     ItemsSource="{Binding WeightHistoryGroup}"
-                    ItemTemplate="{StaticResource LongListSelector_Item}" 
-                    GroupHeaderTemplate="{StaticResource LongListSelector_GroupHeader}"
                     IsFlatList="False">
+                    <toolkit:LongListSelector.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Background="{StaticResource PhoneAccentBrush}" Margin="8 10 0 13">
+                                    <TextBlock Text="{Binding GroupHeader}" Style="{StaticResource PhoneTextGroupHeaderStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </toolkit:LongListSelector.GroupHeaderTemplate>
+                    <toolkit:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Header="delete" Click="DeleteMenuItem_Click" />
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="175"/>
+                                    <ColumnDefinition Width="25"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DateStr}" Style="{StaticResource PhoneTextNormalStyle}" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding WeightStr}" Style="{StaticResource PhoneTextNormalStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </toolkit:LongListSelector.ItemTemplate>
                 </toolkit:LongListSelector>
             </controls:PivotItem>
         </controls:Pivot>

@@ -80,7 +80,7 @@ namespace WeightWatch.Models
             if (index >= 0)
             {
                 WeightList.RemoveAt(index);
-                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
         }
 

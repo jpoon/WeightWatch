@@ -27,20 +27,27 @@ namespace WeightWatch.ViewModels
 
     public class WeightViewModel
     {
-        WeightModel _data;
+        public readonly WeightModel weightModel;
 
         public WeightViewModel(WeightModel data)
         {
-            _data = data;
+            weightModel = data;
         }
 
         #region Properties
+        public DateTime Date
+        {
+            get
+            {
+                return weightModel.Date;
+            }
+        }
 
         public string DateStr
         {
             get
             {
-                return _data.Date.ToString("MMM. d, yyyy");
+                return weightModel.Date.ToString("MMM. d, yyyy");
             }
         }
 
@@ -48,15 +55,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return _data.Date.ToString("MMM yyyy");
-            }
-        }
-
-        public DateTime Date
-        {
-            get
-            {
-                return _data.Date;
+                return weightModel.Date.ToString("MMM yyyy");
             }
         }
 
@@ -74,10 +73,11 @@ namespace WeightWatch.ViewModels
             get
             {
                 MeasurementSystem defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return MeasurementFactory.GetSystem(_data.MeasurementUnit).ConvertTo(defaultSystem, _data.Weight);
+                return MeasurementFactory.GetSystem(weightModel.MeasurementUnit).ConvertTo(defaultSystem, weightModel.Weight);
             }
         }
 
         #endregion
+
     }
 }
