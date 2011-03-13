@@ -30,6 +30,7 @@ namespace WeightWatch.Views
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using WeightWatch.Classes;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -41,6 +42,7 @@ namespace WeightWatch.Views
 
         Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
         Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
+        Uri NO_CHANGE = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
 
         ReadOnlyCollection<String> NegativeComments = new ReadOnlyCollection<String>(
             new List<String>() { 
@@ -65,6 +67,13 @@ namespace WeightWatch.Views
             }
         );
 
+
+        ReadOnlyCollection<String> NoChangeComments = new ReadOnlyCollection<String>(
+            new List<String>() { 
+                "You have neither gained or lost weight",
+            }
+        );
+
         public MainPage()
         {
             InitializeComponent();
@@ -86,32 +95,27 @@ namespace WeightWatch.Views
             WeightViewModel first = _viewModel.FirstWeightEntry;
             WeightViewModel last = _viewModel.LastWeightEntry;
 
-            string message = String.Empty;
             string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             if (first != null && last != null)
             {
                 Decimal weightDelta = last.Weight - first.Weight;
 
-                if (weightDelta > 0)
+                if (weightDelta == 0)
+                {
+                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
+                }
+                else if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
-                    message = NegativeComments[new Random().Next(NegativeComments.Count)];
                 }
                 else
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(DOWN_ARROW);
-                    message = PositiveComments[new Random().Next(PositiveComments.Count)];
                 }
 
-                summary_weightTextBlock.Text = weightDelta.ToString("+#;-#;0");
+                summary_weightTextBlock.Text = weightDelta.ToString("+#.#;-#.#;0");
                 summary_systemTextBlock.Text = "[" + measurementSystemAbbr + "]";
-
-                message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.##", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
-                message = message.Replace("[START_DATE]", first.DateStr);
-                message = message.Replace("[START_WEIGHT]", first.WeightStr);
-                message = message.Replace("[LAST_DATE]", last.DateStr);
-                message = message.Replace("[LAST_WEIGHT]", last.WeightStr);
-                summary_messageTextBlock.Text = message;
+                summary_messageTextBlock.Text = Message.GetMessage(first, last);
             }
         }
 

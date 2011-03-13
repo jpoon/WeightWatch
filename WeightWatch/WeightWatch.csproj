@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Classes\LongListSelectorGroup.cs" />
+    <Compile Include="Classes\Message.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />
     <Compile Include="Views\AddWeightPage.xaml.cs">
@@ -137,6 +138,7 @@
     <Content Include="ApplicationIcon_200x200.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\nochange.png" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
