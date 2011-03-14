@@ -47,7 +47,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return weightModel.Date.ToString("MMM. d, yyyy");
+                return weightModel.Date.ToString("MMM. d, yyyy", CultureInfo.InvariantCulture);
             }
         }
 
@@ -55,7 +55,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return weightModel.Date.ToString("MMM yyyy");
+                return weightModel.Date.ToString("MMM yyyy", CultureInfo.InvariantCulture);
             }
         }
 

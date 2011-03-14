@@ -44,36 +44,6 @@ namespace WeightWatch.Views
         Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
         Uri NO_CHANGE = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
 
-        ReadOnlyCollection<String> NegativeComments = new ReadOnlyCollection<String>(
-            new List<String>() { 
-                "Hey Fatty!\r\nLay off the donuts! You've gained [DELTA_WEIGHT] since starting on [START_DATE].",
-                "[DELTA_WEIGHT]!?!?!\r\nYou're packing on the pounds there buddy.",
-                "Boom! Boom! Boom!\r\nHear that? That's the sound of [LAST_WEIGHT] walking into the room.",
-                "You're so fat, that you make free willy look like a goldfish.",
-                "[DELTA_WEIGHT]?! You're getting so fat that if I take a picture of you, it'll still be printing until next year.",
-                "On [START_DATE] you were [START_WEIGHT], on [LAST_DATE] you were [LAST_WEIGHT].\r\nWhat the heck happened?",
-                "How on earth did you manage to gain [DELTA_WEIGHT] between [START_DATE] and [LAST_DATE]?!",
-                "At [LAST_WEIGHT], you're getting so fat to the point where if your beeper goes off, people will think you are backing up.",
-                "You've gained [DELTA_WEIGHT]. Go hit the gym!",
-            }
-        );
-
-        ReadOnlyCollection<String> PositiveComments = new ReadOnlyCollection<String>(
-            new List<String>() { 
-                "Wow! [DELTA_WEIGHT]!\r\nI am impressed",
-                "What's your secret? You've lost [DELTA_WEIGHT]!",
-                "Since starting on [START_DATE] at [START_WEIGHT], you've lost an amazing [DELTA_WEIGHT]! Keep it up!",
-                "Before: [START_WEIGHT]\r\nAfter: [LAST_WEIGHT]\r\nDifference: [DELTA_WEIGHT]\r\n",
-            }
-        );
-
-
-        ReadOnlyCollection<String> NoChangeComments = new ReadOnlyCollection<String>(
-            new List<String>() { 
-                "You have neither gained or lost weight",
-            }
-        );
-
         public MainPage()
         {
             InitializeComponent();
@@ -92,29 +62,26 @@ namespace WeightWatch.Views
 
         private void SetupSummary()
         {
+            summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
+            summary_weightTextBlock.Text = "0";
+            summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
+
             WeightViewModel first = _viewModel.FirstWeightEntry;
             WeightViewModel last = _viewModel.LastWeightEntry;
 
-            string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             if (first != null && last != null)
             {
                 Decimal weightDelta = last.Weight - first.Weight;
-
-                if (weightDelta == 0)
-                {
-                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
-                }
-                else if (weightDelta > 0)
+                if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
                 }
-                else
+                else if (weightDelta < 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(DOWN_ARROW);
                 }
 
-                summary_weightTextBlock.Text = weightDelta.ToString("+#.#;-#.#;0");
-                summary_systemTextBlock.Text = "[" + measurementSystemAbbr + "]";
+                summary_weightTextBlock.Text = weightDelta.ToString("+#.#;-#.#;0", CultureInfo.InvariantCulture);
                 summary_messageTextBlock.Text = Message.GetMessage(first, last);
             }
         }
@@ -233,8 +200,6 @@ namespace WeightWatch.Views
             NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        #endregion Event Handlers
-
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
@@ -244,5 +209,8 @@ namespace WeightWatch.Views
             weightLongListSelector.ItemsSource = null;
             weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
         }
+
+        #endregion Event Handlers
+
     }
 }

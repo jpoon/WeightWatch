@@ -68,6 +68,11 @@ namespace WeightWatch.Classes
             return (that != null) && (this.GroupHeader.Equals(that.GroupHeader));
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
     }
 }

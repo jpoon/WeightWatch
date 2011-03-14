@@ -31,7 +31,7 @@ namespace WeightWatch.Views
 
     public partial class AddWeightPage : PhoneApplicationPage
     {
-        public class WeightEntry
+        public sealed class WeightEntry
         {
             private decimal? _weight = null;
             public decimal? Weight
@@ -64,14 +64,11 @@ namespace WeightWatch.Views
         }
 
         WeightEntry _newEntry;
-        WeightListViewModel _weightListViewModel;
 
         public AddWeightPage()
         {
             InitializeComponent();
             Loaded += new RoutedEventHandler(AddWeightPage_Loaded);
-
-            _weightListViewModel = WeightListViewModel.GetInstance();
 
             _newEntry = new WeightEntry();
             this.DataContext = _newEntry;

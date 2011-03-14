@@ -80,6 +80,11 @@ namespace WeightWatch.Classes
 
         public static String GetMessage(WeightViewModel first, WeightViewModel last)
         {
+            if (first == null || last == null)
+            {
+                throw new ArgumentException("GetMessage parameters are null");
+            }
+
             Decimal weightDelta = last.Weight - first.Weight;
             Random randomNumber = new Random();
             string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;

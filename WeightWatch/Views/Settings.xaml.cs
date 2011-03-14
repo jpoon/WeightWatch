@@ -1,6 +1,7 @@
 ﻿namespace WeightWatch.Views
 {
     using System;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using Microsoft.Phone.Controls;
@@ -22,7 +23,8 @@
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            versionTextBlock.Text = "Version: " + App.Version;
+            AssemblyName asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
+            versionTextBlock.Text = "Version: " + asmName.Version;
 
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
