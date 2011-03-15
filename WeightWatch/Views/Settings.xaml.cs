@@ -15,11 +15,8 @@
         public Settings()
         {
             InitializeComponent();
-
             this.Loaded += new RoutedEventHandler(Settings_Loaded);
         }
-
-        #region Event Handlers
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
@@ -63,6 +60,7 @@
             }
         }
 
+        #region Event Handlers
 
         private void Measurement_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -73,8 +71,6 @@
         {
             ApplicationSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
         }
-
-        #endregion
 
         private void sendFeedBackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -95,5 +91,7 @@
             MarketplaceReviewTask review = new MarketplaceReviewTask();
             review.Show();
         }
+
+        #endregion
     }
 }

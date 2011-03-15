@@ -35,6 +35,7 @@ namespace WeightWatch.ViewModels
         }
 
         #region Properties
+
         public DateTime Date
         {
             get

@@ -32,23 +32,27 @@ namespace WeightWatch.Classes
             this.Items = new List<T>(items);
         }
 
+        #region Properties
+
         public string GroupHeader
         {
             get;
-            set;
+            private set;
         }
 
         public string GroupItem
         {
             get;
-            set;
+            private set;
         }
 
         public IList<T> Items
         {
             get;
-            set;
+            private set;
         }
+
+        #endregion
 
         #region IEnumerable Members
 

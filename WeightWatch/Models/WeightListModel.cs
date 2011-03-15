@@ -38,9 +38,6 @@ namespace WeightWatch.Models
 
         private WeightListModel() { }
 
-        /// <summary>
-        /// WeightHistoryModel object instantiated once and shared thereafter (singleton pattern).
-        /// </summary>
         public static WeightListModel GetInstance()
         {
             lock (_singletonLock)

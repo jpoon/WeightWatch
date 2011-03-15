@@ -108,7 +108,6 @@ namespace WeightWatch.Models
                             "Measurement system of type {0} cannot be found",
                             Enum.GetName(typeof(MeasurementSystem), type)));
             }
-
             return measurementSystem;
         }
     }

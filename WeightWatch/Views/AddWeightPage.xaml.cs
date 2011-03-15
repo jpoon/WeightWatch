@@ -25,9 +25,9 @@ namespace WeightWatch.Views
     using System.Windows;
     using System.Windows.Controls;
     using Microsoft.Phone.Controls;
+    using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
-    using WeightWatch.Classes;
 
     public partial class AddWeightPage : PhoneApplicationPage
     {

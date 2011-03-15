@@ -22,15 +22,13 @@
 namespace WeightWatch.Views
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Windows.Controls.DataVisualization.Charting;
     using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
+    using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
-    using WeightWatch.Classes;
 
     public partial class MainPage : PhoneApplicationPage
     {
