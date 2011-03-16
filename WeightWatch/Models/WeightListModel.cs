@@ -54,6 +54,7 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
+            WeightList.Sort();
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
@@ -73,6 +74,7 @@ namespace WeightWatch.Models
 
         public void Delete(WeightModel data)
         {
+            WeightList.Sort();
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
@@ -117,6 +119,7 @@ namespace WeightWatch.Models
             }
             else
             {
+                dataList.Sort();
                 weightHistory.WeightList = dataList;
             }
 
