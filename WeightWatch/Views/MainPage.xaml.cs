@@ -58,6 +58,8 @@ namespace WeightWatch.Views
             SetupSummary();
         }
 
+        #region Summary
+
         private void SetupSummary()
         {
             summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
@@ -83,6 +85,8 @@ namespace WeightWatch.Views
                 summary_messageTextBlock.Text = Message.GetMessage(first, last);
             }
         }
+
+        #endregion
 
         #region Graph
 
@@ -151,6 +155,11 @@ namespace WeightWatch.Views
                 double weightFloor = Math.Floor((float)weightMinMax.Max / 10) * 10;
                 graphMaximum = weightFloor + GRAPH_DEFAULT_SPACING;
                 graphMinimum = weightFloor - GRAPH_DEFAULT_SPACING;
+            }
+
+            if (graphMaximum < 0)
+            {
+                graphMaximum = 0;
             }
 
             linearAxis.Minimum = 0;
