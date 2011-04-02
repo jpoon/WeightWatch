@@ -12,16 +12,19 @@
 
     public partial class Settings : PhoneApplicationPage
     {
+        private AssemblyName _asmName;
+
         public Settings()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(Settings_Loaded);
+
+            _asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
         }
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            AssemblyName asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
-            versionTextBlock.Text = "Version: " + asmName.Version.ToString();
+            versionTextBlock.Text = "Version: " + _asmName.Version.ToString();
 
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
@@ -76,6 +79,7 @@
         {
             EmailComposeTask email = new EmailComposeTask();
             email.To = App.FeedbackEmail;
+            email.Body = "Version: " + _asmName.Version.ToString();
             email.Show();
         }
 
