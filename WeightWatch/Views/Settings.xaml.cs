@@ -21,7 +21,7 @@
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             AssemblyName asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
-            versionTextBlock.Text = "Version: " + asmName.Version;
+            versionTextBlock.Text = "Version: " + asmName.Version.ToString();
 
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));

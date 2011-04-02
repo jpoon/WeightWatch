@@ -116,13 +116,20 @@ namespace WeightWatch.ViewModels
             private set;
         }
 
-        public IEnumerable<LongListSelectorGroup<WeightViewModel>> WeightHistoryGroup
+        public ObservableCollection<WeightListGroup<WeightViewModel>> WeightHistoryGroup
         {
             get
             {
-                return from item in WeightHistoryList
-                       group item by item.DateStr_MonthYear into g
-                       select new LongListSelectorGroup<WeightViewModel>(g.Key, g);
+                var results = from item in WeightHistoryList
+                              group item by item.DateStr_MonthYear into g
+                              select new WeightListGroup<WeightViewModel>(g.Key, g);
+
+                ObservableCollection<WeightListGroup<WeightViewModel>> weightListGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
+                foreach (var result in results)
+                {
+                    weightListGroup.Add(result);
+                }
+                return weightListGroup;
             }
         }
 
@@ -162,6 +169,11 @@ namespace WeightWatch.ViewModels
 
         public static void Delete(WeightViewModel data)
         {
+            if (data == null || data.weightModel == null)
+            {
+                throw new ArgumentNullException("WeightViewModel");
+            }
+
             WeightListModel.GetInstance().Delete(data.weightModel);
         }
 
@@ -208,15 +220,15 @@ namespace WeightWatch.ViewModels
                     WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    WeightHistoryList.RemoveAt(e.NewStartingIndex);
-                    WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
+                    WeightHistoryList[e.NewStartingIndex] = new WeightViewModel(e.NewItems[0] as WeightModel);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     WeightHistoryList.RemoveAt(e.OldStartingIndex);
                     break;
             }
-            InvokePropertyChanged("WeightHistoryList");
             InvokePropertyChanged("WeightHistoryGroup");
+            InvokePropertyChanged("FirstWeightEntry");
+            InvokePropertyChanged("LastWeightEntry");
         }
 
         #endregion

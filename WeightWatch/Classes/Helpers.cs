@@ -30,6 +30,11 @@ namespace WeightWatch.Classes
     {
         public static ReadOnlyCollection<String> EnumToStringList(Type enumType)
         {
+            if (enumType == null)
+            {
+                throw new ArgumentNullException("Enum Type");
+            }
+
             List<String> list = new List<String>();
             FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo item in enumDetail)

@@ -22,6 +22,7 @@
 namespace WeightWatch.Views
 {
     using System;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using Microsoft.Phone.Controls;
@@ -31,7 +32,7 @@ namespace WeightWatch.Views
 
     public partial class AddWeightPage : PhoneApplicationPage
     {
-        public sealed class WeightEntry
+        public class WeightEntry
         {
             private decimal? _weight = null;
             public decimal? Weight
@@ -54,12 +55,20 @@ namespace WeightWatch.Views
                 set { _unit = value; }
             }
 
-            public bool Validate()
+            public string Validate()
             {
-                if (_weight == null) return false;
-                if (_date == null) return false;
+                String errorStr = String.Empty;
 
-                return true;
+                if (_weight == null || _weight < 0)
+                {
+                    errorStr = "Please enter a valid weight";
+                }
+                else if (_date == null)
+                {
+                    errorStr = "Please enter a valid date";
+                }
+
+                return errorStr;
             }
         }
 
@@ -87,6 +96,7 @@ namespace WeightWatch.Views
                 default:
                     throw new ArgumentException(
                         string.Format(
+                            CultureInfo.InvariantCulture,
                             "Measurement system of type {0} cannot be found",
                             Enum.GetName(typeof(MeasurementSystem), _newEntry.MeasurementUnit))
                         );
@@ -101,11 +111,16 @@ namespace WeightWatch.Views
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             binding.UpdateSource();
 
-            if (_newEntry.Validate())
+            String errorMessage = _newEntry.Validate();
+            if (String.IsNullOrEmpty(errorMessage))
             {
                 WeightListViewModel.Save((Decimal)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+                GoBackOrMainMenu();
             }
-            GoBackOrMainMenu();
+            else
+            {
+                MessageBox.Show(errorMessage);
+            }
         }
 
         private void AppBarIconButton_DeleteClick(object sender, EventArgs e)

@@ -202,10 +202,6 @@ namespace WeightWatch.Views
         {
             WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
             WeightListViewModel.Delete(item);
-
-            // hack to refresh list
-            weightLongListSelector.ItemsSource = null;
-            weightLongListSelector.ItemsSource = _viewModel.WeightHistoryGroup;
         }
 
         #endregion Event Handlers

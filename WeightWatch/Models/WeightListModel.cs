@@ -54,7 +54,6 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
-            WeightList.Sort();
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
@@ -66,19 +65,19 @@ namespace WeightWatch.Models
             else
             {
                 WeightList.Add(data);
-                WeightList.Sort();
                 index = WeightList.BinarySearch(data);
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
+            WeightList.Sort();
         }
 
         public void Delete(WeightModel data)
         {
-            WeightList.Sort();
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
                 WeightList.RemoveAt(index);
+                WeightList.Sort();
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
         }
@@ -119,7 +118,6 @@ namespace WeightWatch.Models
             }
             else
             {
-                dataList.Sort();
                 weightHistory.WeightList = dataList;
             }
 

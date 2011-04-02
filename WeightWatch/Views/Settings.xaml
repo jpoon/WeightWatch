@@ -56,8 +56,8 @@
             <!-- About Pivot-->
             <controls:PivotItem Header="about">
                 <Grid>
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="28,10,0,0" Name="versionTextBlock" Text="Version: " VerticalAlignment="Top" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="26,49,0,0" Name="aboutTextBlock" Text="Author: Jason Poon" VerticalAlignment="Top" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="28,10,0,0" Name="versionTextBlock" VerticalAlignment="Top" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="26,49,0,0" Text="Author: Jason Poon" VerticalAlignment="Top" />
 
                     <Button Content="Rate/Review App" Height="72" HorizontalAlignment="Left" Margin="3,373,0,0" VerticalAlignment="Top" Width="448" Click="reviewButton_Click" />
                     <Button Content="Send Feedback" Height="72" HorizontalAlignment="Left" Margin="3,446,0,0" VerticalAlignment="Top" Width="448" Click="sendFeedBackButton_Click" />

@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Helpers.cs" />
-    <Compile Include="Classes\LongListSelectorGroup.cs" />
+    <Compile Include="Classes\WeightListGroup.cs" />
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />

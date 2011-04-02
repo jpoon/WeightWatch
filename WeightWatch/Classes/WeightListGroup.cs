@@ -23,24 +23,17 @@ namespace WeightWatch.Classes
 {
     using System.Collections.Generic;
 
-    public class LongListSelectorGroup<T> : IEnumerable<T>
+    public class WeightListGroup<T> : IEnumerable<T>
     {
-        public LongListSelectorGroup(string date, IEnumerable<T> items)
+        public WeightListGroup(string date, IEnumerable<T> items)
         {
             this.GroupHeader = date;
-            this.GroupItem = date;
             this.Items = new List<T>(items);
         }
 
         #region Properties
 
         public string GroupHeader
-        {
-            get;
-            private set;
-        }
-
-        public string GroupItem
         {
             get;
             private set;
@@ -68,7 +61,7 @@ namespace WeightWatch.Classes
 
         public override bool Equals(object obj)
         {
-            LongListSelectorGroup<T> that = obj as LongListSelectorGroup<T>;
+            WeightListGroup<T> that = obj as WeightListGroup<T>;
             return (that != null) && (this.GroupHeader.Equals(that.GroupHeader));
         }
 
