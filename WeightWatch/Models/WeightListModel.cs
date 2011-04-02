@@ -55,6 +55,7 @@ namespace WeightWatch.Models
         public void Add(WeightModel data)
         {
             int index = WeightList.BinarySearch(data);
+
             if (index >= 0)
             {
                 WeightModel oldItem = WeightList[index];
@@ -65,10 +66,10 @@ namespace WeightWatch.Models
             else
             {
                 WeightList.Add(data);
+                WeightList.Sort();
                 index = WeightList.BinarySearch(data);
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
-            WeightList.Sort();
         }
 
         public void Delete(WeightModel data)
