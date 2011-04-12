@@ -177,7 +177,7 @@ namespace WeightWatch.ViewModels
             WeightListModel.GetInstance().Delete(data.weightModel);
         }
 
-        public static void Save(Decimal weight, DateTime date, MeasurementSystem unit)
+        public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
             WeightListModel.GetInstance().Add(_model);

@@ -85,7 +85,7 @@ namespace WeightWatch.Classes
                 throw new ArgumentException("GetMessage parameters are null");
             }
 
-            Decimal weightDelta = last.Weight - first.Weight;
+            Double weightDelta = last.Weight - first.Weight;
             Random randomNumber = new Random();
             string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             MessageType messageType = MessageType.Neutral;

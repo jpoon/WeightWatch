@@ -71,7 +71,7 @@ namespace WeightWatch.Views
 
             if (first != null && last != null)
             {
-                Decimal weightDelta = last.Weight - first.Weight;
+                Double weightDelta = last.Weight - first.Weight;
                 if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);

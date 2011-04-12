@@ -69,7 +69,7 @@ namespace WeightWatch.ViewModels
             }
         }
 
-        public Decimal Weight
+        public Double Weight
         {
             get
             {

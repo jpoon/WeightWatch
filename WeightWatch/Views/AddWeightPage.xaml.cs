@@ -34,8 +34,8 @@ namespace WeightWatch.Views
     {
         public class WeightEntry
         {
-            private decimal? _weight = null;
-            public decimal? Weight
+            private Double? _weight = null;
+            public Double? Weight
             {
                 get { return _weight; }
                 set { _weight = value; }
@@ -62,6 +62,10 @@ namespace WeightWatch.Views
                 if (_weight == null || _weight < 0)
                 {
                     errorStr = "Please enter a valid weight";
+                }
+                else if (_weight > 9999)
+                {
+                    errorStr = "Seriously?! I doubt you weigh that much...";
                 }
                 else if (_date == null)
                 {
@@ -114,7 +118,7 @@ namespace WeightWatch.Views
             String errorMessage = _newEntry.Validate();
             if (String.IsNullOrEmpty(errorMessage))
             {
-                WeightListViewModel.Save((Decimal)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+                WeightListViewModel.Save((Double)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
                 GoBackOrMainMenu();
             }
             else

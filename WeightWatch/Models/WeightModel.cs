@@ -27,12 +27,12 @@ namespace WeightWatch.Models
     [DataContract(Name = "WeightModel")]
     public class WeightModel : IComparable<WeightModel>
     {
-        private Decimal _weight;
+        private Double _weight;
         private DateTime _date;
         private MeasurementSystem _unit;
 
         [DataMember]
-        public Decimal Weight
+        public Double Weight
         {
             get
             {
@@ -70,7 +70,7 @@ namespace WeightWatch.Models
             }
         }
 
-        public WeightModel(Decimal weight, DateTime date, MeasurementSystem unit)
+        public WeightModel(Double weight, DateTime date, MeasurementSystem unit)
         {
             this._weight = weight;
             this._date = date;
