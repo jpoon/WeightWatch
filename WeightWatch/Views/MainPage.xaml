@@ -49,12 +49,12 @@
     <Grid Background="Transparent">
         <!--Pivot Control-->
         <controls:Pivot Title="WEIGHT WATCH">
-            <controls:PivotItem Header="summary">
+            <controls:PivotItem Header="progress">
                 <Grid>
                     <Image Name="summary_arrowImage" Width="180" Height="260" Margin="45,33,231,0" VerticalAlignment="Top" />
                     <TextBlock Height="90" HorizontalAlignment="Left" Margin="236,74,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="180" FontSize="80" TextAlignment="Center" />
                     <TextBlock Height="30" HorizontalAlignment="Left" Margin="236,171,0,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" Width="179" TextAlignment="Center" FontSize="22" />
-                    <TextBlock Height="150" HorizontalAlignment="Left" Margin="44,328,0,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="360" TextWrapping="Wrap" />
+                    <TextBlock Height="189" HorizontalAlignment="Center" Margin="45,310,26,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="385" TextWrapping="Wrap" />
                 </Grid>
             </controls:PivotItem>
 

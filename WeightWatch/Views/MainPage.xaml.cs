@@ -65,6 +65,10 @@ namespace WeightWatch.Views
             summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
             summary_weightTextBlock.Text = "0";
             summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
+            summary_messageTextBlock.Text =
+                "Instructions:\n" +
+                "(1) Add your daily weight\n" +
+                "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to delete\n";
 
             WeightViewModel first = _viewModel.FirstWeightEntry;
             WeightViewModel last = _viewModel.LastWeightEntry;
