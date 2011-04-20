@@ -51,6 +51,7 @@ namespace WeightWatch.Classes
                     "At [LAST_WEIGHT], you're getting so fat to the point where if your beeper goes off, people will think you are backing up.",
                     "You've gained [DELTA_WEIGHT]. Go hit the gym!",
                     "If you wish to grow thinner, diminish your dinner.",
+                    "It's not the pants that you are wearing that make you look fat... Since [START_DATE] you've gained [DELTA_WEIGHT].",
                 }
             },
             {
@@ -60,11 +61,14 @@ namespace WeightWatch.Classes
                     "What's your secret? You've lost [DELTA_WEIGHT]!",
                     "Since starting on [START_DATE] at [START_WEIGHT], you've lost an amazing [DELTA_WEIGHT]! Keep it up!",
                     "Before: [START_WEIGHT]\r\nAfter: [LAST_WEIGHT]\r\nDifference: [DELTA_WEIGHT]\r\n",
+                    "Errr...does this outfit make me look smaller?! It's not the outfit, you've just lost [DELTA_WEIGHT].\r\n",
                 }
             },
             {
                 MessageType.Neutral,
                 new List<String>() { 
+                    "You have made absolutely no progress. Between [START_DATE] and [END_DATE], you still weight [START_WEIGHT].",
+                    "Fun Fact #1: The human body is 61.8% water by weight.",
                     "Fun Fact #1: The human body is 61.8% water by weight.",
                     "Fun Fact #2: In the average adult, the skin covers 12-20 square feet and accounts for 12% of body weight.",
                     "Fun Fact #3: At a weight of roughly 420 000 lbs, the Blue Whale is the world's heaviest animal.",
@@ -90,16 +94,13 @@ namespace WeightWatch.Classes
             string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
             MessageType messageType = MessageType.Neutral;
 
-            if (randomNumber.Next(1) == 0)
+            if (weightDelta > 0)
             {
-                if (weightDelta > 0)
-                {
-                    messageType = MessageType.Negative;
-                }
-                else if (weightDelta < 0)
-                {
-                    messageType = MessageType.Positive;
-                }
+                messageType = MessageType.Negative;
+            }
+            else if (weightDelta < 0)
+            {
+                messageType = MessageType.Positive;
             }
 
             List<String> messageList = _messageDictionary[messageType];
