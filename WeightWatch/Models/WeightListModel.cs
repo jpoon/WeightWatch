@@ -115,14 +115,7 @@ namespace WeightWatch.Models
             }
 
             WeightListModel weightHistory = new WeightListModel();
-            if (dataList == null)
-            {
-                weightHistory.WeightList = new List<WeightModel>();
-            }
-            else
-            {
-                weightHistory.WeightList = dataList;
-            }
+            weightHistory.WeightList = dataList ?? new List<WeightModel>();
 
             return weightHistory;
         }
