@@ -55,14 +55,40 @@
 
             <!-- About Pivot-->
             <controls:PivotItem Header="about">
-                <Grid>
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="28,10,0,0" Name="versionTextBlock" VerticalAlignment="Top" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="26,49,0,0" Text="Author: Jason Poon" VerticalAlignment="Top" />
+                <ScrollViewer>
+                    <StackPanel Margin="0,-12,0,24">
+                        <TextBlock Style="{StaticResource PhoneTextLargeStyle}" Text="by Jason Poon" />
 
-                    <Button Content="Rate/Review App" Height="72" HorizontalAlignment="Left" Margin="3,373,0,0" VerticalAlignment="Top" Width="448" Click="reviewButton_Click" />
-                    <Button Content="Send Feedback" Height="72" HorizontalAlignment="Left" Margin="3,446,0,0" VerticalAlignment="Top" Width="448" Click="sendFeedBackButton_Click" />
-                    <Button Content="Contribute to the Project" Height="72" HorizontalAlignment="Left" Margin="3,517,0,0" VerticalAlignment="Top" Width="448" Click="githubButton_Click" />
-                </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="Version:" />
+                            <TextBlock Margin="0" Style="{StaticResource PhoneTextNormalStyle}" x:Name="versionTextBlock" />
+                        </StackPanel>
+
+                        <HyperlinkButton
+                            Margin="0,50,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Review"
+                            Click="hyperlinkButton_Click"
+                            Content="Review this app" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+
+                        <HyperlinkButton
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Feedback"
+                            Click="hyperlinkButton_Click"
+                            Content="Send feedback" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+
+                        <HyperlinkButton
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Contribute"
+                            Click="hyperlinkButton_Click"
+                            Content="Contribute to the project" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+                    </StackPanel>
+                </ScrollViewer>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>

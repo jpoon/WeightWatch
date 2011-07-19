@@ -9,6 +9,7 @@
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
+    using System.Windows.Controls.Primitives;
 
     public partial class Settings : PhoneApplicationPage
     {
@@ -24,7 +25,7 @@
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            versionTextBlock.Text = "Version: " + _asmName.Version.ToString();
+            versionTextBlock.Text = _asmName.Version.ToString();
 
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
@@ -75,25 +76,28 @@
             ApplicationSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
         }
 
-        private void sendFeedBackButton_Click(object sender, RoutedEventArgs e)
+        private void hyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            EmailComposeTask email = new EmailComposeTask();
-            email.To = App.FeedbackEmail;
-            email.Body = "Version: " + _asmName.Version.ToString();
-            email.Show();
-        }
+            string s = ((ButtonBase)sender).Tag as string;
 
-        private void githubButton_Click(object sender, RoutedEventArgs e)
-        {
-            WebBrowserTask browser = new WebBrowserTask();
-            browser.URL = Uri.EscapeDataString(App.ContributeUrl);
-            browser.Show();
-        }
-
-        private void reviewButton_Click(object sender, RoutedEventArgs e)
-        {
-            MarketplaceReviewTask review = new MarketplaceReviewTask();
-            review.Show();
+            switch (s)
+            {
+                case "Review":
+                    var task = new MarketplaceReviewTask();
+                    task.Show();
+                    break;
+                case "Contribute":
+                    var browser = new WebBrowserTask();
+                    browser.URL = Uri.EscapeDataString(App.ContributeUrl);
+                    browser.Show();
+                    break;
+                case "Feedback":
+                    var email = new EmailComposeTask();
+                    email.To = App.FeedbackEmail;
+                    email.Body = "Version: " + _asmName.Version.ToString();
+                    email.Show();
+                    break;
+            }
         }
 
         #endregion
