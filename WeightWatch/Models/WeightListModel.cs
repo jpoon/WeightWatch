@@ -26,27 +26,21 @@ namespace WeightWatch.Models
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
+    using WeightWatch.Classes;
 
     public class WeightListModel : INotifyCollectionChanged
     {
-        public List<WeightModel> WeightList { get; private set; }
-
-        private const string FILE_NAME = "weight.xml";
-
-        static WeightListModel _instance = null;
-        static readonly object _singletonLock = new object();
-
-        private WeightListModel() { }
-
-        public static WeightListModel GetInstance()
+        private static List<WeightModel> _weightList;
+        public List<WeightModel> WeightList
         {
-            lock (_singletonLock)
+            get { return _weightList; }
+        }
+
+        public WeightListModel()
+        {
+            if (_weightList == null)
             {
-                if (_instance == null)
-                {
-                    _instance = WeightListModel.LoadFromFile();
-                }
-                return _instance;
+                _weightList = IsoStorage.LoadFile();
             }
         }
 
@@ -85,40 +79,13 @@ namespace WeightWatch.Models
             }
         }
 
-        public void Persist()
+        public void Save()
         {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FILE_NAME, FileMode.Create, isf))
-                {
-                    DataContractSerializer dcs = new DataContractSerializer(typeof(List<WeightModel>));
-                    dcs.WriteObject(stream, this.WeightList);
-                }
-            }
+            IsoStorage.Save(this.WeightList);
         }
 
         #endregion
 
-        private static WeightListModel LoadFromFile()
-        {
-            List<WeightModel> dataList = null;
-            using (IsolatedStorageFile isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream stream = isoStorage.OpenFile(FILE_NAME, FileMode.OpenOrCreate))
-                {
-                    if (stream.Length > 0)
-                    {
-                        DataContractSerializer dcs = new DataContractSerializer(typeof(List<WeightModel>));
-                        dataList = dcs.ReadObject(stream) as List<WeightModel>;
-                    }
-                }
-            }
-
-            WeightListModel weightHistory = new WeightListModel();
-            weightHistory.WeightList = dataList ?? new List<WeightModel>();
-
-            return weightHistory;
-        }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         private void notifyCollectionChanged(NotifyCollectionChangedEventArgs args)

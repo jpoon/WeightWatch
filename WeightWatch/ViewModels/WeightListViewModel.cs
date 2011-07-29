@@ -80,32 +80,15 @@ namespace WeightWatch.ViewModels
             }
         }
 
-        WeightListModel _dataList;
-        static WeightListViewModel _instance = null;
-        static readonly object _singletonLock = new object();
+        private static WeightListModel _dataList;
 
-        private WeightListViewModel()
+        public WeightListViewModel()
         {
             WeightHistoryList = new ObservableCollection<WeightViewModel>();
 
-            _dataList = WeightListModel.GetInstance();
+            _dataList = new WeightListModel();
             _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
             _dataList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_dataList_CollectionChanged);
-        }
-
-        /// <summary>
-        /// WeightHistoryModel object instantiated once and shared thereafter (singleton pattern).
-        /// </summary>
-        public static WeightListViewModel GetInstance()
-        {
-            lock (_singletonLock)
-            {
-                if (_instance == null)
-                {
-                    _instance = new WeightListViewModel();
-                }
-                return _instance;
-            }
         }
 
         #region Properties
@@ -174,13 +157,13 @@ namespace WeightWatch.ViewModels
                 throw new ArgumentNullException("WeightViewModel");
             }
 
-            WeightListModel.GetInstance().Delete(data.weightModel);
+            (new WeightListModel()).Delete(data.weightModel);
         }
 
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
-            WeightListModel.GetInstance().Add(_model);
+            (new WeightListModel()).Add(_model);
         }
 
         public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)

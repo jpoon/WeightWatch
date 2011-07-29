@@ -46,14 +46,14 @@ namespace WeightWatch.Views
         {
             InitializeComponent();
 
-            _viewModel = WeightListViewModel.GetInstance();
-            this.DataContext = _viewModel;
-
             Loaded += new System.Windows.RoutedEventHandler(MainPage_Loaded);
         }
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            _viewModel = new WeightListViewModel();
+            this.DataContext = _viewModel;
+
             SetupGraph();
             SetupSummary();
         }
