@@ -13,20 +13,14 @@
 
     public partial class Settings : PhoneApplicationPage
     {
-        private AssemblyName _asmName;
-
         public Settings()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(Settings_Loaded);
-
-            _asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
         }
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            versionTextBlock.Text = _asmName.Version.ToString();
-
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
             Measurement_ListPicker.SelectionChanged += new SelectionChangedEventHandler(Measurement_ListPicker_SelectionChanged);
@@ -74,30 +68,6 @@
         private void Graph_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplicationSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
-        }
-
-        private void hyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            string s = ((ButtonBase)sender).Tag as string;
-
-            switch (s)
-            {
-                case "Review":
-                    var task = new MarketplaceReviewTask();
-                    task.Show();
-                    break;
-                case "Contribute":
-                    var browser = new WebBrowserTask();
-                    browser.URL = Uri.EscapeDataString(App.ContributeUrl);
-                    browser.Show();
-                    break;
-                case "Feedback":
-                    var email = new EmailComposeTask();
-                    email.To = App.FeedbackEmail;
-                    email.Body = "Version: " + _asmName.Version.ToString();
-                    email.Show();
-                    break;
-            }
         }
 
         #endregion

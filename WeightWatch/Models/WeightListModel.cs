@@ -27,6 +27,7 @@ namespace WeightWatch.Models
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
     using WeightWatch.Classes;
+    using System;
 
     public class WeightListModel : INotifyCollectionChanged
     {
@@ -65,6 +66,20 @@ namespace WeightWatch.Models
                 WeightList.Sort();
                 index = WeightList.BinarySearch(data);
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
+            }
+        }
+
+        public WeightModel Get(DateTime date)
+        {
+            WeightModel data = new WeightModel(0, date, MeasurementSystem.Imperial);
+            int index = WeightList.BinarySearch(data);
+            if (index >= 0)
+            {
+                return WeightList[index];
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -41,7 +41,10 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.feature.settings.rest.png" Text="settings" Click="AppBarIconClick_Settings"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Settings" Click="AppBarIconClick_Settings"/>
+                <shell:ApplicationBarMenuItem Text="About" Click="AppBarIconClick_About"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -51,10 +54,10 @@
         <controls:Pivot Title="WEIGHT WATCH">
             <controls:PivotItem Header="progress">
                 <Grid>
-                    <Image Name="summary_arrowImage" Width="180" Height="260" Margin="45,33,231,0" VerticalAlignment="Top" />
-                    <TextBlock Height="90" HorizontalAlignment="Left" Margin="236,74,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="180" FontSize="80" TextAlignment="Center" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="236,171,0,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" Width="179" TextAlignment="Center" FontSize="22" />
-                    <TextBlock Height="189" HorizontalAlignment="Center" Margin="45,310,26,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="385" TextWrapping="Wrap" />
+                    <Image Name="summary_arrowImage" Width="180" Height="260" Margin="32,34,244,0" VerticalAlignment="Top" />
+                    <TextBlock Height="90" HorizontalAlignment="Left" Margin="228,92,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="204" FontSize="80" TextAlignment="Center" />
+                    <TextBlock Height="30" Margin="228,190,25,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" TextAlignment="Center" FontSize="22" Width="203" />
+                    <TextBlock Height="170" HorizontalAlignment="Center" Margin="31,329,26,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="399" TextWrapping="Wrap" />
                 </Grid>
             </controls:PivotItem>
 
@@ -96,9 +99,10 @@
                     </toolkit:LongListSelector.GroupHeaderTemplate>
                     <toolkit:LongListSelector.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid>                     
                                 <toolkit:ContextMenuService.ContextMenu>
                                     <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Header="edit" Click="EditMenuItem_Click" />
                                         <toolkit:MenuItem Header="delete" Click="DeleteMenuItem_Click" />
                                     </toolkit:ContextMenu>
                                 </toolkit:ContextMenuService.ContextMenu>

@@ -87,6 +87,32 @@ namespace WeightWatch.Views
             this.DataContext = _newEntry;
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            string dateString = string.Empty;
+            if (NavigationContext.QueryString.TryGetValue("Date", out dateString))
+            {
+                DateTime datetime;
+                DateTime.TryParse(dateString, out datetime);
+                weightDatePicker.Value = datetime;
+                weightDatePicker.IsEnabled = false;
+
+                WeightViewModel viewModel = WeightListViewModel.Get(datetime);
+                weightTextBox.Text = viewModel.Weight.ToString();
+
+                if (viewModel.weightModel.MeasurementUnit == MeasurementSystem.Imperial)
+                {
+                    radioButton_lbs.IsChecked = true;
+                }
+                else
+                {
+                    radioButton_kgs.IsChecked = true;
+                }
+            }
+        }
+
         void AddWeightPage_Loaded(object sender, RoutedEventArgs e)
         {
             switch (_newEntry.MeasurementUnit)
@@ -127,7 +153,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void AppBarIconButton_DeleteClick(object sender, EventArgs e)
+        private void AppBarIconButton_CancelClick(object sender, EventArgs e)
         {
             GoBackOrMainMenu();
         }

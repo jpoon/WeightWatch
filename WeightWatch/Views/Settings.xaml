@@ -52,44 +52,6 @@
                         ItemsSource="{Binding GraphViewList}" />
                 </StackPanel>
             </controls:PivotItem>
-
-            <!-- About Pivot-->
-            <controls:PivotItem Header="about">
-                <ScrollViewer>
-                    <StackPanel Margin="0,-12,0,24">
-                        <TextBlock Style="{StaticResource PhoneTextLargeStyle}" Text="by Jason Poon" />
-
-                        <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
-                            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="Version:" />
-                            <TextBlock Margin="0" Style="{StaticResource PhoneTextNormalStyle}" x:Name="versionTextBlock" />
-                        </StackPanel>
-
-                        <HyperlinkButton
-                            Margin="0,50,0,10"
-                            HorizontalAlignment="Left"
-                            Tag="Review"
-                            Click="hyperlinkButton_Click"
-                            Content="Review this app" 
-                            Foreground="{StaticResource PhoneAccentBrush}" />
-
-                        <HyperlinkButton
-                            Margin="0,0,0,10"
-                            HorizontalAlignment="Left"
-                            Tag="Feedback"
-                            Click="hyperlinkButton_Click"
-                            Content="Send feedback" 
-                            Foreground="{StaticResource PhoneAccentBrush}" />
-
-                        <HyperlinkButton
-                            Margin="0,0,0,10"
-                            HorizontalAlignment="Left"
-                            Tag="Contribute"
-                            Click="hyperlinkButton_Click"
-                            Content="Contribute to the project" 
-                            Foreground="{StaticResource PhoneAccentBrush}" />
-                    </StackPanel>
-                </ScrollViewer>
-            </controls:PivotItem>
         </controls:Pivot>
     </Grid>
 </phone:PhoneApplicationPage>

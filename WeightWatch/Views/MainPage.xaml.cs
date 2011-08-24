@@ -29,6 +29,7 @@ namespace WeightWatch.Views
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using System.Windows.Controls;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -203,12 +204,23 @@ namespace WeightWatch.Views
 
         private void AppBarIconClick_AddWeight(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/AddWeightPage.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Views/AddWeightPage.xaml", UriKind.Relative));
         }
 
         private void AppBarIconClick_Settings(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.Relative));
+        }
+
+        private void AppBarIconClick_About(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/About.xaml", UriKind.Relative));
+        }
+
+        private void EditMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
+            NavigationService.Navigate(new Uri("/Views/AddWeightPage.xaml?Date=" + item.DateStr, UriKind.Relative));
         }
 
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)

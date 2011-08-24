@@ -1,0 +1,81 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="WeightWatch.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid Background="Transparent">
+        <controls:Pivot Title="WEIGHT WATCH">
+            <!-- About Pivot-->
+            <controls:PivotItem Header="about">
+                <ScrollViewer>
+                    <StackPanel Margin="0,-12,0,24">
+                        <TextBlock Style="{StaticResource PhoneTextLargeStyle}" Text="by Jason Poon" />
+
+                        <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="Version:" />
+                            <TextBlock Margin="0" Style="{StaticResource PhoneTextNormalStyle}" x:Name="versionTextBlock" />
+                        </StackPanel>
+
+                        <HyperlinkButton
+                            Margin="0,50,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Review"
+                            Click="hyperlinkButton_Click"
+                            Content="Review this app" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+
+                        <HyperlinkButton
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Feedback"
+                            Click="hyperlinkButton_Click"
+                            Content="Send feedback" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+
+                        <HyperlinkButton
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Left"
+                            Tag="Contribute"
+                            Click="hyperlinkButton_Click"
+                            Content="Contribute to the project" 
+                            Foreground="{StaticResource PhoneAccentBrush}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+</phone:PhoneApplicationPage>

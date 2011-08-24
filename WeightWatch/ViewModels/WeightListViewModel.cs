@@ -160,6 +160,11 @@ namespace WeightWatch.ViewModels
             (new WeightListModel()).Delete(data.weightModel);
         }
 
+        public static WeightViewModel Get(DateTime date)
+        {
+            return new WeightViewModel((new WeightListModel()).Get(date));
+        }
+
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);

@@ -51,7 +51,7 @@
         <!-- Content Panel -->
         <Grid Grid.Row="1" Margin="12,0,12,0">
             <TextBlock Height="30" HorizontalAlignment="Left" Margin="56,11,0,0" Text="date" VerticalAlignment="Top" RenderTransformOrigin="0.615,1" />
-            <toolkit:DatePicker HorizontalAlignment="Left" Margin="108,-9,0,0" Width="316" ValueStringFormat="{}{0:MMMM d, yyyy}" Value="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top"  />
+            <toolkit:DatePicker Name="weightDatePicker" HorizontalAlignment="Left" Margin="108,-9,0,0" Width="316" ValueStringFormat="{}{0:MMMM d, yyyy}" Value="{Binding Date, Mode=TwoWay}" VerticalAlignment="Top"  />
             
             <TextBlock HorizontalAlignment="Left" Margin="35,88,0,0" Text="weight" Height="30" VerticalAlignment="Top" />
             <TextBox Margin="108,67,148,0" Name="weightTextBox" Text="{Binding Weight, Mode=TwoWay}" Height="72" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.486">
@@ -69,7 +69,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.save.rest.png" Text="save" Click="AppBarIconButton_SaveClick" />
-            <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.delete.rest.png" Text="cancel" Click="AppBarIconButton_DeleteClick" />
+            <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.cancel.rest.png" Text="cancel" Click="AppBarIconButton_CancelClick" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     
