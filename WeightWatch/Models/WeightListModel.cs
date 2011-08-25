@@ -21,13 +21,10 @@
 
 namespace WeightWatch.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.IO;
-    using System.IO.IsolatedStorage;
-    using System.Runtime.Serialization;
     using WeightWatch.Classes;
-    using System;
 
     public class WeightListModel : INotifyCollectionChanged
     {
@@ -53,11 +50,7 @@ namespace WeightWatch.Models
             if (index >= 0)
             {
                 WeightModel oldItem = WeightList[index];
-                WeightList.RemoveAt(index);
-
-                WeightList.Add(data);
-                WeightList.Sort();
-                index = WeightList.BinarySearch(data);
+                WeightList[index] = data;
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, data, oldItem, index));
             }
             else
@@ -67,6 +60,8 @@ namespace WeightWatch.Models
                 index = WeightList.BinarySearch(data);
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
+
+            this.Save();
         }
 
         public WeightModel Get(DateTime date)
@@ -92,9 +87,11 @@ namespace WeightWatch.Models
                 WeightList.Sort();
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
+
+            this.Save();
         }
 
-        public void Save()
+        private void Save()
         {
             IsoStorage.Save(this.WeightList);
         }

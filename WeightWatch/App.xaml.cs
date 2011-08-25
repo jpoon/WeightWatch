@@ -45,8 +45,6 @@ namespace WeightWatch
             get { return "weightwatch@jasonpoon.ca"; }
         }
 
-        private WeightListModel _weightListModel;
-
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -80,7 +78,6 @@ namespace WeightWatch
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            _weightListModel = new WeightListModel();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -93,14 +90,12 @@ namespace WeightWatch
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
-            _weightListModel.Save();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            _weightListModel.Save();
         }
 
         // Code to execute if a navigation fails

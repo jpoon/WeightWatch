@@ -162,13 +162,13 @@ namespace WeightWatch.ViewModels
 
         public static WeightViewModel Get(DateTime date)
         {
-            return new WeightViewModel((new WeightListModel()).Get(date));
+            return new WeightViewModel(_dataList.Get(date));
         }
 
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
             WeightModel _model = new WeightModel(weight, date, unit);
-            (new WeightListModel()).Add(_model);
+            _dataList.Add(_model);
         }
 
         public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)
