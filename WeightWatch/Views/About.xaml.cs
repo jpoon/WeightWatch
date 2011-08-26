@@ -1,19 +1,36 @@
-﻿namespace WeightWatch.Views
+﻿/*
+ * Copyright (C) 2011 by Jason Poon
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+namespace WeightWatch.Views
 {
     using System;
     using System.Reflection;
     using System.Windows;
-    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using Microsoft.Phone.Controls;
     using Microsoft.Phone.Tasks;
-    using WeightWatch.Classes;
-    using WeightWatch.Models;
-    using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
-    using System.Windows.Controls.Primitives;
 
     public partial class About : PhoneApplicationPage
     {
-        private AssemblyName _asmName;
+        private readonly AssemblyName _asmName;
 
         public About()
         {
@@ -30,10 +47,9 @@
 
         #region Event Handlers
 
-        private void hyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            string s = ((ButtonBase)sender).Tag as string;
-
+            var s = ((ButtonBase)sender).Tag as string;
             switch (s)
             {
                 case "Review":
@@ -41,14 +57,11 @@
                     task.Show();
                     break;
                 case "Contribute":
-                    var browser = new WebBrowserTask();
-                    browser.URL = Uri.EscapeDataString(App.ContributeUrl);
+                    var browser = new WebBrowserTask { URL = Uri.EscapeDataString(App.ContributeUrl) };
                     browser.Show();
                     break;
                 case "Feedback":
-                    var email = new EmailComposeTask();
-                    email.To = App.FeedbackEmail;
-                    email.Body = "Version: " + _asmName.Version.ToString();
+                    var email = new EmailComposeTask { To = App.FeedbackEmail, Body = "Version: " + _asmName.Version.ToString() };
                     email.Show();
                     break;
             }

@@ -1,12 +1,31 @@
-﻿namespace WeightWatch.Classes
+﻿/*
+ * Copyright (C) 2011 by Jason Poon
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+namespace WeightWatch.Classes
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
     using WeightWatch.Models;
-
 
     public class IsoStorage
     {
@@ -15,13 +34,13 @@
         public static List<WeightModel> LoadFile()
         {
             List<WeightModel> contents = null;
-            using (IsolatedStorageFile isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (IsolatedStorageFileStream stream = isoStorage.OpenFile(FILE_NAME, FileMode.OpenOrCreate))
+                using (var stream = isoStorage.OpenFile(FILE_NAME, FileMode.OpenOrCreate))
                 {
                     if (stream.Length > 0)
                     {
-                        DataContractSerializer dcs = new DataContractSerializer(typeof(List<WeightModel>));
+                        var dcs = new DataContractSerializer(typeof(List<WeightModel>));
                         contents = dcs.ReadObject(stream) as List<WeightModel>;
                     }
                 }
@@ -32,11 +51,11 @@
 
         public static void Save(List<WeightModel> weightList)
         {
-            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FILE_NAME, FileMode.Create, isf))
+                using (var stream = new IsolatedStorageFileStream(FILE_NAME, FileMode.Create, isf))
                 {
-                    DataContractSerializer dcs = new DataContractSerializer(typeof(List<WeightModel>));
+                    var dcs = new DataContractSerializer(typeof(List<WeightModel>));
                     dcs.WriteObject(stream, weightList);
                 }
             }

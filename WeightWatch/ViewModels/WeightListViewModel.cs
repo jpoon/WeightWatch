@@ -22,7 +22,6 @@
 namespace WeightWatch.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -88,7 +87,7 @@ namespace WeightWatch.ViewModels
 
             _dataList = new WeightListModel();
             _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
-            _dataList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(_dataList_CollectionChanged);
+            _dataList.CollectionChanged += _dataList_CollectionChanged;
         }
 
         #region Properties
@@ -107,7 +106,7 @@ namespace WeightWatch.ViewModels
                               group item by item.DateStr_MonthYear into g
                               select new WeightListGroup<WeightViewModel>(g.Key, g);
 
-                ObservableCollection<WeightListGroup<WeightViewModel>> weightListGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
+                var weightListGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
                 foreach (var result in results)
                 {
                     weightListGroup.Add(result);
@@ -120,14 +119,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                if (WeightHistoryList.Count > 0)
-                {
-                    return WeightHistoryList.LastOrDefault();
-                }
-                else
-                {
-                    return null;
-                }
+                return WeightHistoryList.Count > 0 ? WeightHistoryList.LastOrDefault() : null;
             }
         }
 
@@ -135,14 +127,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                if (WeightHistoryList.Count > 0)
-                {
-                    return WeightHistoryList.FirstOrDefault();
-                }
-                else
-                {
-                    return null;
-                }
+                return WeightHistoryList.Count > 0 ? WeightHistoryList.FirstOrDefault() : null;
             }
         }
 
@@ -154,10 +139,10 @@ namespace WeightWatch.ViewModels
         {
             if (data == null || data.weightModel == null)
             {
-                throw new ArgumentNullException("WeightViewModel");
+                throw new ArgumentNullException("data");
             }
 
-            (new WeightListModel()).Delete(data.weightModel);
+            _dataList.Delete(data.weightModel);
         }
 
         public static WeightViewModel Get(DateTime date)
@@ -167,7 +152,7 @@ namespace WeightWatch.ViewModels
 
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
-            WeightModel _model = new WeightModel(weight, date, unit);
+            var _model = new WeightModel(weight, date, unit);
             _dataList.Add(_model);
         }
 
@@ -200,7 +185,7 @@ namespace WeightWatch.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void _dataList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void _dataList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

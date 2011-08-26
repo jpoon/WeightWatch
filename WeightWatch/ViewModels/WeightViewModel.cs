@@ -64,7 +64,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                MeasurementSystem defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
+                var defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
                 return this.Weight.ToString("0.##", CultureInfo.InvariantCulture) + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
@@ -73,7 +73,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                MeasurementSystem defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
+                var defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
                 return MeasurementFactory.GetSystem(weightModel.MeasurementUnit).ConvertTo(defaultSystem, weightModel.Weight);
             }
         }

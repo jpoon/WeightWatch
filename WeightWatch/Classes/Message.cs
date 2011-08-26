@@ -40,7 +40,8 @@ namespace WeightWatch.Classes
         {
             {
                 MessageType.Negative,
-                new List<String>() {
+                new List<String>
+                {
                     "Hey Fatty!\r\nLay off the donuts! You've gained [DELTA_WEIGHT] since starting on [START_DATE].",
                     "[DELTA_WEIGHT]!?!?!\r\nYou're packing on the pounds there buddy.",
                     "Boom! Boom! Boom!\r\nHear that? That's the sound of [LAST_WEIGHT] walking into the room.",
@@ -56,7 +57,8 @@ namespace WeightWatch.Classes
             },
             {
                 MessageType.Positive,
-                new List<String>() { 
+                new List<String> 
+                { 
                     "Wow! [DELTA_WEIGHT]!\r\nI am impressed",
                     "What's your secret? You've lost [DELTA_WEIGHT]!",
                     "Since starting on [START_DATE] at [START_WEIGHT], you've lost an amazing [DELTA_WEIGHT]! Keep it up!",
@@ -66,7 +68,8 @@ namespace WeightWatch.Classes
             },
             {
                 MessageType.Neutral,
-                new List<String>() { 
+                new List<String>
+                { 
                     "You have made absolutely no progress. Between [START_DATE] and [END_DATE], you still weight [START_WEIGHT].",
                     "Fun Fact #1: The human body is 61.8% water by weight.",
                     "Fun Fact #1: The human body is 61.8% water by weight.",
@@ -89,10 +92,10 @@ namespace WeightWatch.Classes
                 throw new ArgumentException("GetMessage parameters are null");
             }
 
-            Double weightDelta = last.Weight - first.Weight;
-            Random randomNumber = new Random();
-            string measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
-            MessageType messageType = MessageType.Neutral;
+            var weightDelta = last.Weight - first.Weight;
+            var randomNumber = new Random();
+            var measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
+            var messageType = MessageType.Neutral;
 
             if (weightDelta > 0)
             {
@@ -103,8 +106,8 @@ namespace WeightWatch.Classes
                 messageType = MessageType.Positive;
             }
 
-            List<String> messageList = _messageDictionary[messageType];
-            String message = messageList[randomNumber.Next(messageList.Count)];
+            var messageList = _messageDictionary[messageType];
+            var message = messageList[randomNumber.Next(messageList.Count)];
             message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.##", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
             message = message.Replace("[START_DATE]", first.DateStr);
             message = message.Replace("[START_WEIGHT]", first.WeightStr);

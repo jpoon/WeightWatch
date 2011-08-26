@@ -27,8 +27,8 @@ namespace WeightWatch.Classes
     {
         public WeightListGroup(string date, IEnumerable<T> items)
         {
-            this.GroupHeader = date;
-            this.Items = new List<T>(items);
+            GroupHeader = date;
+            Items = new List<T>(items);
         }
 
         #region Properties
@@ -51,17 +51,17 @@ namespace WeightWatch.Classes
 
         public IEnumerator<T> GetEnumerator()
         {
-            return this.Items.GetEnumerator();
+            return Items.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.Items.GetEnumerator();
+            return Items.GetEnumerator();
         }
 
         public override bool Equals(object obj)
         {
-            WeightListGroup<T> that = obj as WeightListGroup<T>;
+            var that = obj as WeightListGroup<T>;
             return (that != null) && (this.GroupHeader.Equals(that.GroupHeader));
         }
 

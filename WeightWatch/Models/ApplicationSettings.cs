@@ -21,7 +21,6 @@
 
 namespace WeightWatch.Models
 {
-    using WeightWatch.Classes;
     using System.IO.IsolatedStorage;
 
     public static class ApplicationSettings

@@ -25,6 +25,7 @@ namespace WeightWatch.Classes
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reflection;
+    using System.Linq;
 
     public static class Helpers
     {
@@ -32,24 +33,20 @@ namespace WeightWatch.Classes
         {
             if (enumType == null)
             {
-                throw new ArgumentNullException("Enum Type");
+                throw new ArgumentNullException("enumType");
             }
 
-            List<String> list = new List<String>();
-            FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (FieldInfo item in enumDetail)
-            {
-                list.Add(item.Name);
-            }
+            var enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
+            var list = enumDetail.Select(item => item.Name).ToList();
             return new ReadOnlyCollection<string>(list);
         }
 
         public static ReadOnlyCollection<T> GetAllEnum<T>()
         {
-            List<T> list = new List<T>();
-            Type enumType = typeof(T);
-            FieldInfo[] enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (FieldInfo item in enumDetail)
+            var list = new List<T>();
+            var enumType = typeof(T);
+            var enumDetail = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach (var item in enumDetail)
             {
                 try
                 {

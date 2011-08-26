@@ -92,7 +92,7 @@ namespace WeightWatch.Models
     {
         public static IMeasurementSystem GetSystem(MeasurementSystem type)
         {
-            IMeasurementSystem measurementSystem = null;
+            IMeasurementSystem measurementSystem;
             switch (type)
             {
                 case MeasurementSystem.Imperial:

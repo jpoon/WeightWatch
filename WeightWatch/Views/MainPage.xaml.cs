@@ -29,7 +29,6 @@ namespace WeightWatch.Views
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
-    using System.Windows.Controls;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -39,9 +38,9 @@ namespace WeightWatch.Views
         const int GRAPH_DEFAULT_MIN = 0;
         const int GRAPH_DEFAULT_SPACING = 15;
 
-        Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
-        Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
-        Uri NO_CHANGE = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
+        readonly Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
+        readonly Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
+        readonly Uri NO_CHANGE = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
 
         public MainPage()
         {
@@ -97,10 +96,10 @@ namespace WeightWatch.Views
 
         private void SetupGraph()
         {
-            AreaSeries areaSeries = (AreaSeries)weightChart.Series[0];
+            var areaSeries = (AreaSeries)weightChart.Series[0];
             areaSeries.Refresh();
 
-            DateTime startDate = new DateTime();
+            var startDate = new DateTime();
             switch (ApplicationSettings.DefaultGraphMode)
             {
                 case ApplicationSettings.GraphMode.Week:
@@ -115,9 +114,9 @@ namespace WeightWatch.Views
                 default:
                     break;
             }
-            foreach (IAxis axis in weightChart.Axes)
+            foreach (var axis in weightChart.Axes)
             {
-                Type axisType = axis.GetType();
+                var axisType = axis.GetType();
                 if (axisType == typeof(DateTimeAxis))
                 {
                     SetupDateTimeAxis((DateTimeAxis)axis, startDate);
@@ -131,22 +130,15 @@ namespace WeightWatch.Views
 
         private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate)
         {
-            MeasurementSystem defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
+            var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
             string weightAbbrev = MeasurementFactory.GetSystem(defaultMeasurementSystem).Abbreviation;
 
-            WeightListViewModel.WeightMinMax weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
+            var weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
 
             linearAxis.Title = "Weight (" + weightAbbrev + ")";
 
-            if (weightMinMax.Min == null)
-            {
-                weightMinMax.Min = GRAPH_DEFAULT_MIN;
-            }
-
-            if (weightMinMax.Max == null)
-            {
-                weightMinMax.Max = GRAPH_DEFAULT_MAX;
-            }
+            weightMinMax.Min = weightMinMax.Min ?? GRAPH_DEFAULT_MIN;
+            weightMinMax.Max = weightMinMax.Max ?? GRAPH_DEFAULT_MAX;
 
             double graphMinimum;
             double graphMaximum;
@@ -157,7 +149,7 @@ namespace WeightWatch.Views
             }
             else
             {
-                double weightFloor = Math.Floor((float)weightMinMax.Max / 10) * 10;
+                var weightFloor = Math.Floor((float)weightMinMax.Max / 10) * 10;
                 graphMaximum = weightFloor + GRAPH_DEFAULT_SPACING;
                 graphMinimum = weightFloor - GRAPH_DEFAULT_SPACING;
             }

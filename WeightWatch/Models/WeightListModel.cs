@@ -61,26 +61,19 @@ namespace WeightWatch.Models
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
 
-            this.Save();
+            Save();
         }
 
         public WeightModel Get(DateTime date)
         {
-            WeightModel data = new WeightModel(0, date, MeasurementSystem.Imperial);
-            int index = WeightList.BinarySearch(data);
-            if (index >= 0)
-            {
-                return WeightList[index];
-            }
-            else
-            {
-                return null;
-            }
+            var data = new WeightModel(0, date, MeasurementSystem.Imperial);
+            var index = WeightList.BinarySearch(data);
+            return index >= 0 ? WeightList[index] : null;
         }
 
         public void Delete(WeightModel data)
         {
-            int index = WeightList.BinarySearch(data);
+            var index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
                 WeightList.RemoveAt(index);
@@ -88,12 +81,12 @@ namespace WeightWatch.Models
                 notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
 
-            this.Save();
+            Save();
         }
 
         private void Save()
         {
-            IsoStorage.Save(this.WeightList);
+            IsoStorage.Save(WeightList);
         }
 
         #endregion

@@ -27,54 +27,20 @@ namespace WeightWatch.Models
     [DataContract(Name = "WeightModel")]
     public class WeightModel : IComparable<WeightModel>
     {
-        private Double _weight;
-        private DateTime _date;
-        private MeasurementSystem _unit;
+        [DataMember]
+        public double Weight { get; set; }
 
         [DataMember]
-        public Double Weight
-        {
-            get
-            {
-                return _weight;
-            }
-            set
-            {
-                _weight = value;
-            }
-        }
+        public DateTime Date { get; set; }
 
         [DataMember]
-        public DateTime Date
-        {
-            get
-            {
-                return _date;
-            }
-            set
-            {
-                _date = value;
-            }
-        }
-
-        [DataMember]
-        public MeasurementSystem MeasurementUnit
-        {
-            get
-            {
-                return _unit;
-            }
-            set
-            {
-                _unit = value;
-            }
-        }
+        public MeasurementSystem MeasurementUnit { get; set; }
 
         public WeightModel(Double weight, DateTime date, MeasurementSystem unit)
         {
-            this._weight = weight;
-            this._date = date;
-            this._unit = unit;
+            this.Weight = weight;
+            this.Date = date;
+            this.MeasurementUnit = unit;
         }
 
         public int CompareTo(WeightModel other)

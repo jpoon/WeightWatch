@@ -162,7 +162,7 @@ namespace WeightWatch.Views
         {
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
-            NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.Relative));
         }
 
         private void radioButtonChecked(object sender, RoutedEventArgs e)
