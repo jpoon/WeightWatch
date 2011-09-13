@@ -27,11 +27,11 @@ namespace WeightWatch.ViewModels
 
     public class WeightViewModel
     {
-        public readonly WeightModel weightModel;
+        public readonly WeightModel WeightModel;
 
         public WeightViewModel(WeightModel data)
         {
-            weightModel = data;
+            WeightModel = data;
         }
 
         #region Properties
@@ -40,7 +40,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return weightModel.Date;
+                return WeightModel.Date;
             }
         }
 
@@ -48,15 +48,15 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return weightModel.Date.ToString("MMM. d, yyyy", CultureInfo.InvariantCulture);
+                return WeightModel.Date.ToString("MMM. d, yyyy", CultureInfo.InvariantCulture);
             }
         }
 
-        public string DateStr_MonthYear
+        public string DateStrMonthYear
         {
             get
             {
-                return weightModel.Date.ToString("MMM yyyy", CultureInfo.InvariantCulture);
+                return WeightModel.Date.ToString("MMM yyyy", CultureInfo.InvariantCulture);
             }
         }
 
@@ -65,7 +65,7 @@ namespace WeightWatch.ViewModels
             get
             {
                 var defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return this.Weight.ToString("0.##", CultureInfo.InvariantCulture) + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
+                return Weight.ToString("0.##", CultureInfo.InvariantCulture) + " " + MeasurementFactory.GetSystem(defaultSystem).Abbreviation;
             }
         }
 
@@ -74,7 +74,7 @@ namespace WeightWatch.ViewModels
             get
             {
                 var defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return MeasurementFactory.GetSystem(weightModel.MeasurementUnit).ConvertTo(defaultSystem, weightModel.Weight);
+                return MeasurementFactory.GetSystem(WeightModel.MeasurementUnit).ConvertTo(defaultSystem, WeightModel.Weight);
             }
         }
 

@@ -49,16 +49,16 @@ namespace WeightWatch.Models
             int index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
-                WeightModel oldItem = WeightList[index];
+                var oldItem = WeightList[index];
                 WeightList[index] = data;
-                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, data, oldItem, index));
+                NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, data, oldItem, index));
             }
             else
             {
                 WeightList.Add(data);
                 WeightList.Sort();
                 index = WeightList.BinarySearch(data);
-                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
+                NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
 
             Save();
@@ -78,7 +78,7 @@ namespace WeightWatch.Models
             {
                 WeightList.RemoveAt(index);
                 WeightList.Sort();
-                notifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
+                NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
 
             Save();
@@ -93,7 +93,7 @@ namespace WeightWatch.Models
 
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-        private void notifyCollectionChanged(NotifyCollectionChangedEventArgs args)
+        private void NotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             if (CollectionChanged != null)
             {

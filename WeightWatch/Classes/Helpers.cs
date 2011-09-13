@@ -52,7 +52,8 @@ namespace WeightWatch.Classes
                 {
                     list.Add((T)Enum.Parse(enumType, item.Name, true));
                 }
-                catch (Exception) { }
+                catch
+                { }
             }
             return new ReadOnlyCollection<T>(list);
         }

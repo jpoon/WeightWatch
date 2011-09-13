@@ -76,7 +76,7 @@ namespace WeightWatch.Views
             }
         }
 
-        WeightEntry _newEntry;
+        readonly WeightEntry _newEntry;
 
         public AddWeightPage()
         {
@@ -91,7 +91,7 @@ namespace WeightWatch.Views
         {
             base.OnNavigatedTo(e);
 
-            string dateString = string.Empty;
+            string dateString;
             if (NavigationContext.QueryString.TryGetValue("Date", out dateString))
             {
                 DateTime datetime;
@@ -102,7 +102,7 @@ namespace WeightWatch.Views
                 WeightViewModel viewModel = WeightListViewModel.Get(datetime);
                 weightTextBox.Text = viewModel.Weight.ToString();
 
-                if (viewModel.weightModel.MeasurementUnit == MeasurementSystem.Imperial)
+                if (viewModel.WeightModel.MeasurementUnit == MeasurementSystem.Imperial)
                 {
                     radioButton_lbs.IsChecked = true;
                 }
@@ -167,9 +167,9 @@ namespace WeightWatch.Views
 
         private void radioButtonChecked(object sender, RoutedEventArgs e)
         {
-            RadioButton rb = sender as RadioButton;
-            string rbContent = (string)rb.Content;
-            foreach (MeasurementSystem system in Helpers.GetAllEnum<MeasurementSystem>())
+            var rb = sender as RadioButton;
+            var rbContent = (string)rb.Content;
+            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>())
             {
                 if (MeasurementFactory.GetSystem(system).Abbreviation.Equals(rbContent))
                 {

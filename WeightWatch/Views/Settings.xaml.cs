@@ -34,32 +34,29 @@ namespace WeightWatch.Views
         public Settings()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(Settings_Loaded);
+            this.Loaded += Settings_Loaded;
         }
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
-            Measurement_ListPicker.SelectionChanged += new SelectionChangedEventHandler(Measurement_ListPicker_SelectionChanged);
+            Measurement_ListPicker.SelectionChanged += Measurement_ListPicker_SelectionChanged;
 
-            int index = 0;
-            foreach (string system in Helpers.EnumToStringList(typeof(MeasurementSystem)))
+            var index = 0;
+            foreach (var system in Helpers.EnumToStringList(typeof(MeasurementSystem)))
             {
                 if (system == ApplicationSettings.DefaultMeasurementSystem.ToString())
                 {
                     Measurement_ListPicker.SelectedIndex = index;
                     break;
                 }
-                else
-                {
-                    index++;
-                }
+                index++;
             }
 
             // Default Graph
             Graph_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(GraphMode));
-            Graph_ListPicker.SelectionChanged += new SelectionChangedEventHandler(Graph_ListPicker_SelectionChanged);
+            Graph_ListPicker.SelectionChanged += Graph_ListPicker_SelectionChanged;
 
             index = 0;
             foreach (string system in Helpers.EnumToStringList(typeof(GraphMode)))
@@ -69,10 +66,7 @@ namespace WeightWatch.Views
                     Graph_ListPicker.SelectedIndex = index;
                     break;
                 }
-                else
-                {
-                    index++;
-                }
+                index++;
             }
         }
 

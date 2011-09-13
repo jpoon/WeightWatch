@@ -54,7 +54,7 @@
                             Margin="0,50,0,10"
                             HorizontalAlignment="Left"
                             Tag="Review"
-                            Click="HyperlinkButton_Click)"
+                            Click="HyperlinkButton_Click"
                             Content="Review this app" 
                             Foreground="{StaticResource PhoneAccentBrush}" />
 

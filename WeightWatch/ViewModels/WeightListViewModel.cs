@@ -103,7 +103,7 @@ namespace WeightWatch.ViewModels
             get
             {
                 var results = from item in WeightHistoryList
-                              group item by item.DateStr_MonthYear into g
+                              group item by item.DateStrMonthYear into g
                               select new WeightListGroup<WeightViewModel>(g.Key, g);
 
                 var weightListGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
@@ -137,12 +137,12 @@ namespace WeightWatch.ViewModels
 
         public static void Delete(WeightViewModel data)
         {
-            if (data == null || data.weightModel == null)
+            if (data == null || data.WeightModel == null)
             {
                 throw new ArgumentNullException("data");
             }
 
-            _dataList.Delete(data.weightModel);
+            _dataList.Delete(data.WeightModel);
         }
 
         public static WeightViewModel Get(DateTime date)
@@ -152,8 +152,8 @@ namespace WeightWatch.ViewModels
 
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
-            var _model = new WeightModel(weight, date, unit);
-            _dataList.Add(_model);
+            var model = new WeightModel(weight, date, unit);
+            _dataList.Add(model);
         }
 
         public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)

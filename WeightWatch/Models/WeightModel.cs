@@ -38,9 +38,9 @@ namespace WeightWatch.Models
 
         public WeightModel(Double weight, DateTime date, MeasurementSystem unit)
         {
-            this.Weight = weight;
-            this.Date = date;
-            this.MeasurementUnit = unit;
+            Weight = weight;
+            Date = date;
+            MeasurementUnit = unit;
         }
 
         public int CompareTo(WeightModel other)
@@ -48,13 +48,9 @@ namespace WeightWatch.Models
             if (other != null)
             {
                 // reverse chronological order
-                return -(this.Date.CompareTo(other.Date));
+                return -(Date.CompareTo(other.Date));
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
-
     }
 }

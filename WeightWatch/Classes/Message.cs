@@ -36,7 +36,7 @@ namespace WeightWatch.Classes
             Positive
         }
 
-        private static Dictionary<MessageType, List<String>> _messageDictionary = new Dictionary<MessageType, List<String>>()
+        private static readonly Dictionary<MessageType, List<String>> MessageDictionary = new Dictionary<MessageType, List<String>>
         {
             {
                 MessageType.Negative,
@@ -106,7 +106,7 @@ namespace WeightWatch.Classes
                 messageType = MessageType.Positive;
             }
 
-            var messageList = _messageDictionary[messageType];
+            var messageList = MessageDictionary[messageType];
             var message = messageList[randomNumber.Next(messageList.Count)];
             message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.##", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
             message = message.Replace("[START_DATE]", first.DateStr);

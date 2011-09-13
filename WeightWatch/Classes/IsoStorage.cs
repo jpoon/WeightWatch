@@ -29,14 +29,14 @@ namespace WeightWatch.Classes
 
     public class IsoStorage
     {
-        private const string FILE_NAME = "weight.xml";
+        private const string WeightFile = "weight.xml";
 
         public static List<WeightModel> LoadFile()
         {
             List<WeightModel> contents = null;
             using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (var stream = isoStorage.OpenFile(FILE_NAME, FileMode.OpenOrCreate))
+                using (var stream = isoStorage.OpenFile(WeightFile, FileMode.OpenOrCreate))
                 {
                     if (stream.Length > 0)
                     {
@@ -53,7 +53,7 @@ namespace WeightWatch.Classes
         {
             using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                using (var stream = new IsolatedStorageFileStream(FILE_NAME, FileMode.Create, isf))
+                using (var stream = new IsolatedStorageFileStream(WeightFile, FileMode.Create, isf))
                 {
                     var dcs = new DataContractSerializer(typeof(List<WeightModel>));
                     dcs.WriteObject(stream, weightList);

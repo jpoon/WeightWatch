@@ -62,7 +62,7 @@ namespace WeightWatch.Classes
         public override bool Equals(object obj)
         {
             var that = obj as WeightListGroup<T>;
-            return (that != null) && (this.GroupHeader.Equals(that.GroupHeader));
+            return (that != null) && (GroupHeader.Equals(that.GroupHeader));
         }
 
         public override int GetHashCode()

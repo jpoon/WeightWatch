@@ -70,12 +70,12 @@ namespace WeightWatch.Views
                 "(1) Add your daily weight\n" +
                 "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to delete\n";
 
-            WeightViewModel first = _viewModel.FirstWeightEntry;
-            WeightViewModel last = _viewModel.LastWeightEntry;
+            var first = _viewModel.FirstWeightEntry;
+            var last = _viewModel.LastWeightEntry;
 
             if (first != null && last != null)
             {
-                Double weightDelta = last.Weight - first.Weight;
+                var weightDelta = last.Weight - first.Weight;
                 if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
@@ -110,8 +110,6 @@ namespace WeightWatch.Views
                     break;
                 case ApplicationSettings.GraphMode.Year:
                     startDate = DateTime.Today.AddMonths(-12);
-                    break;
-                default:
                     break;
             }
             foreach (var axis in weightChart.Axes)
@@ -185,8 +183,6 @@ namespace WeightWatch.Views
                     dateTimeAxis.IntervalType = DateTimeIntervalType.Months;
                     dateTimeAxis.Interval = 2;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -211,13 +207,13 @@ namespace WeightWatch.Views
 
         private void EditMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
+            var item = (sender as MenuItem).DataContext as WeightViewModel;
             NavigationService.Navigate(new Uri("/Views/AddWeightPage.xaml?Date=" + item.DateStr, UriKind.Relative));
         }
 
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            WeightViewModel item = (sender as MenuItem).DataContext as WeightViewModel;
+            var item = (sender as MenuItem).DataContext as WeightViewModel;
             WeightListViewModel.Delete(item);
         }
 
