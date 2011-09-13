@@ -46,16 +46,25 @@ namespace WeightWatch.Views
         {
             InitializeComponent();
 
-            Loaded += new System.Windows.RoutedEventHandler(MainPage_Loaded);
+            Loaded += MainPage_Loaded;
         }
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            _viewModel = new WeightListViewModel();
-            this.DataContext = _viewModel;
-
             SetupGraph();
             SetupSummary();
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var c = weightLongListSelector.SelectedItem;
+            if (c == null)
+            {
+                _viewModel = new WeightListViewModel();
+                DataContext = _viewModel;
+            }
         }
 
         #region Summary

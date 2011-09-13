@@ -46,7 +46,7 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
-            int index = WeightList.BinarySearch(data);
+            var index = WeightList.BinarySearch(data);
             if (index >= 0)
             {
                 var oldItem = WeightList[index];
