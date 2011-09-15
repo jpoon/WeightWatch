@@ -1,0 +1,12 @@
+﻿Version 2.0
+* Added ability to edit and delete weight entry
+* Separated 'about' information into its own page
+* Fixed several stability issues
+* Improved page navigation performance
+* Overhaul of the application's imagery
+
+Version 1.1
+* Fixed several stability issues
+
+Version 1.0
+* First Version!

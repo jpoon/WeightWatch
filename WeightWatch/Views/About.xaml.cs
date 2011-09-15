@@ -27,10 +27,16 @@ namespace WeightWatch.Views
     using System.Windows.Controls.Primitives;
     using Microsoft.Phone.Controls;
     using Microsoft.Phone.Tasks;
+    using System.Windows.Resources;
+    using System.IO;
+    using System.Windows.Shapes;
+    using System.Windows.Controls;
 
     public partial class About : PhoneApplicationPage
     {
         private readonly AssemblyName _asmName;
+        private StackPanel _changelog;
+        private const string ChangelogFile = "changelog.txt";
 
         public About()
         {
@@ -64,6 +70,63 @@ namespace WeightWatch.Views
                     var email = new EmailComposeTask { To = App.FeedbackEmail, Body = "Version: " + _asmName.Version.ToString() };
                     email.Show();
                     break;
+            }
+        }
+
+        private void Pivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var aboutPivot = (Pivot)sender;
+            if (aboutPivot.SelectedIndex > 0 && _changelog == null)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    _changelog = new StackPanel();
+
+                    StreamResourceInfo sri = Application.GetResourceStream(new Uri(ChangelogFile, UriKind.Relative));
+                    if (sri != null)
+                    {
+                        using (var sr = new StreamReader(sri.Stream))
+                        {
+                            string line;
+                            var isHeader = true;
+                            
+                            while ( (line = sr.ReadLine()) != null )
+                            {
+                                if (line != String.Empty)
+                                {
+                                    var tb = new TextBlock
+                                    {
+                                        TextWrapping = TextWrapping.Wrap,
+                                        Text = line,
+                                        Style = (Style)Application.Current.Resources["PhoneTextNormalStyle"],
+                                    };
+
+                                    if (!isHeader)
+                                    {
+                                        tb.Opacity = 0.6;
+                                    }
+                                    
+                                    isHeader = false;
+                                    _changelog.Children.Add(tb);
+                                }
+                                else 
+                                { 
+                                    // replace empty lines with a rectangle
+                                    // mark the following line as a 'header'
+                                    var r = new Rectangle
+                                    {
+                                        Height = 20,
+                                    };
+
+                                    isHeader = true;
+                                    _changelog.Children.Add(r);
+                                }
+                            }
+                        }
+                    }
+
+                    changelogScrollViewer.Content = _changelog;
+                });
             }
         }
 
