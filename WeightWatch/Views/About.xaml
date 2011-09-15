@@ -6,18 +6,18 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
+    Style="{StaticResource TurnstilePage}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
-        <controls:Pivot Title="WEIGHT WATCH">
+        <controls:Pivot Title="WEIGHT WATCH" SelectionChanged="Pivot_SelectionChanged">
             <!-- About Pivot-->
             <controls:PivotItem Header="about">
                 <ScrollViewer>
@@ -53,6 +53,12 @@
                             Content="Contribute to the project" 
                             Foreground="{StaticResource PhoneAccentBrush}" />
                     </StackPanel>
+                </ScrollViewer>
+            </controls:PivotItem>
+
+            <!-- what's new Pivot-->
+            <controls:PivotItem Header="what's new">
+                <ScrollViewer x:Name="changelogScrollViewer" Margin="0,-12,0,24">
                 </ScrollViewer>
             </controls:PivotItem>
         </controls:Pivot>
