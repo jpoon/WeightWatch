@@ -110,6 +110,8 @@ namespace WeightWatch.Views
                 {
                     radioButton_kgs.IsChecked = true;
                 }
+
+                PageTitle.Text = "edit weight";
             }
         }
 
