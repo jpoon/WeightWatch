@@ -45,14 +45,14 @@ namespace WeightWatch.Classes
                     "Hey Fatty!\r\nLay off the donuts! You've gained [DELTA_WEIGHT] since starting on [START_DATE].",
                     "[DELTA_WEIGHT]!?!?!\r\nYou're packing on the pounds there buddy.",
                     "Boom! Boom! Boom!\r\nHear that? That's the sound of [LAST_WEIGHT] walking into the room.",
-                    "You're so fat, that you make free willy look like a goldfish.",
+                    "You're so fat, that you make Free Willy look like a goldfish.",
                     "[DELTA_WEIGHT]?! You're getting so fat that if I take a picture of you, it'll still be printing until next year.",
                     "On [START_DATE] you were [START_WEIGHT], on [LAST_DATE] you were [LAST_WEIGHT].\r\nWhat the heck happened?",
                     "How on earth did you manage to gain [DELTA_WEIGHT] between [START_DATE] and [LAST_DATE]?!",
                     "At [LAST_WEIGHT], you're getting so fat to the point where if your beeper goes off, people will think you are backing up.",
                     "You've gained [DELTA_WEIGHT]. Go hit the gym!",
                     "If you wish to grow thinner, diminish your dinner.",
-                    "It's not the pants that you are wearing that make you look fat... Since [START_DATE] you've gained [DELTA_WEIGHT].",
+                    "It's not the pants that you are wearing that make you look fat... since [START_DATE] you've gained [DELTA_WEIGHT].",
                 }
             },
             {
@@ -70,8 +70,7 @@ namespace WeightWatch.Classes
                 MessageType.Neutral,
                 new List<String>
                 { 
-                    "You have made absolutely no progress. Between [START_DATE] and [END_DATE], you still weight [START_WEIGHT].",
-                    "Fun Fact #1: The human body is 61.8% water by weight.",
+                    "You have made absolutely no progress. Between [START_DATE] and [END_DATE], you still weigh [START_WEIGHT].",
                     "Fun Fact #1: The human body is 61.8% water by weight.",
                     "Fun Fact #2: In the average adult, the skin covers 12-20 square feet and accounts for 12% of body weight.",
                     "Fun Fact #3: At a weight of roughly 420 000 lbs, the Blue Whale is the world's heaviest animal.",
@@ -89,14 +88,14 @@ namespace WeightWatch.Classes
         {
             if (first == null || last == null)
             {
-                throw new ArgumentException("GetMessage parameters are null");
+                return String.Empty;
             }
 
             var weightDelta = last.Weight - first.Weight;
             var randomNumber = new Random();
             var measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
-            var messageType = MessageType.Neutral;
 
+            var messageType = MessageType.Neutral;
             if (weightDelta > 0)
             {
                 messageType = MessageType.Negative;
@@ -108,7 +107,7 @@ namespace WeightWatch.Classes
 
             var messageList = MessageDictionary[messageType];
             var message = messageList[randomNumber.Next(messageList.Count)];
-            message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.##", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
+            message = message.Replace("[DELTA_WEIGHT]", Math.Round(weightDelta).ToString("0.#", CultureInfo.InvariantCulture) + " " + measurementSystemAbbr);
             message = message.Replace("[START_DATE]", first.DateStr);
             message = message.Replace("[START_WEIGHT]", first.WeightStr);
             message = message.Replace("[LAST_DATE]", last.DateStr);
