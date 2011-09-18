@@ -19,6 +19,8 @@
  * THE SOFTWARE.
  */
 
+using System.Text;
+
 namespace WeightWatch.Models
 {
     using System;
@@ -41,6 +43,8 @@ namespace WeightWatch.Models
                 _weightList = IsoStorage.LoadFile();
             }
         }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         #region Public Methods
 
@@ -84,21 +88,41 @@ namespace WeightWatch.Models
             Save();
         }
 
-        private void Save()
+        public String Export()
         {
-            IsoStorage.Save(WeightList);
+            const string delimiter = ",";
+            var csv = new StringBuilder();
+
+            csv.AppendFormat("Date{0}Weight{0}Unit{0}",
+                delimiter);
+            csv.AppendLine();
+
+            foreach (var model in WeightList)
+            {
+                csv.AppendFormat("{1}{0}{2}{0}{3}",
+                    delimiter,
+                    model.Date.ToShortDateString(),
+                    model.Weight,
+                    MeasurementFactory.GetSystem(model.MeasurementUnit).Abbreviation);
+                csv.AppendLine();
+            }
+            return csv.ToString();
         }
+
 
         #endregion
 
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
         private void NotifyCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             if (CollectionChanged != null)
             {
                 CollectionChanged(this, args);
             }
+        }
+
+        private void Save()
+        {
+            IsoStorage.Save(WeightList);
         }
     }
 }

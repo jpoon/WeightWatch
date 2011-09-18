@@ -1,11 +1,13 @@
 ﻿Version 2.0
-* Added ability to edit and delete weight entry
+* Added ability to edit weight entry
+* Email CSV of weight history
 * Separated settings/about information
 * Improved page navigation performance
 * Overhaul of application's imagery
 * Fixed several stability issues
 
 Version 1.1
+* Added ability to delete weight entry
 * Fixed several stability issues
 
 Version 1.0
