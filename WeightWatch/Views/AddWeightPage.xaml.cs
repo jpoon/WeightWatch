@@ -80,10 +80,10 @@ namespace WeightWatch.Views
         public AddWeightPage()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(AddWeightPage_Loaded);
+            Loaded += AddWeightPage_Loaded;
 
             _newEntry = new WeightEntry();
-            this.DataContext = _newEntry;
+            DataContext = _newEntry;
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -134,6 +134,7 @@ namespace WeightWatch.Views
             }
 
             weightTextBox.Focus();
+            weightTextBox.Select(weightTextBox.Text.Length, 0);
         }
 
         private void AppBarIconButton_SaveClick(object sender, EventArgs e)
