@@ -34,7 +34,7 @@ namespace WeightWatch.Views
         public Settings()
         {
             InitializeComponent();
-            this.Loaded += Settings_Loaded;
+            Loaded += Settings_Loaded;
         }
 
         void Settings_Loaded(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace WeightWatch.Views
             Graph_ListPicker.SelectionChanged += Graph_ListPicker_SelectionChanged;
 
             index = 0;
-            foreach (string system in Helpers.EnumToStringList(typeof(GraphMode)))
+            foreach (var system in Helpers.EnumToStringList(typeof(GraphMode)))
             {
                 if (system == ApplicationSettings.DefaultGraphMode.ToString())
                 {

@@ -41,7 +41,7 @@ namespace WeightWatch.Views
         public About()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(Settings_Loaded);
+            Loaded += Settings_Loaded;
 
             _asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
         }
@@ -82,7 +82,7 @@ namespace WeightWatch.Views
                 {
                     _changelog = new StackPanel();
 
-                    StreamResourceInfo sri = Application.GetResourceStream(new Uri(ChangelogFile, UriKind.Relative));
+                    var sri = Application.GetResourceStream(new Uri(ChangelogFile, UriKind.Relative));
                     if (sri != null)
                     {
                         using (var sr = new StreamReader(sri.Stream))

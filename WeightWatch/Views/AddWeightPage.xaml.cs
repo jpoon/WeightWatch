@@ -57,8 +57,7 @@ namespace WeightWatch.Views
 
             public string Validate()
             {
-                String errorStr = String.Empty;
-
+                var errorStr = String.Empty;
                 if (_weight == null || _weight < 0)
                 {
                     errorStr = "Please enter a valid weight";
@@ -111,7 +110,7 @@ namespace WeightWatch.Views
                     radioButton_kgs.IsChecked = true;
                 }
 
-                PageTitle.Text = "edit weight";
+                PageTitle.Text = "edit";
             }
         }
 
@@ -141,7 +140,7 @@ namespace WeightWatch.Views
         {
             // Force update binding first
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
-            binding.UpdateSource();
+            if (binding != null) binding.UpdateSource();
 
             String errorMessage = _newEntry.Validate();
             if (String.IsNullOrEmpty(errorMessage))

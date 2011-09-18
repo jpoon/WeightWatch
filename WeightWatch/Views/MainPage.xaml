@@ -34,9 +34,9 @@
         <controls:Pivot Title="WEIGHT WATCH">
             <controls:PivotItem Header="progress">
                 <Grid>
-                    <Image Name="summary_arrowImage" Width="180" Height="260" Margin="32,34,244,0" VerticalAlignment="Top" />
-                    <TextBlock Height="90" HorizontalAlignment="Left" Margin="228,92,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="204" FontSize="80" TextAlignment="Center" />
-                    <TextBlock Height="30" Margin="228,190,25,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" TextAlignment="Center" FontSize="22" Width="203" />
+                    <Image Name="summary_arrowImage" Width="180" Height="260" Margin="54,34,222,0" VerticalAlignment="Top" />
+                    <TextBlock Height="90" HorizontalAlignment="Left" Margin="252,92,0,0" Name="summary_weightTextBlock" Text="" VerticalAlignment="Top" Width="180" FontSize="80" TextAlignment="Center" />
+                    <TextBlock Height="30" Margin="251,190,25,0" Name="summary_systemTextBlock" Text="" VerticalAlignment="Top" TextAlignment="Center" FontSize="22" Width="180" />
                     <TextBlock Height="170" HorizontalAlignment="Center" Margin="31,329,26,0" Name="summary_messageTextBlock" Text="" VerticalAlignment="Top" Width="399" TextWrapping="Wrap" />
                 </Grid>
             </controls:PivotItem>

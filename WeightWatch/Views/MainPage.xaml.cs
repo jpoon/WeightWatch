@@ -24,7 +24,6 @@ namespace WeightWatch.Views
     using System;
     using System.Globalization;
     using System.Windows.Controls.DataVisualization.Charting;
-    using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
     using WeightWatch.Classes;
     using WeightWatch.Models;
