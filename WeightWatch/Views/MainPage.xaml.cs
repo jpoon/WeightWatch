@@ -240,11 +240,5 @@ namespace WeightWatch.Views
         }
 
         #endregion Event Handlers
-
-        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }
