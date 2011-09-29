@@ -76,9 +76,9 @@ namespace WeightWatch.Views
             summary_weightTextBlock.Text = "0";
             summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
             summary_messageTextBlock.Text =
-                "Instructions:\n" +
+                "How to use:\n" +
                 "(1) Add your daily weight\n" +
-                "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to delete\n";
+                "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
 
             var first = _viewModel.FirstWeightEntry;
             var last = _viewModel.LastWeightEntry;

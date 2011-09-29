@@ -42,14 +42,11 @@ namespace WeightWatch.Classes
                 MessageType.Negative,
                 new List<String>
                 {
-                    "Lay off the donuts. You've gained [DELTA_WEIGHT] since starting on [START_DATE].",
+                    "Lay off the donuts. You've gained [DELTA_WEIGHT] since [START_DATE].",
                     "[DELTA_WEIGHT]! You're packing on the pounds.",
                     "Boom! Boom! Boom!\r\nHear that? That's the sound of [LAST_WEIGHT] walking into the room.",
-                    "You're so fat, that you make Free Willy look like a goldfish.",
-                    "[DELTA_WEIGHT]?! You're getting so fat that if I take a picture of you, it'll still be printing until next year.",
-                    "On [START_DATE] you were [START_WEIGHT], on [LAST_DATE] you were [LAST_WEIGHT].\r\nWhat the heck happened?",
-                    "You've manage to gain [DELTA_WEIGHT] between [START_DATE] and [LAST_DATE]?!",
-                    "At [LAST_WEIGHT], you're getting so fat to the point where if your beeper goes off, people will think you are backing up.",
+                    "On [START_DATE] you were [START_WEIGHT], on [LAST_DATE] you were [LAST_WEIGHT].\r\nWhat happened?!",
+                    "You've gained [DELTA_WEIGHT] between [START_DATE] and [LAST_DATE]?!",
                     "You've gained [DELTA_WEIGHT]. Go hit the gym!",
                     "If you wish to grow thinner, diminish your dinner.",
                     "It's not the pants that you are wearing that make you look fat. Since [START_DATE] you've gained [DELTA_WEIGHT].",
