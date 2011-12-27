@@ -43,63 +43,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <!-- Chart -->
-        <Style x:Key="WeightChart_DateTimeAxisStyle" TargetType="chartingToolkit:DateTimeAxisLabel">
-            <Setter Property="DaysIntervalStringFormat" Value="{}{0:M/d}"/>
-            <Setter Property="MonthsIntervalStringFormat" Value="{}{0:MMM}"/>
-            <Setter Property="YearsIntervalStringFormat" Value="{}{0:yy}"/>
-        </Style>
-        <Style x:Key="WeightChart_Style" TargetType="chartingToolkit:Chart">
-            <!-- Make plot area background transparent -->
-            <Setter Property="PlotAreaStyle">
-                <Setter.Value>
-                    <Style TargetType="Grid">
-                        <Setter Property="Background" Value="Transparent" />
-                    </Style>
-                </Setter.Value>
-            </Setter>
-            <!-- hide title-->
-            <Setter Property="TitleStyle">
-                <Setter.Value>
-                    <Style TargetType="datavis:Title">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Setter Property="Margin" Value="0,0,0,0"/>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-            <!-- hide legend-->
-            <Setter Property="LegendStyle">
-                <Setter.Value>
-                    <Style TargetType="datavis:Legend">
-                        <Setter Property="Width" Value="0"/>
-                        <Setter Property="Height" Value="0"/>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="WeightChart_AreaDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
-            <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
-            <Setter Property="Height" Value="10" />
-            <Setter Property="Width"  Value="10" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="chartingToolkit:AreaDataPoint">
-                        <Grid x:Name="Root" Opacity="1">
-                            <Ellipse Width="10" Height="10" 
-                                 StrokeThickness="{StaticResource PhoneBorderThickness}" 
-                                 Stroke="White" 
-                                 Fill="White"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="WeightChart_AreaSeriesPathStyle" TargetType="Path">
-            <Setter Property="Stroke" Value="{StaticResource PhoneBorderBrush}" />
-            <Setter Property="StrokeThickness" Value="2" />
-            <Setter Property="Opacity" Value="0.7" />
-        </Style>
     </Application.Resources>
    
     <Application.ApplicationLifetimeObjects>

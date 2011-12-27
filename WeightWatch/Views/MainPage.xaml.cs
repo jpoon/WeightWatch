@@ -19,12 +19,11 @@
  * THE SOFTWARE.
  */
 
-using Microsoft.Phone.Tasks;
-
 namespace WeightWatch.Views
 {
     using System;
     using System.Globalization;
+    using Microsoft.Phone.Tasks;
     using System.Windows.Controls.DataVisualization.Charting;
     using Microsoft.Phone.Controls;
     using WeightWatch.Classes;
