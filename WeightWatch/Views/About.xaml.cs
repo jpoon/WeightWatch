@@ -62,11 +62,11 @@ namespace WeightWatch.Views
                     task.Show();
                     break;
                 case "Contribute":
-                    var browser = new WebBrowserTask { URL = Uri.EscapeDataString(App.ContributeUrl) };
+                    var browser = new WebBrowserTask { Uri = App.ContributeUri };
                     browser.Show();
                     break;
                 case "Feedback":
-                    var email = new EmailComposeTask { To = App.FeedbackEmail, Body = "Version: " + _asmName.Version.ToString() };
+                    var email = new EmailComposeTask { To = App.FeedbackEmail, Body = "Version: " + _asmName.Version };
                     email.Show();
                     break;
             }

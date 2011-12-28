@@ -21,6 +21,7 @@
 
 namespace WeightWatch
 {
+    using System;
     using System.Windows;
     using System.Windows.Navigation;
     using Microsoft.Phone.Controls;
@@ -34,9 +35,9 @@ namespace WeightWatch
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
 
-        public static string ContributeUrl
+        public static Uri ContributeUri
         {
-            get { return "https://www.github.com/jpoon/WeightWatch"; }
+            get { return new Uri("https://www.github.com/jpoon/WeightWatch"); }
         }
 
         public static string FeedbackEmail

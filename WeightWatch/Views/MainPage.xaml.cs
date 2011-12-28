@@ -22,11 +22,8 @@
 namespace WeightWatch.Views
 {
     using System;
-    using System.Globalization;
-    using Microsoft.Phone.Tasks;
-    using System.Windows.Controls.DataVisualization.Charting;
     using Microsoft.Phone.Controls;
-    using WeightWatch.Classes;
+    using Microsoft.Phone.Tasks;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
 
@@ -34,25 +31,16 @@ namespace WeightWatch.Views
     {
         WeightListViewModel _viewModel;
 
-        const int GRAPH_DEFAULT_MAX = 100;
-        const int GRAPH_DEFAULT_MIN = 0;
-        const int GRAPH_DEFAULT_SPACING = 15;
-
-        readonly Uri DOWN_ARROW = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
-        readonly Uri UP_ARROW = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
-        readonly Uri NO_CHANGE = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
-
         public MainPage()
         {
             InitializeComponent();
-
             Loaded += MainPage_Loaded;
         }
 
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            SetupGraph();
-            SetupSummary();
+            SetupSummaryPivot();
+            SetupGraphPivot();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -66,136 +54,6 @@ namespace WeightWatch.Views
                 DataContext = _viewModel;
             }
         }
-
-        #region Summary
-
-        private void SetupSummary()
-        {
-            summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(NO_CHANGE);
-            summary_weightTextBlock.Text = "0";
-            summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
-            summary_messageTextBlock.Text =
-                "How to use:\n" +
-                "(1) Add your daily weight\n" +
-                "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
-
-            var first = _viewModel.FirstWeightEntry;
-            var last = _viewModel.LastWeightEntry;
-
-            if (first != null && last != null)
-            {
-                var weightDelta = last.Weight - first.Weight;
-                if (weightDelta > 0)
-                {
-                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(UP_ARROW);
-                }
-                else if (weightDelta < 0)
-                {
-                    summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(DOWN_ARROW);
-                }
-
-                summary_weightTextBlock.Text = weightDelta.ToString("+#.#;-#.#;0", CultureInfo.InvariantCulture);
-                summary_messageTextBlock.Text = Message.GetMessage(first, last);
-            }
-        }
-
-        #endregion
-
-        #region Graph
-
-        private void SetupGraph()
-        {
-            var areaSeries = (AreaSeries)weightChart.Series[0];
-            areaSeries.Refresh();
-
-            var startDate = new DateTime();
-            switch (ApplicationSettings.DefaultGraphMode)
-            {
-                case ApplicationSettings.GraphMode.Week:
-                    startDate = DateTime.Today.AddDays(-6);
-                    break;
-                case ApplicationSettings.GraphMode.Month:
-                    startDate = DateTime.Today.AddDays(-35);
-                    break;
-                case ApplicationSettings.GraphMode.Year:
-                    startDate = DateTime.Today.AddMonths(-12);
-                    break;
-            }
-            foreach (var axis in weightChart.Axes)
-            {
-                var axisType = axis.GetType();
-                if (axisType == typeof(DateTimeAxis))
-                {
-                    SetupDateTimeAxis((DateTimeAxis)axis, startDate);
-                }
-                else if (axisType == typeof(LinearAxis))
-                {
-                    SetupLinearAxis((LinearAxis)axis, startDate);
-                }
-            }
-        }
-
-        private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate)
-        {
-            var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
-            string weightAbbrev = MeasurementFactory.GetSystem(defaultMeasurementSystem).Abbreviation;
-
-            var weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
-
-            linearAxis.Title = "Weight (" + weightAbbrev + ")";
-
-            weightMinMax.Min = weightMinMax.Min ?? GRAPH_DEFAULT_MIN;
-            weightMinMax.Max = weightMinMax.Max ?? GRAPH_DEFAULT_MAX;
-
-            double graphMinimum;
-            double graphMaximum;
-            if (weightMinMax.Min != weightMinMax.Max)
-            {
-                graphMinimum = Math.Floor((float)weightMinMax.Min / 10) * 10;
-                graphMaximum = Math.Ceiling((float)weightMinMax.Max / 10) * 10;
-            }
-            else
-            {
-                var weightFloor = Math.Floor((float)weightMinMax.Max / 10) * 10;
-                graphMaximum = weightFloor + GRAPH_DEFAULT_SPACING;
-                graphMinimum = weightFloor - GRAPH_DEFAULT_SPACING;
-            }
-
-            if (graphMaximum < 0)
-            {
-                graphMaximum = 0;
-            }
-
-            linearAxis.Minimum = 0;
-
-            linearAxis.Maximum = graphMaximum;
-            linearAxis.Minimum = graphMinimum;
-
-            linearAxis.Interval = Math.Floor((double)(linearAxis.Maximum - linearAxis.Minimum) / 10);
-        }
-
-        private static void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate)
-        {
-            dateTimeAxis.Minimum = startDate;
-            dateTimeAxis.Maximum = DateTime.Today;
-            switch (ApplicationSettings.DefaultGraphMode)
-            {
-                case ApplicationSettings.GraphMode.Week:
-                    dateTimeAxis.IntervalType = DateTimeIntervalType.Days;
-                    dateTimeAxis.Interval = 1;
-                    break;
-                case ApplicationSettings.GraphMode.Month:
-                    dateTimeAxis.IntervalType = DateTimeIntervalType.Days;
-                    dateTimeAxis.Interval = 6;
-                    break;
-                case ApplicationSettings.GraphMode.Year:
-                    dateTimeAxis.IntervalType = DateTimeIntervalType.Months;
-                    dateTimeAxis.Interval = 2;
-                    break;
-            }
-        }
-
-        #endregion Graph
 
         #region Event Handlers
 
