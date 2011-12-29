@@ -23,6 +23,7 @@ namespace WeightWatch.Views
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using Microsoft.Phone.Controls;
@@ -76,6 +77,7 @@ namespace WeightWatch.Views
         }
 
         readonly WeightEntry _newEntry;
+        WeightListViewModel _weightListViewModel;
 
         public AddWeightPage()
         {
@@ -90,6 +92,8 @@ namespace WeightWatch.Views
         {
             base.OnNavigatedTo(e);
 
+            _weightListViewModel = new WeightListViewModel();
+
             string dateString;
             if (NavigationContext.QueryString.TryGetValue("Date", out dateString))
             {
@@ -98,7 +102,7 @@ namespace WeightWatch.Views
                 weightDatePicker.Value = datetime;
                 weightDatePicker.IsEnabled = false;
 
-                WeightViewModel viewModel = WeightListViewModel.Get(datetime);
+                var viewModel = _weightListViewModel.Get(datetime);
                 weightTextBox.Text = viewModel.Weight.ToString();
 
                 if (viewModel.WeightModel.MeasurementUnit == MeasurementSystem.Imperial)
@@ -143,7 +147,7 @@ namespace WeightWatch.Views
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             if (binding != null) binding.UpdateSource();
 
-            String errorMessage = _newEntry.Validate();
+            var errorMessage = _newEntry.Validate();
             if (String.IsNullOrEmpty(errorMessage))
             {
                 WeightListViewModel.Save((Double)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
@@ -176,13 +180,10 @@ namespace WeightWatch.Views
         {
             var rb = sender as RadioButton;
             var rbContent = (string)rb.Content;
-            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>())
+            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>().Where(system => MeasurementFactory.GetSystem(system).Abbreviation.Equals(rbContent)))
             {
-                if (MeasurementFactory.GetSystem(system).Abbreviation.Equals(rbContent))
-                {
-                    _newEntry.MeasurementUnit = system;
-                    break;
-                }
+                _newEntry.MeasurementUnit = system;
+                break;
             }
         }
     }

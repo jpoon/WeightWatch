@@ -19,17 +19,18 @@
  * THE SOFTWARE.
  */
 
-using System.Text;
-
 namespace WeightWatch.Models
 {
     using System;
+    using System.Text;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using WeightWatch.Classes;
 
     public class WeightListModel : INotifyCollectionChanged
     {
+        const string CsvDelimiter = ",";
+
         private static List<WeightModel> _weightList;
         public List<WeightModel> WeightList
         {
@@ -90,17 +91,16 @@ namespace WeightWatch.Models
 
         public String Export()
         {
-            const string delimiter = ",";
             var csv = new StringBuilder();
 
             csv.AppendFormat("Date{0}Weight{0}Unit{0}",
-                delimiter);
+                CsvDelimiter);
             csv.AppendLine();
 
             foreach (var model in WeightList)
             {
                 csv.AppendFormat("{1}{0}{2}{0}{3}",
-                    delimiter,
+                    CsvDelimiter,
                     model.Date.ToShortDateString(),
                     model.Weight,
                     MeasurementFactory.GetSystem(model.MeasurementUnit).Abbreviation);

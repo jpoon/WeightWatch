@@ -22,9 +22,11 @@
 namespace WeightWatch.Views
 {
     using System;
+    using System.Linq;
     using System.Windows.Controls.DataVisualization.Charting;
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
+
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -67,26 +69,42 @@ namespace WeightWatch.Views
 
         private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate)
         {
+            // Title
             var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
             string weightAbbrev = MeasurementFactory.GetSystem(defaultMeasurementSystem).Abbreviation;
-
-            var weightMinMax = _viewModel.GetMinMaxWeight(startDate, DateTime.Today);
-
             linearAxis.Title = "Weight (" + weightAbbrev + ")";
 
-            weightMinMax.Min = weightMinMax.Min ?? GraphDefaultMin;
-            weightMinMax.Max = weightMinMax.Max ?? GraphDefaultMax;
+            // Interval, Range
+            var weightList = _viewModel.Get(startDate, DateTime.Today);
 
+            double? weightRangeMin = null;
+            double? weightRangeMax = null;
+            foreach (var weight in weightList.Select(item => item.Weight))
+            {
+                if (!weightRangeMin.HasValue || weightRangeMin > weight) 
+                {
+                    weightRangeMin = weight;
+                }
+
+                if (!weightRangeMax.HasValue || weightRangeMax < weight)
+                {
+                    weightRangeMax = weight;
+                }
+            }
+
+            weightRangeMin = weightRangeMin ?? GraphDefaultMin;
+            weightRangeMax = weightRangeMax ?? GraphDefaultMax;
+            
             double graphMinimum;
             double graphMaximum;
-            if (weightMinMax.Min != weightMinMax.Max)
+            if (weightRangeMin != weightRangeMax)
             {
-                graphMinimum = Math.Floor((float)weightMinMax.Min / GraphDefaultResolution) * GraphDefaultResolution;
-                graphMaximum = Math.Ceiling((float)weightMinMax.Max / GraphDefaultResolution) * GraphDefaultResolution;
+                graphMinimum = Math.Floor((float)weightRangeMin / GraphDefaultResolution) * GraphDefaultResolution;
+                graphMaximum = Math.Ceiling((float)weightRangeMax / GraphDefaultResolution) * GraphDefaultResolution;
             }
             else
             {
-                var weightFloor = Math.Floor((float)weightMinMax.Max / GraphDefaultResolution) * GraphDefaultResolution;
+                var weightFloor = Math.Floor((float)weightRangeMax / GraphDefaultResolution) * GraphDefaultResolution;
                 graphMaximum = weightFloor + GraphDefaultSpacing;
                 graphMinimum = weightFloor - GraphDefaultSpacing;
             }
@@ -97,7 +115,6 @@ namespace WeightWatch.Views
             }
 
             linearAxis.Minimum = 0;
-
             linearAxis.Maximum = graphMaximum;
             linearAxis.Minimum = graphMinimum;
 

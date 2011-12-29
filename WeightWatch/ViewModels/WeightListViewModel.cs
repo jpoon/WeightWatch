@@ -22,6 +22,7 @@
 namespace WeightWatch.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -31,54 +32,6 @@ namespace WeightWatch.ViewModels
 
     public class WeightListViewModel : INotifyPropertyChanged
     {
-        public struct WeightMinMax
-        {
-            public WeightMinMax(float? min, float? max)
-                : this()
-            {
-                Min = min;
-                Max = max;
-            }
-
-            private float? _min;
-            public float? Min
-            {
-                get
-                {
-                    return _min;
-                }
-                set
-                {
-                    if (value < 0)
-                    {
-                        throw new ArgumentException("Minimum weight cannot be less than 0");
-                    }
-                    if (value > _max)
-                    {
-                        throw new ArgumentException("Minimum weight cannot be greater than maximum weight");
-                    }
-                    _min = value;
-                }
-            }
-
-            private float? _max;
-            public float? Max
-            {
-                get
-                {
-                    return _max;
-                }
-                set
-                {
-                    if (value < _min)
-                    {
-                        throw new ArgumentException("Maximum weight cannot be less than minimum weight");
-                    }
-                    _max = value;
-                }
-            }
-        }
-
         private static WeightListModel _dataList;
 
         public WeightListViewModel()
@@ -119,7 +72,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return WeightHistoryList.Count > 0 ? WeightHistoryList.LastOrDefault() : null;
+                return WeightHistoryList.LastOrDefault();
             }
         }
 
@@ -127,7 +80,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return WeightHistoryList.Count > 0 ? WeightHistoryList.FirstOrDefault() : null;
+                return WeightHistoryList.FirstOrDefault();
             }
         }
 
@@ -145,33 +98,23 @@ namespace WeightWatch.ViewModels
             _dataList.Delete(data.WeightModel);
         }
 
-        public static WeightViewModel Get(DateTime date)
+        public WeightViewModel Get(DateTime date)
         {
             return new WeightViewModel(_dataList.Get(date));
+        }
+
+        public IEnumerable<WeightViewModel> Get(DateTime start, DateTime end)
+        {
+            return  from item in WeightHistoryList
+                    where   item.Date >= start && 
+                            item.Date <= end
+                    select item;
         }
 
         public static void Save(Double weight, DateTime date, MeasurementSystem unit)
         {
             var model = new WeightModel(weight, date, unit);
             _dataList.Add(model);
-        }
-
-        public WeightMinMax GetMinMaxWeight(DateTime start, DateTime end)
-        {
-            var resultSet =
-                from item in WeightHistoryList
-                where item.Date >= start && item.Date <= end
-                select item;
-
-            float? min =
-                (from item in resultSet
-                 select (float?)item.Weight).Min();
-
-            float? max =
-                (from item in resultSet
-                 select (float?)item.Weight).Max();
-
-            return new WeightMinMax(min, max);
         }
 
         #endregion
