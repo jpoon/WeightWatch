@@ -1,4 +1,7 @@
-﻿Version 2.0
+﻿Version 2.1
+* Added 'Stones' measurement unit
+
+Version 2.0
 * Added ability to edit weight entry
 * Email CSV of weight history
 * Separated settings/about information

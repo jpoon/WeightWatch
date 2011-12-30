@@ -72,7 +72,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void Pivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var aboutPivot = (Pivot)sender;
             if (aboutPivot.SelectedIndex > 0 && _changelog == null)

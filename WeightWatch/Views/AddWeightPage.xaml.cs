@@ -19,12 +19,9 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-
 namespace WeightWatch.Views
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -37,7 +34,7 @@ namespace WeightWatch.Views
     {
         public class WeightEntry
         {
-            private Double? _weight = null;
+            private Double? _weight;
             public Double? Weight
             {
                 get { return _weight; }
