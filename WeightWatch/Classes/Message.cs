@@ -90,7 +90,7 @@ namespace WeightWatch.Classes
 
             var weightDelta = last.Weight - first.Weight;
             var randomNumber = new Random();
-            var measurementSystemAbbr = MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
+            var measurementSystemAbbr = MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation;
 
             var messageType = MessageType.Neutral;
             if (weightDelta > 0)

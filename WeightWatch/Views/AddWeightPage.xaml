@@ -41,8 +41,9 @@
                     </InputScope>
                 </TextBox.InputScope>
             </TextBox>
-            <RadioButton Margin="0,67,39,0" HorizontalAlignment="Right" BorderThickness="0" Width="96" Height="72" VerticalAlignment="Top" GroupName="weightUnit" Name="radioButton_lbs" Content="lbs" Checked="radioButtonChecked" />
-            <RadioButton Margin="0,124,32,0" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Top" Height="75" GroupName="weightUnit" Name="radioButton_kgs" Content="kgs" Checked="radioButtonChecked" />
+            <toolkit:ListPicker
+                Margin="316,69,32,119" Name="Measurement_ListPicker"
+                        ItemsSource="{Binding MeasurementList}" />
         </Grid>
     </Grid>
 

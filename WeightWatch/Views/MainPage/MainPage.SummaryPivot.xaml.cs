@@ -37,7 +37,7 @@ namespace WeightWatch.Views
         {
             summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_noChange);
             summary_weightTextBlock.Text = "0";
-            summary_systemTextBlock.Text = "[" + MeasurementFactory.GetSystem(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
+            summary_systemTextBlock.Text = "[" + MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
             summary_messageTextBlock.Text =
                 "How to use:\n" +
                 "(1) Add your daily weight\n" +

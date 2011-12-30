@@ -19,6 +19,8 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+
 namespace WeightWatch.Views
 {
     using System;
@@ -47,13 +49,6 @@ namespace WeightWatch.Views
             {
                 get { return _date; }
                 set { _date = value; }
-            }
-
-            private MeasurementSystem _unit = ApplicationSettings.DefaultMeasurementSystem;
-            public MeasurementSystem MeasurementUnit
-            {
-                get { return _unit; }
-                set { _unit = value; }
             }
 
             public string Validate()
@@ -94,9 +89,12 @@ namespace WeightWatch.Views
 
             _weightListViewModel = new WeightListViewModel();
 
+            var selectedSystem = ApplicationSettings.DefaultMeasurementSystem;
             string dateString;
             if (NavigationContext.QueryString.TryGetValue("Date", out dateString))
             {
+                PageTitle.Text = "edit";
+
                 DateTime datetime;
                 DateTime.TryParse(dateString, out datetime);
                 weightDatePicker.Value = datetime;
@@ -104,39 +102,25 @@ namespace WeightWatch.Views
 
                 var viewModel = _weightListViewModel.Get(datetime);
                 weightTextBox.Text = viewModel.Weight.ToString();
+                selectedSystem = viewModel.WeightModel.MeasurementUnit;
+            }
+            
+            Measurement_ListPicker.ItemsSource = MeasurementFactory.Get().Select(system => system.Abbreviation);
 
-                if (viewModel.WeightModel.MeasurementUnit == MeasurementSystem.Imperial)
+            var index = 0;
+            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>())
+            {
+                if (system.Equals(selectedSystem))
                 {
-                    radioButton_lbs.IsChecked = true;
+                    Measurement_ListPicker.SelectedIndex = index;
+                    break;
                 }
-                else
-                {
-                    radioButton_kgs.IsChecked = true;
-                }
-
-                PageTitle.Text = "edit";
+                index++;
             }
         }
 
         void AddWeightPage_Loaded(object sender, RoutedEventArgs e)
         {
-            switch (_newEntry.MeasurementUnit)
-            {
-                case MeasurementSystem.Imperial:
-                    radioButton_lbs.IsChecked = true;
-                    break;
-                case MeasurementSystem.Metric:
-                    radioButton_kgs.IsChecked = true;
-                    break;
-                default:
-                    throw new ArgumentException(
-                        string.Format(
-                            CultureInfo.InvariantCulture,
-                            "Measurement system of type {0} cannot be found",
-                            Enum.GetName(typeof(MeasurementSystem), _newEntry.MeasurementUnit))
-                        );
-            }
-
             weightTextBox.Focus();
             weightTextBox.Select(weightTextBox.Text.Length, 0);
         }
@@ -150,7 +134,7 @@ namespace WeightWatch.Views
             var errorMessage = _newEntry.Validate();
             if (String.IsNullOrEmpty(errorMessage))
             {
-                WeightListViewModel.Save((Double)_newEntry.Weight, (DateTime)_newEntry.Date, _newEntry.MeasurementUnit);
+                WeightListViewModel.Save((Double)_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
                 GoBackOrMainMenu();
             }
             else
@@ -173,17 +157,6 @@ namespace WeightWatch.Views
             else
             {
                 Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
-            }
-        }
-
-        private void radioButtonChecked(object sender, RoutedEventArgs e)
-        {
-            var rb = sender as RadioButton;
-            var rbContent = (string)rb.Content;
-            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>().Where(system => MeasurementFactory.GetSystem(system).Abbreviation.Equals(rbContent)))
-            {
-                _newEntry.MeasurementUnit = system;
-                break;
             }
         }
     }

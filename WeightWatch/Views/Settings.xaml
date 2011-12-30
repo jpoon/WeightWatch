@@ -24,7 +24,7 @@
                 <StackPanel>
                     <toolkit:ListPicker
                         Name="Measurement_ListPicker"
-                        Header="Measurement Unit"
+                        Header="Default Measurement Unit"
                         ItemsSource="{Binding MeasurementList}" />
                     <toolkit:ListPicker
                         Name="Graph_ListPicker"

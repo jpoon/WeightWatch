@@ -103,7 +103,7 @@ namespace WeightWatch.Models
                     CsvDelimiter,
                     model.Date.ToShortDateString(),
                     model.Weight,
-                    MeasurementFactory.GetSystem(model.MeasurementUnit).Abbreviation);
+                    MeasurementFactory.Get(model.MeasurementUnit).Abbreviation);
                 csv.AppendLine();
             }
             return csv.ToString();
