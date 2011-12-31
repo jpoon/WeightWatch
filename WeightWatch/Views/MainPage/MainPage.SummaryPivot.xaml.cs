@@ -19,6 +19,10 @@
  * THE SOFTWARE.
  */
 
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
+
 namespace WeightWatch.Views
 {
     using System;
@@ -29,26 +33,73 @@ namespace WeightWatch.Views
 
     public partial class MainPage : PhoneApplicationPage
     {
-        readonly Uri _downArrow = new Uri("/WeightWatch;component/Images/downarrow.png", UriKind.Relative);
-        readonly Uri _upArrow = new Uri("/WeightWatch;component/Images/uparrow.png", UriKind.Relative);
-        readonly Uri _noChange = new Uri("/WeightWatch;component/Images/nochange.png", UriKind.Relative);
+        readonly Uri _downArrow = new Uri("/WeightWatch;component/Images/arrow_down.png", UriKind.Relative);
+        readonly Uri _upArrow = new Uri("/WeightWatch;component/Images/arrow_up.png", UriKind.Relative);
 
         private void SetupSummaryPivot()
         {
-            summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_noChange);
-            summary_weightTextBlock.Text = "0";
-            summary_systemTextBlock.Text = "[" + MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation + "]";
+            var first = _viewModel.FirstWeightEntry;
+            var last = _viewModel.LastWeightEntry;
+
+            startingWeight_textBlock.Inlines.Clear();
+            currentWeight_textBlock.Inlines.Clear();
+            summary_weightTextBlock.Inlines.Clear();
+            summary_arrowImage.Source = null;
+
             summary_messageTextBlock.Text =
                 "How to use:\n" +
                 "(1) Add your daily weight\n" +
                 "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
 
-            var first = _viewModel.FirstWeightEntry;
-            var last = _viewModel.LastWeightEntry;
-
             if (first != null && last != null)
             {
+                var runFirstWeight = new Run
+                {
+                    Text = first.WeightStr,
+                };
+
+                var runFirstDate = new Run
+                {
+                    FontStyle = FontStyles.Italic,
+                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeSmall"],
+                    Foreground = (SolidColorBrush)Application.Current.Resources["PhoneSubtleBrush"],
+                    Text = " (" + first.DateStr + ")",
+                };
+
+                startingWeight_textBlock.Inlines.Add(runFirstWeight);
+                startingWeight_textBlock.Inlines.Add(runFirstDate);
+
+                var runLastWeight = new Run
+                {
+                    Text = last.WeightStr,
+                };
+
+                var runLastDate = new Run
+                {
+                    FontStyle = FontStyles.Italic,
+                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeSmall"],
+                    Foreground = (SolidColorBrush)Application.Current.Resources["PhoneSubtleBrush"],
+                    Text = " (" + last.DateStr + ")",
+                };
+
+                currentWeight_textBlock.Inlines.Add(runLastWeight);
+                currentWeight_textBlock.Inlines.Add(runLastDate);
+
                 var weightDelta = last.Weight - first.Weight;
+                var runSummaryWeight = new Run
+                {
+                    Text = weightDelta.ToString("+#.#;-#.#;0", CultureInfo.InvariantCulture),
+                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeExtraExtraLarge"],
+                };
+
+                var runSummaryMeasurementSystem = new Run
+                {
+                    Text = " " + MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation,
+                };
+
+                summary_weightTextBlock.Inlines.Add(runSummaryWeight);
+                summary_weightTextBlock.Inlines.Add(runSummaryMeasurementSystem);
+
                 if (weightDelta > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_upArrow);
@@ -57,8 +108,6 @@ namespace WeightWatch.Views
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_downArrow);
                 }
-
-                summary_weightTextBlock.Text = weightDelta.ToString("+#.#;-#.#;0", CultureInfo.InvariantCulture);
                 summary_messageTextBlock.Text = Message.GetMessage(first, last);
             }
         }

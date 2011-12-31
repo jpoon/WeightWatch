@@ -136,10 +136,9 @@
     <Content Include="Images\AppBar\appbar.save.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\downarrow.png" />
-    <Resource Include="Images\uparrow.png" />
     <Content Include="ApplicationIcon_173x173.png" />
-    <Resource Include="Images\nochange.png" />
+    <Resource Include="Images\arrow_down.png" />
+    <Resource Include="Images\arrow_up.png" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

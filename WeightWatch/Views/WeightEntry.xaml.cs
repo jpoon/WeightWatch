@@ -32,7 +32,7 @@ namespace WeightWatch.Views
 
     public partial class WeightEntry : PhoneApplicationPage
     {
-        public class WeightEntry
+        public class WeightEntryItem
         {
             private Double? _weight;
             public Double? Weight
@@ -68,7 +68,7 @@ namespace WeightWatch.Views
             }
         }
 
-        readonly WeightEntry _newEntry;
+        readonly WeightEntryItem _newEntry;
         WeightListViewModel _weightListViewModel;
 
         public WeightEntry()
@@ -76,7 +76,7 @@ namespace WeightWatch.Views
             InitializeComponent();
             Loaded += WeightEntry_Loaded;
 
-            _newEntry = new WeightEntry();
+            _newEntry = new WeightEntryItem();
             DataContext = _newEntry;
         }
 
