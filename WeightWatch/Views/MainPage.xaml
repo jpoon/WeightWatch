@@ -187,6 +187,7 @@
 
                     <TextBlock Height="80" HorizontalAlignment="Right" Margin="0,110,50,0" Name="summary_weightTextBlock" VerticalAlignment="Top" Width="Auto" TextWrapping="Wrap" />
                     <TextBlock Height="Auto" HorizontalAlignment="Center" x:Name="summary_messageTextBlock" Text="" VerticalAlignment="Bottom" Width="400" TextWrapping="Wrap" Margin="28,0,28,30" />
+                    <Path Data="M122,106.25 L375.38705,106.25" Height="2" Margin="150,105,81,0" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="230" Stroke="{StaticResource PhoneInactiveBrush}" StrokeThickness="2"/>
                 </Grid>
             </controls:PivotItem>
 
