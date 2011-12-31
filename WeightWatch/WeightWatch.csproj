@@ -71,8 +71,8 @@
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />
-    <Compile Include="Views\AddWeightPage.xaml.cs">
-      <DependentUpon>AddWeightPage.xaml</DependentUpon>
+    <Compile Include="Views\WeightEntry.xaml.cs">
+      <DependentUpon>WeightEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -99,7 +99,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Views\AddWeightPage.xaml">
+    <Page Include="Views\WeightEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
