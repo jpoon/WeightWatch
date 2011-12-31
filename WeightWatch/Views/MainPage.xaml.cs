@@ -94,6 +94,7 @@ namespace WeightWatch.Views
         {
             var item = (sender as MenuItem).DataContext as WeightViewModel;
             WeightListViewModel.Delete(item);
+            SetupSummaryPivot();
         }
 
         #endregion Event Handlers

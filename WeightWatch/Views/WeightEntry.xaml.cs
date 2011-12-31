@@ -57,7 +57,7 @@ namespace WeightWatch.Views
                 }
                 else if (_weight > 9999)
                 {
-                    errorStr = "Seriously?! I doubt you weigh that much...";
+                    errorStr = "I doubt you weigh that much";
                 }
                 else if (_date == null)
                 {

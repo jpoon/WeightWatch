@@ -68,22 +68,6 @@ namespace WeightWatch.ViewModels
             }
         }
 
-        public WeightViewModel FirstWeightEntry
-        {
-            get
-            {
-                return WeightHistoryList.LastOrDefault();
-            }
-        }
-
-        public WeightViewModel LastWeightEntry
-        {
-            get
-            {
-                return WeightHistoryList.FirstOrDefault();
-            }
-        }
-
         #endregion Properties
 
         #region Public Methods
@@ -143,8 +127,6 @@ namespace WeightWatch.ViewModels
                     break;
             }
             InvokePropertyChanged("WeightHistoryGroup");
-            InvokePropertyChanged("FirstWeightEntry");
-            InvokePropertyChanged("LastWeightEntry");
         }
 
         #endregion

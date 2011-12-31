@@ -19,17 +19,19 @@
  * THE SOFTWARE.
  */
 
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media;
-
 namespace WeightWatch.Views
 {
     using System;
     using System.Globalization;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Media;
     using Microsoft.Phone.Controls;
     using WeightWatch.Classes;
     using WeightWatch.Models;
+    using WeightWatch.ViewModels;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -38,12 +40,8 @@ namespace WeightWatch.Views
 
         private void SetupSummaryPivot()
         {
-            var first = _viewModel.FirstWeightEntry;
-            var last = _viewModel.LastWeightEntry;
-
-            startingWeight_textBlock.Inlines.Clear();
-            currentWeight_textBlock.Inlines.Clear();
-            summary_weightTextBlock.Inlines.Clear();
+            startingWeight_textBlock.Text = String.Empty;
+            currentWeight_textBlock.Text = String.Empty;
             summary_arrowImage.Source = null;
 
             summary_messageTextBlock.Text =
@@ -51,44 +49,23 @@ namespace WeightWatch.Views
                 "(1) Add your daily weight\n" +
                 "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
 
-            if (first != null && last != null)
+            var currentWeight = _viewModel.WeightHistoryList.FirstOrDefault();
+            var startingWeight = _viewModel.WeightHistoryList.LastOrDefault();
+
+            if (startingWeight == null || currentWeight == null)
             {
-                var runFirstWeight = new Run
-                {
-                    Text = first.WeightStr,
-                };
+                startingWeight_textBlock.Text = "N/A";
+                currentWeight_textBlock.Text = "N/A";
+            }
+            else
+            {
+                SetWeightTextBlock(startingWeight_textBlock, startingWeight);
+                SetWeightTextBlock(currentWeight_textBlock, currentWeight);
 
-                var runFirstDate = new Run
-                {
-                    FontStyle = FontStyles.Italic,
-                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeSmall"],
-                    Foreground = (SolidColorBrush)Application.Current.Resources["PhoneSubtleBrush"],
-                    Text = " (" + first.DateStr + ")",
-                };
-
-                startingWeight_textBlock.Inlines.Add(runFirstWeight);
-                startingWeight_textBlock.Inlines.Add(runFirstDate);
-
-                var runLastWeight = new Run
-                {
-                    Text = last.WeightStr,
-                };
-
-                var runLastDate = new Run
-                {
-                    FontStyle = FontStyles.Italic,
-                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeSmall"],
-                    Foreground = (SolidColorBrush)Application.Current.Resources["PhoneSubtleBrush"],
-                    Text = " (" + last.DateStr + ")",
-                };
-
-                currentWeight_textBlock.Inlines.Add(runLastWeight);
-                currentWeight_textBlock.Inlines.Add(runLastDate);
-
-                var weightDelta = last.Weight - first.Weight;
+                var weightDifference = currentWeight.Weight - startingWeight.Weight;
                 var runSummaryWeight = new Run
                 {
-                    Text = weightDelta.ToString("+#.#;-#.#;0", CultureInfo.InvariantCulture),
+                    Text = weightDifference.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture),
                     FontSize = (Double)Application.Current.Resources["PhoneFontSizeExtraExtraLarge"],
                 };
 
@@ -96,20 +73,43 @@ namespace WeightWatch.Views
                 {
                     Text = " " + MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation,
                 };
-
+                summary_weightTextBlock.Inlines.Clear();
                 summary_weightTextBlock.Inlines.Add(runSummaryWeight);
                 summary_weightTextBlock.Inlines.Add(runSummaryMeasurementSystem);
 
-                if (weightDelta > 0)
+                if (weightDifference > 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_upArrow);
                 }
-                else if (weightDelta < 0)
+                else if (weightDifference < 0)
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_downArrow);
                 }
-                summary_messageTextBlock.Text = Message.GetMessage(first, last);
+
+                summary_messageTextBlock.Text = Message.GetMessage(currentWeight, startingWeight);
             }
+        }
+
+        private void SetWeightTextBlock(TextBlock textBlock, WeightViewModel viewModel)
+        {
+            textBlock.Inlines.Clear();
+
+            textBlock.Inlines.Add(
+                new Run
+                {
+                    Text = viewModel.WeightStr,
+                }
+            );
+
+            textBlock.Inlines.Add(
+                new Run
+                {
+                    Text = " (" + viewModel.DateStr + ")",
+                    FontStyle = FontStyles.Italic,
+                    FontSize = (Double)Application.Current.Resources["PhoneFontSizeSmall"],
+                    Foreground = (SolidColorBrush)Application.Current.Resources["PhoneSubtleBrush"],
+                }
+            );
         }
     }
 }
