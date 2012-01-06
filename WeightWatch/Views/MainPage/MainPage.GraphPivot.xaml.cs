@@ -32,7 +32,7 @@ namespace WeightWatch.Views
         const int GraphDefaultMax = 100;
         const int GraphDefaultMin = 0;
         const int GraphDefaultSpacing = 15;
-        const int GraphDefaultResolution = 10;
+        const int GraphDefaultResolution = 5;
 
         private void SetupGraphPivot()
         {
