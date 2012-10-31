@@ -29,7 +29,6 @@ namespace WeightWatch.Views
     using System.Windows.Documents;
     using System.Windows.Media;
     using Microsoft.Phone.Controls;
-    using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
 
@@ -44,11 +43,6 @@ namespace WeightWatch.Views
             currentWeight_textBlock.Text = String.Empty;
             summary_arrowImage.Source = null;
 
-            summary_messageTextBlock.Text =
-                "How to use:\n" +
-                "(1) Add your daily weight\n" +
-                "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
-
             var currentWeight = _viewModel.WeightHistoryList.FirstOrDefault();
             var startingWeight = _viewModel.WeightHistoryList.LastOrDefault();
 
@@ -56,11 +50,18 @@ namespace WeightWatch.Views
             {
                 startingWeight_textBlock.Text = "N/A";
                 currentWeight_textBlock.Text = "N/A";
+
+                summary_messageTextBlock.Text =
+                    "How to use:\n" +
+                    "(1) Add your daily weight\n" +
+                    "(2) Make a mistake? Tap and hold a weight entry on the 'Details' screen to edit or delete\n";
             }
             else
             {
                 SetWeightTextBlock(startingWeight_textBlock, startingWeight);
                 SetWeightTextBlock(currentWeight_textBlock, currentWeight);
+
+                summary_messageTextBlock.Text = string.Empty;
 
                 var weightDifference = currentWeight.Weight - startingWeight.Weight;
                 var runSummaryWeight = new Run
@@ -85,8 +86,6 @@ namespace WeightWatch.Views
                 {
                     summary_arrowImage.Source = new System.Windows.Media.Imaging.BitmapImage(_downArrow);
                 }
-
-                summary_messageTextBlock.Text = Message.GetMessage(currentWeight, startingWeight);
             }
         }
 

@@ -68,7 +68,6 @@
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Classes\IsoStorage.cs" />
     <Compile Include="Classes\WeightListGroup.cs" />
-    <Compile Include="Classes\Message.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />
     <Compile Include="Views\WeightEntry.xaml.cs">

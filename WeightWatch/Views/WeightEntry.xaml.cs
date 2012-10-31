@@ -51,7 +51,7 @@ namespace WeightWatch.Views
             public string Validate()
             {
                 var errorStr = String.Empty;
-                if (_weight == null || _weight < 0)
+                if (_weight == null || _weight <= 0)
                 {
                     errorStr = "Please enter a valid weight";
                 }
