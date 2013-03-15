@@ -67,18 +67,6 @@ namespace WeightWatch.Views
             Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.Relative)));
         }
 
-        private void AppBarIconClick_Export(object sender, EventArgs e)
-        {
-            var weightListModel = new WeightListModel();
-            var csv = weightListModel.Export();
-
-            var email = new EmailComposeTask
-                            {
-                                Body = csv,
-                            };
-            email.Show();
-        }
-
         private void AppBarIconClick_About(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/About.xaml", UriKind.Relative)));

@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:live="clr-namespace:Microsoft.Live.Controls;assembly=Microsoft.Live.Controls"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -30,6 +31,23 @@
                         Name="Graph_ListPicker"
                         Header="Graph"
                         ItemsSource="{Binding GraphViewList}" />
+                </StackPanel>
+            </controls:PivotItem>
+
+            <!--Backup Pivot -->
+            <controls:PivotItem Header="backup">
+                <StackPanel>
+                    <live:SignInButton 
+                        Name="LiveIdSignIn_Button" 
+                        ClientId="00000000480DCFDD" 
+                        Scopes="wl.basic wl.signin wl.offline_access wl.skydrive_update" 
+                        Branding="Windows" 
+                        TextType="SignIn" 
+                        SessionChanged="LiveIdSignIn_Button_SessionChanged"/>
+                    <Button x:Name="buttonBackup" Click="buttonBackup_Click" Content="Backup" IsEnabled="False" />
+                    <Button x:Name="buttonRestore" Click="buttonRestore_Click" Content="Restore" IsEnabled="False"/>
+                    <TextBlock x:Name="infoTextBlock" TextWrapping="Wrap" Margin="12, 30, 12, 12"/>
+                    <TextBlock x:Name="dateTextBlock" TextWrapping="Wrap" Margin="12, 30, 12, 12"/>
                 </StackPanel>
             </controls:PivotItem>
         </controls:Pivot>

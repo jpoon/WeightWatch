@@ -51,6 +51,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Live, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Live.Controls, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
@@ -63,13 +65,17 @@
       <HintPath>..\External\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Classes\IsoStorage.cs" />
+    <Compile Include="Skydrive\Skydrive.cs" />
     <Compile Include="Classes\WeightListGroup.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
     <Compile Include="Models\MeasurementSystem.cs" />
+    <Compile Include="Skydrive\SkydriveStatus.cs" />
     <Compile Include="Views\WeightEntry.xaml.cs">
       <DependentUpon>WeightEntry.xaml</DependentUpon>
     </Compile>

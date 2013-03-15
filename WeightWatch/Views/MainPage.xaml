@@ -165,7 +165,6 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="AppBarIconClick_Settings"/>
-                <shell:ApplicationBarMenuItem Text="Export" Click="AppBarIconClick_Export"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="AppBarIconClick_About"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton IconUri="/Images/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>

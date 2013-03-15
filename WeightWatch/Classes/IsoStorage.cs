@@ -25,13 +25,14 @@ namespace WeightWatch.Classes
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
+    using System.Xml.Linq;
     using WeightWatch.Models;
 
     public class IsoStorage
     {
         private const string WeightFile = "weight.xml";
 
-        public static List<WeightModel> LoadFile()
+        public static List<WeightModel> GetContent()
         {
             List<WeightModel> contents = null;
             using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -49,6 +50,16 @@ namespace WeightWatch.Classes
             return contents ?? new List<WeightModel>();
         }
 
+        public static Stream GetStream()
+        {
+            Stream stream;
+            using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                stream = new IsolatedStorageFileStream(WeightFile, FileMode.OpenOrCreate, isoStorage);
+            }
+            return stream;
+        }
+
         public static void Save(List<WeightModel> weightList)
         {
             using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
@@ -60,6 +71,5 @@ namespace WeightWatch.Classes
                 }
             }
         }
-
     }
 }

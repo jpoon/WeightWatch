@@ -29,16 +29,15 @@ namespace WeightWatch.Views
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using System.Globalization;
 
     public partial class WeightEntry : PhoneApplicationPage
     {
         public class WeightEntryItem
         {
-            private Double? _weight;
-            public Double? Weight
+            public string Weight
             {
-                get { return _weight; }
-                set { _weight = value; }
+                get; set;
             }
 
             private DateTime? _date = DateTime.Today;
@@ -46,25 +45,6 @@ namespace WeightWatch.Views
             {
                 get { return _date; }
                 set { _date = value; }
-            }
-
-            public string Validate()
-            {
-                var errorStr = String.Empty;
-                if (_weight == null || _weight <= 0)
-                {
-                    errorStr = "Please enter a valid weight";
-                }
-                else if (_weight > 9999)
-                {
-                    errorStr = "I doubt you weigh that much";
-                }
-                else if (_date == null)
-                {
-                    errorStr = "Please enter a valid date";
-                }
-
-                return errorStr;
             }
         }
 
@@ -122,21 +102,20 @@ namespace WeightWatch.Views
             weightTextBox.Select(weightTextBox.Text.Length, 0);
         }
 
-        private void AppBarIconButton_SaveClick(object sender, EventArgs e)
+        private void AppBarIconButton_SaveClick(object sender, EventArgs args)
         {
             // Force update binding first
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
             if (binding != null) binding.UpdateSource();
 
-            var errorMessage = _newEntry.Validate();
-            if (String.IsNullOrEmpty(errorMessage))
+            try
             {
-                WeightListViewModel.Save((Double)_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
+                WeightListViewModel.Save(_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
                 GoBackOrMainMenu();
             }
-            else
+            catch (ArgumentException exception)
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show(exception.Message);
             }
         }
 

@@ -95,7 +95,7 @@ namespace WeightWatch.ViewModels
                     select item;
         }
 
-        public static void Save(Double weight, DateTime date, MeasurementSystem unit)
+        public static void Save(string weight, DateTime date, MeasurementSystem unit)
         {
             var model = new WeightModel(weight, date, unit);
             _dataList.Add(model);

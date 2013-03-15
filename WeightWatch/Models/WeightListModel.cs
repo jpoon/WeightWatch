@@ -29,8 +29,6 @@ namespace WeightWatch.Models
 
     public class WeightListModel : INotifyCollectionChanged
     {
-        const string CsvDelimiter = ",";
-
         private static List<WeightModel> _weightList;
         public List<WeightModel> WeightList
         {
@@ -41,7 +39,7 @@ namespace WeightWatch.Models
         {
             if (_weightList == null)
             {
-                _weightList = IsoStorage.LoadFile();
+                _weightList = IsoStorage.GetContent();
             }
         }
 
@@ -71,7 +69,7 @@ namespace WeightWatch.Models
 
         public WeightModel Get(DateTime date)
         {
-            var data = new WeightModel(0, date, MeasurementSystem.Imperial);
+            var data = new WeightModel(String.Empty, date, MeasurementSystem.Imperial);
             var index = WeightList.BinarySearch(data);
             return index >= 0 ? WeightList[index] : null;
         }
@@ -88,27 +86,6 @@ namespace WeightWatch.Models
 
             Save();
         }
-
-        public String Export()
-        {
-            var csv = new StringBuilder();
-
-            csv.AppendFormat("Date{0}Weight{0}Unit{0}",
-                CsvDelimiter);
-            csv.AppendLine();
-
-            foreach (var model in WeightList)
-            {
-                csv.AppendFormat("{1}{0}{2}{0}{3}",
-                    CsvDelimiter,
-                    model.Date.ToShortDateString(),
-                    model.Weight,
-                    MeasurementFactory.Get(model.MeasurementUnit).Abbreviation);
-                csv.AppendLine();
-            }
-            return csv.ToString();
-        }
-
 
         #endregion
 

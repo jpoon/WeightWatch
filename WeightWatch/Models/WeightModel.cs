@@ -22,22 +22,86 @@
 namespace WeightWatch.Models
 {
     using System;
+    using System.ComponentModel;
+    using System.Globalization;
     using System.Runtime.Serialization;
 
     [DataContract(Name = "WeightModel")]
-    public class WeightModel : IComparable<WeightModel>
+    public class WeightModel : IComparable<WeightModel>, INotifyPropertyChanged
     {
-        [DataMember]
-        public double Weight { get; set; }
+        private double _weight;
+        private DateTime _date;
+        private MeasurementSystem _measurementSystem;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [DataMember]
-        public DateTime Date { get; set; }
-
-        [DataMember]
-        public MeasurementSystem MeasurementUnit { get; set; }
-
-        public WeightModel(Double weight, DateTime date, MeasurementSystem unit)
+        public double Weight
         {
+            get
+            {
+                return _weight;
+            }
+
+            set
+            {
+                _weight = value;
+                OnPropertyChanged("Weight");
+            }
+        }
+
+        [DataMember]
+        public DateTime Date
+        {
+            get
+            {
+                return _date;
+            }
+
+            set
+            {
+                _date = value;
+                OnPropertyChanged("Date");
+            }
+        }
+
+        [DataMember]
+        public MeasurementSystem MeasurementUnit
+        {
+            get
+            {
+                return _measurementSystem;
+            }
+
+            set
+            {
+                _measurementSystem = value;
+                OnPropertyChanged("MeasurementSystem");
+            }
+        }
+
+        public WeightModel(string weightStr, DateTime date, MeasurementSystem unit)
+        {
+            if (date == null)
+            {
+                throw new ArgumentException("Please enter a valid date");
+            }
+
+            if (String.IsNullOrEmpty(weightStr))
+            {
+                throw new ArgumentException("Please enter a valid weight");
+            }
+
+            double weight;
+            if (!Double.TryParse(weightStr, NumberStyles.Number, CultureInfo.CurrentCulture, out weight))
+            {
+                throw new ArgumentException("Please enter a valid weight");
+            }
+            else if (weight > 9999)
+            {
+                throw new ArgumentException("Please enter a valid weight");
+            }
+
             Weight = weight;
             Date = date;
             MeasurementUnit = unit;
@@ -51,6 +115,13 @@ namespace WeightWatch.Models
                 return -(Date.CompareTo(other.Date));
             }
             return 0;
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(name));
         }
     }
 }
