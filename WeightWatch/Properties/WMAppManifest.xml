@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
   <App xmlns="" ProductID="{50439666-e543-454d-bda7-28aaf70665cd}" Title="WeightWatch" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Jason Poon" Description="WeightWatch" Publisher="Jason Poon">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon_99x99.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\AppIcon\ApplicationIcon_99x99.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />  
       <Capability Name="ID_CAP_LOCATION" />  
@@ -19,7 +19,7 @@
     <Tokens>
       <PrimaryToken TokenID="WeightWatchToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">ApplicationIcon_173x173.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\AppIcon\ApplicationIcon_173x173.png</BackgroundImageURI>
           <Count>0</Count>
           <Title>WeightWatch</Title>
         </TemplateType5>

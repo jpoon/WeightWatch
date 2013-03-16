@@ -167,7 +167,7 @@
                 <shell:ApplicationBarMenuItem Text="Settings" Click="AppBarIconClick_Settings"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="AppBarIconClick_About"/>
             </shell:ApplicationBar.MenuItems>
-            <shell:ApplicationBarIconButton IconUri="/Resources/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

@@ -34,8 +34,8 @@ namespace WeightWatch.Views
 
     public partial class MainPage : PhoneApplicationPage
     {
-        readonly Uri _downArrow = new Uri("/WeightWatch;component/Resources/arrow_down.png", UriKind.Relative);
-        readonly Uri _upArrow = new Uri("/WeightWatch;component/Resources/arrow_up.png", UriKind.Relative);
+        readonly Uri _downArrow = new Uri("/WeightWatch;component/Assets/arrow_down.png", UriKind.Relative);
+        readonly Uri _upArrow = new Uri("/WeightWatch;component/Assets/arrow_up.png", UriKind.Relative);
 
         private void SetupSummaryPivot()
         {
