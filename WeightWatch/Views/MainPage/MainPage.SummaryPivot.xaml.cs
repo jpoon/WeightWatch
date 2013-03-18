@@ -31,6 +31,7 @@ namespace WeightWatch.Views
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using WeightWatch.MeasurementSystem;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -72,7 +73,7 @@ namespace WeightWatch.Views
 
                 var runSummaryMeasurementSystem = new Run
                 {
-                    Text = " " + MeasurementFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation,
+                    Text = " " + MeasurementSystemFactory.Get(ApplicationSettings.DefaultMeasurementSystem).Abbreviation,
                 };
                 summary_weightTextBlock.Inlines.Clear();
                 summary_weightTextBlock.Inlines.Add(runSummaryWeight);

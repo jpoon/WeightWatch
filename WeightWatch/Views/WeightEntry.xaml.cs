@@ -29,6 +29,7 @@ namespace WeightWatch.Views
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
+    using WeightWatch.MeasurementSystem;
     using System.Globalization;
 
     public partial class WeightEntry : PhoneApplicationPage
@@ -82,10 +83,10 @@ namespace WeightWatch.Views
                 selectedSystem = viewModel.WeightModel.MeasurementUnit;
             }
             
-            Measurement_ListPicker.ItemsSource = MeasurementFactory.Get().Select(system => system.Abbreviation);
+            Measurement_ListPicker.ItemsSource = MeasurementSystemFactory.Get().Select(system => system.Abbreviation);
 
             var index = 0;
-            foreach (var system in Helpers.GetAllEnum<MeasurementSystem>())
+            foreach (var system in Helpers.GetAllEnum<MeasurementUnit>())
             {
                 if (system.Equals(selectedSystem))
                 {
@@ -110,7 +111,7 @@ namespace WeightWatch.Views
 
             try
             {
-                WeightListViewModel.Save(_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
+                WeightListViewModel.Save(_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementSystemFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
                 GoBackOrMainMenu();
             }
             catch (ArgumentException exception)

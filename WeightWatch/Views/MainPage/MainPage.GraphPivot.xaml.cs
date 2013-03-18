@@ -26,6 +26,7 @@ namespace WeightWatch.Views
     using System.Windows.Controls.DataVisualization.Charting;
     using Microsoft.Phone.Controls;
     using WeightWatch.Models;
+    using WeightWatch.MeasurementSystem;
 
     public partial class MainPage : PhoneApplicationPage
     {
@@ -70,7 +71,7 @@ namespace WeightWatch.Views
         {
             // Title
             var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
-            string weightAbbrev = MeasurementFactory.Get(defaultMeasurementSystem).Abbreviation;
+            string weightAbbrev = MeasurementSystemFactory.Get(defaultMeasurementSystem).Abbreviation;
             linearAxis.Title = "Weight (" + weightAbbrev + ")";
 
             // Interval, Range

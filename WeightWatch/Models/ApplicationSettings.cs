@@ -22,6 +22,7 @@
 namespace WeightWatch.Models
 {
     using System.IO.IsolatedStorage;
+    using WeightWatch.MeasurementSystem;
 
     public static class ApplicationSettings
     {
@@ -51,14 +52,14 @@ namespace WeightWatch.Models
             }
         }
 
-        public static MeasurementSystem DefaultMeasurementSystem
+        public static MeasurementUnit DefaultMeasurementSystem
         {
             get
             {
-                MeasurementSystem defaultMeasurementSystem;
+                MeasurementUnit defaultMeasurementSystem;
                 if (!IsolatedStorageSettings.ApplicationSettings.TryGetValue("MeasurementSystem", out defaultMeasurementSystem))
                 {
-                    defaultMeasurementSystem = MeasurementSystem.Imperial;
+                    defaultMeasurementSystem = MeasurementUnit.Imperial;
                     IsolatedStorageSettings.ApplicationSettings.Add("MeasurementSystem", defaultMeasurementSystem);
                 }
 

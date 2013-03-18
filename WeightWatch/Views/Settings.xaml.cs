@@ -30,6 +30,7 @@ namespace WeightWatch.Views
     using WeightWatch.Classes;
     using WeightWatch.Models;
     using WeightWatch.Skydrive;
+    using WeightWatch.MeasurementSystem;
     using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
 
     public partial class Settings : PhoneApplicationPage
@@ -45,11 +46,11 @@ namespace WeightWatch.Views
         void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             // Default Measurement
-            Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementSystem));
+            Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementUnit));
             Measurement_ListPicker.SelectionChanged += Measurement_ListPicker_SelectionChanged;
 
             var index = 0;
-            foreach (var system in Helpers.EnumToStringList(typeof(MeasurementSystem)))
+            foreach (var system in Helpers.EnumToStringList(typeof(MeasurementUnit)))
             {
                 if (system == ApplicationSettings.DefaultMeasurementSystem.ToString())
                 {
@@ -79,7 +80,7 @@ namespace WeightWatch.Views
 
         private void Measurement_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ApplicationSettings.DefaultMeasurementSystem = (MeasurementSystem)Enum.Parse(typeof(MeasurementSystem), (string)Measurement_ListPicker.SelectedItem, true);
+            ApplicationSettings.DefaultMeasurementSystem = (MeasurementUnit)Enum.Parse(typeof(MeasurementUnit), (string)Measurement_ListPicker.SelectedItem, true);
         }
 
         private void Graph_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)

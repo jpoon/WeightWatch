@@ -25,13 +25,14 @@ namespace WeightWatch.Models
     using System.ComponentModel;
     using System.Globalization;
     using System.Runtime.Serialization;
+    using WeightWatch.MeasurementSystem;
 
     [DataContract(Name = "WeightModel")]
     public class WeightModel : IComparable<WeightModel>, INotifyPropertyChanged
     {
         private double _weight;
         private DateTime _date;
-        private MeasurementSystem _measurementSystem;
+        private MeasurementUnit _measurementSystem;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -66,7 +67,7 @@ namespace WeightWatch.Models
         }
 
         [DataMember]
-        public MeasurementSystem MeasurementUnit
+        public MeasurementUnit MeasurementUnit
         {
             get
             {
@@ -80,16 +81,16 @@ namespace WeightWatch.Models
             }
         }
 
-        public WeightModel(string weightStr, DateTime date, MeasurementSystem unit)
+        public WeightModel(string weightStr, DateTime date, MeasurementUnit unit)
         {
             if (date == null)
             {
-                throw new ArgumentException("Please enter a valid date");
+                throw new ArgumentException("Please enter a non-empty date");
             }
 
             if (String.IsNullOrEmpty(weightStr))
             {
-                throw new ArgumentException("Please enter a valid weight");
+                throw new ArgumentException("Please enter a non-empty weight");
             }
 
             double weight;
@@ -99,7 +100,7 @@ namespace WeightWatch.Models
             }
             else if (weight > 9999)
             {
-                throw new ArgumentException("Please enter a valid weight");
+                throw new ArgumentException("There is no way you are this heavy...");
             }
 
             Weight = weight;

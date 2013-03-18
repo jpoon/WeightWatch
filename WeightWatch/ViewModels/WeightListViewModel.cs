@@ -29,6 +29,7 @@ namespace WeightWatch.ViewModels
     using System.Linq;
     using WeightWatch.Classes;
     using WeightWatch.Models;
+    using WeightWatch.MeasurementSystem;
 
     public class WeightListViewModel : INotifyPropertyChanged
     {
@@ -95,7 +96,7 @@ namespace WeightWatch.ViewModels
                     select item;
         }
 
-        public static void Save(string weight, DateTime date, MeasurementSystem unit)
+        public static void Save(string weight, DateTime date, MeasurementUnit unit)
         {
             var model = new WeightModel(weight, date, unit);
             _dataList.Add(model);

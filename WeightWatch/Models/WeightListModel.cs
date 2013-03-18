@@ -26,6 +26,7 @@ namespace WeightWatch.Models
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using WeightWatch.Classes;
+    using WeightWatch.MeasurementSystem;
 
     public class WeightListModel : INotifyCollectionChanged
     {
@@ -69,7 +70,7 @@ namespace WeightWatch.Models
 
         public WeightModel Get(DateTime date)
         {
-            var data = new WeightModel(String.Empty, date, MeasurementSystem.Imperial);
+            var data = new WeightModel(String.Empty, date, MeasurementUnit.Imperial);
             var index = WeightList.BinarySearch(data);
             return index >= 0 ? WeightList[index] : null;
         }

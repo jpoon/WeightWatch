@@ -71,10 +71,14 @@
   <ItemGroup>
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Classes\IsoStorage.cs" />
+    <Compile Include="MeasurementSystem\IMeasurementSystem.cs" />
+    <Compile Include="MeasurementSystem\Imperial.cs" />
+    <Compile Include="MeasurementSystem\Metric.cs" />
+    <Compile Include="MeasurementSystem\Stone.cs" />
     <Compile Include="Skydrive\Skydrive.cs" />
     <Compile Include="Classes\WeightListGroup.cs" />
     <Compile Include="Models\ApplicationSettings.cs" />
-    <Compile Include="Models\MeasurementSystem.cs" />
+    <Compile Include="MeasurementSystem\MeasurementSystemFactory.cs" />
     <Compile Include="Skydrive\SkydriveStatus.cs" />
     <Compile Include="Views\WeightEntry.xaml.cs">
       <DependentUpon>WeightEntry.xaml</DependentUpon>
