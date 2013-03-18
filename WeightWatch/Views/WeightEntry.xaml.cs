@@ -34,7 +34,7 @@ namespace WeightWatch.Views
 
     public partial class WeightEntry : PhoneApplicationPage
     {
-        public class WeightEntryItem
+        private class WeightEntryItem
         {
             public string Weight
             {
@@ -49,8 +49,8 @@ namespace WeightWatch.Views
             }
         }
 
-        readonly WeightEntryItem _newEntry;
-        WeightListViewModel _weightListViewModel;
+        private readonly WeightEntryItem _newEntry;
+        private WeightListViewModel _weightListViewModel;
 
         public WeightEntry()
         {
@@ -97,7 +97,7 @@ namespace WeightWatch.Views
             }
         }
 
-        void WeightEntry_Loaded(object sender, RoutedEventArgs e)
+        private void WeightEntry_Loaded(object sender, RoutedEventArgs e)
         {
             weightTextBox.Focus();
             weightTextBox.Select(weightTextBox.Text.Length, 0);

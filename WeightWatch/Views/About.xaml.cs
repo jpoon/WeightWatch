@@ -21,6 +21,8 @@
 
 namespace WeightWatch.Views
 {
+    using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Tasks;
     using System;
     using System.IO;
     using System.Reflection;
@@ -28,8 +30,6 @@ namespace WeightWatch.Views
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Shapes;
-    using Microsoft.Phone.Controls;
-    using Microsoft.Phone.Tasks;
 
     public partial class About : PhoneApplicationPage
     {
@@ -45,7 +45,7 @@ namespace WeightWatch.Views
             _asmName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
         }
 
-        void Settings_Loaded(object sender, RoutedEventArgs e)
+        private void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             versionTextBlock.Text = _asmName.Version.ToString();
         }

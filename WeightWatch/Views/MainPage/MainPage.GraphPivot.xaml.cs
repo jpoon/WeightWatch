@@ -21,12 +21,12 @@
 
 namespace WeightWatch.Views
 {
+    using Microsoft.Phone.Controls;
     using System;
     using System.Linq;
     using System.Windows.Controls.DataVisualization.Charting;
-    using Microsoft.Phone.Controls;
-    using WeightWatch.Models;
     using WeightWatch.MeasurementSystem;
+    using WeightWatch.Models;
 
     public partial class MainPage : PhoneApplicationPage
     {

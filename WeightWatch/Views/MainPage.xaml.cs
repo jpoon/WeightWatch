@@ -21,26 +21,18 @@
 
 namespace WeightWatch.Views
 {
-    using System;
     using Microsoft.Phone.Controls;
-    using Microsoft.Phone.Tasks;
-    using WeightWatch.Models;
+    using System;
     using WeightWatch.ViewModels;
 
     public partial class MainPage : PhoneApplicationPage
     {
-        WeightListViewModel _viewModel;
+        private WeightListViewModel _viewModel;
 
         public MainPage()
         {
             InitializeComponent();
             Loaded += MainPage_Loaded;
-        }
-
-        void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            SetupSummaryPivot();
-            SetupGraphPivot();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -56,6 +48,12 @@ namespace WeightWatch.Views
         }
 
         #region Event Handlers
+
+        private void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SetupSummaryPivot();
+            SetupGraphPivot();
+        }
 
         private void AppBarIconClick_AddWeight(object sender, EventArgs e)
         {

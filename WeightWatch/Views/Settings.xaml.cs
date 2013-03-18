@@ -28,9 +28,9 @@ namespace WeightWatch.Views
     using System.Windows;
     using System.Windows.Controls;
     using WeightWatch.Classes;
+    using WeightWatch.MeasurementSystem;
     using WeightWatch.Models;
     using WeightWatch.Skydrive;
-    using WeightWatch.MeasurementSystem;
     using GraphMode = WeightWatch.Models.ApplicationSettings.GraphMode;
 
     public partial class Settings : PhoneApplicationPage
@@ -43,7 +43,7 @@ namespace WeightWatch.Views
             Loaded += Settings_Loaded;
         }
 
-        void Settings_Loaded(object sender, RoutedEventArgs e)
+        private void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementUnit));
