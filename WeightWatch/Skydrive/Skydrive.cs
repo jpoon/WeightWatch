@@ -49,10 +49,12 @@ namespace WeightWatch.Skydrive
         public DateTime? LastBackUpDateTime { get; private set; }
 
         private LiveConnectClient _liveClient;
-        private const string backupFileName = "WeightWatch.xml"; 
+        private const string _backupFileName = "WeightWatch.xml";
+        private string _backupFileId = string.Empty;
         private const string _backupFolderName = "WeightWatch"; //the folder name for backups
         private string _backupPathId = string.Empty; //the id of the folder name for backups
         private Action _backupCompleted;
+        private Action<Stream> _downloadCompleted;
 
         public Skydrive(LiveConnectSession session)
         {
@@ -65,7 +67,7 @@ namespace WeightWatch.Skydrive
             _liveClient.GetAsync("me/skydrive/files?filter=folders,albums");
         }
 
-        public bool Backup(Stream stream, Action backupCompleted = null)
+        public bool Upload(Stream stream, Action backupCompleted = null)
         {
             var isSuccess = true;
             this.Status = SkydriveStatus.UploadPending;
@@ -74,8 +76,7 @@ namespace WeightWatch.Skydrive
             try
             {
                 _liveClient.UploadCompleted += LiveClient_UploadCompleted;
-                _liveClient.UploadAsync(_backupPathId, backupFileName, stream, OverwriteOption.Overwrite);
-                GetFile();
+                _liveClient.UploadAsync(_backupPathId, _backupFileName, stream, OverwriteOption.Overwrite, null);
             }
             catch (Exception e)
             {
@@ -86,20 +87,35 @@ namespace WeightWatch.Skydrive
             return isSuccess;
         }
 
+        public void Download(Action<Stream> downloadCompleted)
+        {
+            if (this._backupFileId == null)
+            {
+                throw new InvalidOperationException("Backup file does not exist");
+            }
+
+            this._downloadCompleted = downloadCompleted;
+            this.Status = SkydriveStatus.DownloadPending;
+
+            _liveClient.DownloadCompleted += new EventHandler<LiveDownloadCompletedEventArgs>(LiveClient_DownloadCompleted);
+            _liveClient.DownloadAsync(this._backupFileId + "/content");
+        }
+
         protected void OnPropertyChanged(string name)
         {
             var handler = this.PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(name));
-            }          
+            }
         }
 
-        private void GetFile()
+        private void LiveClient_DownloadCompleted(object sender, LiveDownloadCompletedEventArgs e)
         {
-            this.Status = SkydriveStatus.GetFilesPending;
-            _liveClient.GetCompleted += LiveClient_GetFilesCompleted;
-            _liveClient.GetAsync(_backupPathId + "/files");
+            _liveClient.DownloadCompleted -= LiveClient_DownloadCompleted;
+            this.Status = SkydriveStatus.DownloadCompleted;
+
+            this._downloadCompleted.Invoke((Stream)e.Result);
         }
 
         #region Event Handlers
@@ -107,18 +123,22 @@ namespace WeightWatch.Skydrive
         private void LiveClient_UploadCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
             _liveClient.UploadCompleted -= LiveClient_UploadCompleted;
-            if (_backupCompleted != null)
+            Console.WriteLine(e.RawResult);
+            this.Status = SkydriveStatus.UploadCompleted;
+
+            if (this._backupCompleted != null)
             {
-                _backupCompleted.Invoke();
+                this._backupCompleted.Invoke();
             }
 
-            this.Status = SkydriveStatus.UploadCompleted;
+            this.Status = SkydriveStatus.GetFilesPending;
+            _liveClient.GetCompleted += LiveClient_GetFilesCompleted;
+            _liveClient.GetAsync(_backupPathId + "/files");
         }
 
         private void LiveClient_GetFoldersCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
             _liveClient.GetCompleted -= LiveClient_GetFoldersCompleted;
-
             this.Status = SkydriveStatus.GetFoldersComplete;
 
             var folderData = (Dictionary<string, object>)e.Result;
@@ -146,7 +166,9 @@ namespace WeightWatch.Skydrive
             else
             {
                 // otherwise check if the backup file is in the folder
-                GetFile();
+                this.Status = SkydriveStatus.GetFilesPending;
+                _liveClient.GetCompleted += LiveClient_GetFilesCompleted;
+                _liveClient.GetAsync(_backupPathId + "/files");
             }
         }
 
@@ -154,15 +176,14 @@ namespace WeightWatch.Skydrive
         {
             _liveClient.PostCompleted -= LiveClient_GetFilesCompleted;
 
-            string fileID = null;
             var data = (List<object>)e.Result["data"];
 
             DateTimeOffset date = DateTime.MinValue;
             foreach (IDictionary<string, object> content in data)
             {
-                if (((string)content["name"]).Equals(backupFileName))
+                if (((string)content["name"]).Equals(_backupFileName))
                 {
-                    fileID = (string)content["id"];
+                    this._backupFileId = (string)content["id"];
                     try
                     {
                         date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));

@@ -41,7 +41,7 @@ namespace WeightWatch.MeasurementSystem
         {
             if (!InstanceCache.ContainsKey(system))
             {
-                var systemType = Type.GetType("WeightWatch.Models." + system);
+                var systemType = Type.GetType("WeightWatch.MeasurementSystem." + system);
                 if (systemType == null)
                 {
                     throw new ArgumentException("Unexpected Measurement System of " + system);

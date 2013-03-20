@@ -71,5 +71,16 @@ namespace WeightWatch.Classes
                 }
             }
         }
+
+        public static void Save(Stream streamToSave)
+        {
+            using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (var stream = new IsolatedStorageFileStream(WeightFile, FileMode.Create, isf))
+                {
+                    streamToSave.CopyTo(stream);
+                }
+            }
+        }
     }
 }

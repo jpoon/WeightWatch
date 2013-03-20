@@ -34,7 +34,7 @@ namespace WeightWatch.Views
 
     public partial class WeightEntry : PhoneApplicationPage
     {
-        private class WeightEntryItem
+        public class WeightEntryItem
         {
             public string Weight
             {

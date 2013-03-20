@@ -38,10 +38,7 @@ namespace WeightWatch.Models
 
         public WeightListModel()
         {
-            if (_weightList == null)
-            {
-                _weightList = IsoStorage.GetContent();
-            }
+            _weightList = IsoStorage.GetContent();
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;

@@ -106,6 +106,9 @@ namespace WeightWatch.Views
         {
             if (e.PropertyName.Equals("Status"))
             {
+                buttonBackup.IsEnabled = false;
+                buttonRestore.IsEnabled = false;
+
                 switch (this._skydrive.Status)
                 {
                     case SkydriveStatus.GetFoldersPending:
@@ -119,6 +122,10 @@ namespace WeightWatch.Views
                         infoTextBlock.Text = "Uploading backup...";
                         dateTextBlock.Text = "";
                         break;
+                    case SkydriveStatus.DownloadPending:
+                        infoTextBlock.Text = "Restoring backup...";
+                        dateTextBlock.Text = "";
+                        break;
                     case SkydriveStatus.GetFoldersComplete:
                         break;
                     case SkydriveStatus.CreateFolderComplete:
@@ -126,17 +133,21 @@ namespace WeightWatch.Views
                     case SkydriveStatus.UploadCompleted:
                         buttonBackup.IsEnabled = true;
                         infoTextBlock.Text = "Ready to backup.";
-
-                        if (this._skydrive.LastBackUpDateTime != null)
-                        {
-                            buttonRestore.IsEnabled = true;
-                            dateTextBlock.Text = "Last backup on " + this._skydrive.LastBackUpDateTime.ToString();
-                        }
-                        else
-                        {
-                            dateTextBlock.Text = "No previous backup available to restore.";
-                        }
                         break;
+                    case SkydriveStatus.DownloadCompleted:
+                        buttonBackup.IsEnabled = true;
+                        infoTextBlock.Text = "Restore complete.";
+                        break;
+                }
+
+                if (this._skydrive.LastBackUpDateTime != null)
+                {
+                    buttonRestore.IsEnabled = true;
+                    dateTextBlock.Text = "Last backup on " + this._skydrive.LastBackUpDateTime.ToString();
+                }
+                else
+                {
+                    dateTextBlock.Text = "No previous backup available to restore.";
                 }
             }
         }
@@ -152,7 +163,7 @@ namespace WeightWatch.Views
                 if (MessageBox.Show("Are you sure you want to backup? This will overwrite your old backup file!", "Backup?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     Stream stream = IsoStorage.GetStream();
-                    var backupResponse = this._skydrive.Backup(stream, () => stream.Dispose());
+                    var backupResponse = this._skydrive.Upload(stream, () => stream.Dispose());
 
                     if (!backupResponse)
                     {
@@ -162,100 +173,22 @@ namespace WeightWatch.Views
                     }
                 }
             }
-
         }
 
-        /*
-        private void download()
-        {
-            if (fileID != null)
-            {
-                infoTextBlock.Text = "Downloading backup...";
-
-                client.DownloadAsync(fileID + "/content");
-                client.DownloadCompleted += new EventHandler<LiveDownloadCompletedEventArgs>(client_DownloadCompleted);
-            }
-
-            else
-                MessageBox.Show("Backup file doesn't exist!", "Error", MessageBoxButton.OK);
-        }
-
-        void client_DownloadCompleted(object sender, LiveDownloadCompletedEventArgs e)
-        {
-            Stream stream = e.Result;
-
-            /*
-            //CHANGE "App.MyStorage.Restore" to a method of your own that takes a Stream, deserializes it, updates your local storage,
-            //and then returns true if it was successful or false if not successful.
-            if (IsoStorage.App.MyStorage.Restore(stream)) //CHANGE THIS
-            {
-                infoTextBlock.Text = "Restore completed!";
-            }
-
-            else
-            {
-                MessageBox.Show("Restore failed.", "Failure", MessageBoxButton.OK);
-            }
-        }*/
         private void buttonRestore_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (client == null || client.Session == null)
+            if (_skydrive == null)
             {
                 MessageBox.Show("You must sign in first.");
             }
             else
             {
                 if (MessageBox.Show("Are you sure you want to restore your data? This will overwrite all your current items and settings in the app!", "Restore?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                    download();
-            }*/
-        }
-
-        /*
-        //checks all the files in the folder to see if a backup file exists
-        void getFiles_GetCompleted(object sender, LiveOperationCompletedEventArgs e)
-        {
-            string fileID = null;
-            List<object> data = (List<object>)e.Result["data"];
-
-            dateTextBlock.Text = "Obtaining previous backup...";
-            DateTimeOffset date = DateTime.MinValue;
-
-            foreach (IDictionary<string, object> content in data)
-            {
-                if (((string)content["name"]).Equals(fileName))
                 {
-                    fileID = (string)content["id"];
-                    try
-                    {
-                        date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));
-                    }
-
-                    catch { }
-
-                    break;
+                    this._skydrive.Download((Stream s) => IsoStorage.Save(s));
                 }
             }
-
-            if (fileID != null)
-            {
-                try
-                {
-                    dateTextBlock.Text = (date != DateTime.MinValue) ? "Last backup on " + date.Add(date.Offset).DateTime : "Last backup on: unknown";
-                }
-
-                catch
-                {
-                    dateTextBlock.Text = "Last backup on: unknown";
-                }
-
-                buttonRestore.IsEnabled = true; //enable restoring since the file exists
-            }
-
-            else
-                dateTextBlock.Text = "No previous backup available to restore.";
         }
-         */
 
         #endregion
     }

@@ -146,6 +146,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AppIcon\ApplicationIcon_173x173.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Resource Include="Assets\arrow_down.png" />
     <Resource Include="Assets\arrow_up.png" />
     <Content Include="SplashScreenImage.jpg" />

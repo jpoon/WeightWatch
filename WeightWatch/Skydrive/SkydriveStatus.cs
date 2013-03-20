@@ -32,6 +32,8 @@ namespace WeightWatch.Skydrive
         GetFilesComplete,//
         UploadPending,
         UploadCompleted,
+        DownloadPending,
+        DownloadCompleted,
     }
 
 }
