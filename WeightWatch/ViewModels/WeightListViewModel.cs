@@ -41,7 +41,7 @@ namespace WeightWatch.ViewModels
 
             _dataList = new WeightListModel();
             _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
-            _dataList.CollectionChanged += _dataList_CollectionChanged;
+            _dataList.CollectionChanged += DataListCollectionChanged;
         }
 
         #region Properties
@@ -96,7 +96,7 @@ namespace WeightWatch.ViewModels
                     select item;
         }
 
-        public static void Save(string weight, DateTime date, MeasurementUnit unit)
+        public static void Save(string weight, DateTime? date, MeasurementUnit unit)
         {
             var model = new WeightModel(weight, date, unit);
             _dataList.Add(model);
@@ -113,7 +113,7 @@ namespace WeightWatch.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void _dataList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void DataListCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

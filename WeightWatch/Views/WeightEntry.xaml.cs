@@ -30,7 +30,6 @@ namespace WeightWatch.Views
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
     using WeightWatch.MeasurementSystem;
-    using System.Globalization;
 
     public partial class WeightEntry : PhoneApplicationPage
     {
@@ -111,7 +110,7 @@ namespace WeightWatch.Views
 
             try
             {
-                WeightListViewModel.Save(_newEntry.Weight, (DateTime)_newEntry.Date, MeasurementSystemFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
+                WeightListViewModel.Save(_newEntry.Weight, _newEntry.Date, MeasurementSystemFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
                 GoBackOrMainMenu();
             }
             catch (ArgumentException exception)

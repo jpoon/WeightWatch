@@ -21,8 +21,6 @@
 
 namespace WeightWatch.MeasurementSystem
 {
-    using System;
-
     public interface IMeasurementSystem
     {
         string Abbreviation { get; }

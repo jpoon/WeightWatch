@@ -24,7 +24,6 @@ namespace WeightWatch.Views
     using Microsoft.Live;
     using Microsoft.Phone.Controls;
     using System;
-    using System.IO;
     using System.Windows;
     using System.Windows.Controls;
     using WeightWatch.Classes;
@@ -93,7 +92,7 @@ namespace WeightWatch.Views
             if (e.Status == LiveConnectSessionStatus.Connected)
             {
                 _skydrive = new Skydrive(e.Session);
-                _skydrive.PropertyChanged += Skydrive_PropertyChanged;
+                _skydrive.PropertyChanged += SkydrivePropertyChanged;
                 infoTextBlock.Text = "Accessing SkyDrive...";
             }
             else
@@ -102,7 +101,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void Skydrive_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void SkydrivePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Status"))
             {
@@ -152,7 +151,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void buttonBackup_Click(object sender, RoutedEventArgs e)
+        private void ButtonBackupClick(object sender, RoutedEventArgs e)
         {
             if (_skydrive == null)
             {
@@ -162,8 +161,8 @@ namespace WeightWatch.Views
             {
                 if (MessageBox.Show("Are you sure you want to backup? This will overwrite your old backup file!", "Backup?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    Stream stream = IsoStorage.GetStream();
-                    var backupResponse = this._skydrive.Upload(stream, () => stream.Dispose());
+                    var stream = IsoStorage.GetStream();
+                    var backupResponse = this._skydrive.Upload(stream, stream.Dispose);
 
                     if (!backupResponse)
                     {
@@ -175,7 +174,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void buttonRestore_Click(object sender, RoutedEventArgs e)
+        private void ButtonRestoreClick(object sender, RoutedEventArgs e)
         {
             if (_skydrive == null)
             {
@@ -185,7 +184,7 @@ namespace WeightWatch.Views
             {
                 if (MessageBox.Show("Are you sure you want to restore your data? This will overwrite all your current items and settings in the app!", "Restore?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    this._skydrive.Download((Stream s) => IsoStorage.Save(s));
+                    this._skydrive.Download(IsoStorage.Save);
                 }
             }
         }

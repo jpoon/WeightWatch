@@ -25,7 +25,6 @@ namespace WeightWatch.Classes
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
-    using System.Xml.Linq;
     using WeightWatch.Models;
 
     public class IsoStorage

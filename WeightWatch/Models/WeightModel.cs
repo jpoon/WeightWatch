@@ -81,7 +81,7 @@ namespace WeightWatch.Models
             }
         }
 
-        public WeightModel(string weightStr, DateTime date, MeasurementUnit unit)
+        public WeightModel(string weightStr, DateTime? date, MeasurementUnit unit)
         {
             if (date == null)
             {
@@ -98,13 +98,13 @@ namespace WeightWatch.Models
             {
                 throw new ArgumentException("Please enter a valid weight");
             }
-            else if (weight > 9999)
+            if (weight > 9999)
             {
                 throw new ArgumentException("There is no way you are this heavy...");
             }
 
             Weight = weight;
-            Date = date;
+            Date = date.Value;
             MeasurementUnit = unit;
         }
 
@@ -120,9 +120,11 @@ namespace WeightWatch.Models
 
         protected void OnPropertyChanged(string name)
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
+            var handler = this.PropertyChanged;
             if (handler != null)
+            {
                 handler(this, new PropertyChangedEventArgs(name));
+            }
         }
     }
 }

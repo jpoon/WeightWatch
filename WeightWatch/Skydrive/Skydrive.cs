@@ -19,6 +19,8 @@
  * THE SOFTWARE.
  */
 
+using System.Linq;
+
 namespace WeightWatch.Skydrive
 {
     using Microsoft.Live;
@@ -48,10 +50,10 @@ namespace WeightWatch.Skydrive
 
         public DateTime? LastBackUpDateTime { get; private set; }
 
-        private LiveConnectClient _liveClient;
-        private const string _backupFileName = "WeightWatch.xml";
+        private readonly LiveConnectClient _liveClient;
+        private const string BackupFileName = "WeightWatch.xml";
         private string _backupFileId = string.Empty;
-        private const string _backupFolderName = "WeightWatch"; //the folder name for backups
+        private const string BackupFolderName = "WeightWatch"; //the folder name for backups
         private string _backupPathId = string.Empty; //the id of the folder name for backups
         private Action _backupCompleted;
         private Action<Stream> _downloadCompleted;
@@ -76,7 +78,7 @@ namespace WeightWatch.Skydrive
             try
             {
                 _liveClient.UploadCompleted += LiveClient_UploadCompleted;
-                _liveClient.UploadAsync(_backupPathId, _backupFileName, stream, OverwriteOption.Overwrite, null);
+                _liveClient.UploadAsync(_backupPathId, BackupFileName, stream, OverwriteOption.Overwrite, null);
             }
             catch (Exception e)
             {
@@ -97,7 +99,7 @@ namespace WeightWatch.Skydrive
             this._downloadCompleted = downloadCompleted;
             this.Status = SkydriveStatus.DownloadPending;
 
-            _liveClient.DownloadCompleted += new EventHandler<LiveDownloadCompletedEventArgs>(LiveClient_DownloadCompleted);
+            _liveClient.DownloadCompleted += LiveClient_DownloadCompleted;
             _liveClient.DownloadAsync(this._backupFileId + "/content");
         }
 
@@ -115,7 +117,7 @@ namespace WeightWatch.Skydrive
             _liveClient.DownloadCompleted -= LiveClient_DownloadCompleted;
             this.Status = SkydriveStatus.DownloadCompleted;
 
-            this._downloadCompleted.Invoke((Stream)e.Result);
+            this._downloadCompleted.Invoke(e.Result);
         }
 
         #region Event Handlers
@@ -144,10 +146,10 @@ namespace WeightWatch.Skydrive
             var folderData = (Dictionary<string, object>)e.Result;
             var folders = (List<object>)folderData["data"];
 
-            foreach (object item in folders)
+            foreach (var item in folders)
             {
                 var folder = (Dictionary<string, object>)item;
-                if (folder["name"].ToString() == _backupFolderName)
+                if (folder["name"].ToString() == BackupFolderName)
                 {
                     _backupPathId = folder["id"].ToString();
                 }
@@ -156,8 +158,8 @@ namespace WeightWatch.Skydrive
             if (String.IsNullOrEmpty(_backupPathId))
             {
                 // create folder
-                Dictionary<string, object> skyDriveFolderData = new Dictionary<string, object>();
-                skyDriveFolderData.Add("name", _backupFolderName);
+                var skyDriveFolderData = new Dictionary<string, object>();
+                skyDriveFolderData.Add("name", BackupFolderName);
 
                 this.Status = SkydriveStatus.CreateFolderPending;
                 _liveClient.PostCompleted += LiveClient_CreateFolderCompleted;
@@ -178,20 +180,17 @@ namespace WeightWatch.Skydrive
 
             var data = (List<object>)e.Result["data"];
 
-            DateTimeOffset date = DateTime.MinValue;
-            foreach (IDictionary<string, object> content in data)
+            DateTimeOffset date;
+            foreach (var content in data.Cast<IDictionary<string, object>>().Where(content => ((string)content["name"]).Equals(BackupFileName)))
             {
-                if (((string)content["name"]).Equals(_backupFileName))
+                this._backupFileId = (string)content["id"];
+                try
                 {
-                    this._backupFileId = (string)content["id"];
-                    try
-                    {
-                        date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));
-                        LastBackUpDateTime = date.Add(date.Offset).DateTime;
-                    }
-                    catch { }
-                    break;
+                    date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));
+                    LastBackUpDateTime = date.Add(date.Offset).DateTime;
                 }
+                catch { }
+                break;
             }
 
             this.Status = SkydriveStatus.GetFilesComplete;
