@@ -19,17 +19,19 @@
  * THE SOFTWARE.
  */
 
+
 namespace WeightWatch.Views
 {
+    using Microsoft.Phone.Controls;
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
-    using Microsoft.Phone.Controls;
     using WeightWatch.Classes;
+    using WeightWatch.MeasurementSystem;
     using WeightWatch.Models;
     using WeightWatch.ViewModels;
-    using WeightWatch.MeasurementSystem;
 
     public partial class WeightEntry : PhoneApplicationPage
     {
@@ -54,7 +56,7 @@ namespace WeightWatch.Views
         public WeightEntry()
         {
             InitializeComponent();
-            Loaded += WeightEntry_Loaded;
+            Loaded += WeightEntryLoaded;
 
             _newEntry = new WeightEntryItem();
             DataContext = _newEntry;
@@ -67,19 +69,25 @@ namespace WeightWatch.Views
             _weightListViewModel = new WeightListViewModel();
 
             var selectedSystem = ApplicationSettings.DefaultMeasurementSystem;
+
             string dateString;
             if (NavigationContext.QueryString.TryGetValue("Date", out dateString))
             {
-                PageTitle.Text = "edit";
-
                 DateTime datetime;
-                DateTime.TryParse(dateString, out datetime);
-                weightDatePicker.Value = datetime;
-                weightDatePicker.IsEnabled = false;
+                if (DateTime.TryParse(dateString, out datetime))
+                {
+                    var viewModel = _weightListViewModel.Get(datetime);
+                    if (viewModel != null)
+                    {
+                        weightDatePicker.Value = datetime;
+                        weightDatePicker.IsEnabled = false;
 
-                var viewModel = _weightListViewModel.Get(datetime);
-                weightTextBox.Text = viewModel.Weight.ToString();
-                selectedSystem = viewModel.WeightModel.MeasurementUnit;
+                        weightTextBox.Text = viewModel.Weight.ToString(CultureInfo.InvariantCulture);
+                        selectedSystem = viewModel.WeightModel.MeasurementUnit;
+
+                        PageTitle.Text = "edit";
+                    }
+                }
             }
             
             Measurement_ListPicker.ItemsSource = MeasurementSystemFactory.Get().Select(system => system.Abbreviation);
@@ -96,13 +104,13 @@ namespace WeightWatch.Views
             }
         }
 
-        private void WeightEntry_Loaded(object sender, RoutedEventArgs e)
+        private void WeightEntryLoaded(object sender, RoutedEventArgs e)
         {
             weightTextBox.Focus();
             weightTextBox.Select(weightTextBox.Text.Length, 0);
         }
 
-        private void AppBarIconButton_SaveClick(object sender, EventArgs args)
+        private void AppBarIconButtonSaveClick(object sender, EventArgs args)
         {
             // Force update binding first
             var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
@@ -111,7 +119,7 @@ namespace WeightWatch.Views
             try
             {
                 WeightListViewModel.Save(_newEntry.Weight, _newEntry.Date, MeasurementSystemFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
-                GoBackOrMainMenu();
+                GoToMainMenu();
             }
             catch (ArgumentException exception)
             {
@@ -119,21 +127,14 @@ namespace WeightWatch.Views
             }
         }
 
-        private void AppBarIconButton_CancelClick(object sender, EventArgs e)
+        private void AppBarIconButtonCancelClick(object sender, EventArgs e)
         {
-            GoBackOrMainMenu();
+            GoToMainMenu();
         }
 
-        private void GoBackOrMainMenu()
+        private void GoToMainMenu()
         {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
-            }
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
         }
     }
 }
