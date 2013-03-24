@@ -164,10 +164,11 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Settings" Click="AppBarIconClick_Settings"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="AppBarIconClick_About"/>
             </shell:ApplicationBar.MenuItems>
-            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" Text="add weight" Click="AppBarIconClick_AddWeight"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.add.rest.png" Text="new entry" Click="AppBarIconClick_AddWeight"/>
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/appbar.feature.settings.rest.png" Text="settings" Click="AppBarIconClick_Settings"/>
+            
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

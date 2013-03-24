@@ -23,6 +23,7 @@ namespace WeightWatch.Views
 {
     using Microsoft.Live;
     using Microsoft.Phone.Controls;
+    using Microsoft.Phone.Shell;
     using System;
     using System.Windows;
     using System.Windows.Controls;
@@ -35,18 +36,27 @@ namespace WeightWatch.Views
     public partial class Settings : PhoneApplicationPage
     {
         private Skydrive _skydrive;
+        private readonly ProgressIndicator _progressIndicator;
 
         public Settings()
         {
             InitializeComponent();
             Loaded += Settings_Loaded;
+
+            this._progressIndicator = new ProgressIndicator
+            {
+                IsVisible = false,
+                IsIndeterminate = false,
+            };
+
+            SystemTray.SetProgressIndicator(this, _progressIndicator);
         }
 
         private void Settings_Loaded(object sender, RoutedEventArgs e)
         {
             // Default Measurement
             Measurement_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(MeasurementUnit));
-            Measurement_ListPicker.SelectionChanged += Measurement_ListPicker_SelectionChanged;
+            Measurement_ListPicker.SelectionChanged += MeasurementListPickerSelectionChanged;
 
             var index = 0;
             foreach (var system in Helpers.EnumToStringList(typeof(MeasurementUnit)))
@@ -61,7 +71,7 @@ namespace WeightWatch.Views
 
             // Default Graph
             Graph_ListPicker.ItemsSource = Helpers.EnumToStringList(typeof(GraphMode));
-            Graph_ListPicker.SelectionChanged += Graph_ListPicker_SelectionChanged;
+            Graph_ListPicker.SelectionChanged += GraphListPickerSelectionChanged;
 
             index = 0;
             foreach (var system in Helpers.EnumToStringList(typeof(GraphMode)))
@@ -77,27 +87,25 @@ namespace WeightWatch.Views
 
         #region Event Handlers
 
-        private void Measurement_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MeasurementListPickerSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplicationSettings.DefaultMeasurementSystem = (MeasurementUnit)Enum.Parse(typeof(MeasurementUnit), (string)Measurement_ListPicker.SelectedItem, true);
         }
 
-        private void Graph_ListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void GraphListPickerSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ApplicationSettings.DefaultGraphMode = (GraphMode)Enum.Parse(typeof(GraphMode), (string)Graph_ListPicker.SelectedItem, true);
         }
 
-        private void LiveIdSignIn_Button_SessionChanged(object sender, Microsoft.Live.Controls.LiveConnectSessionChangedEventArgs e)
+        private void LiveIdSignInButtonSessionChanged(object sender, Microsoft.Live.Controls.LiveConnectSessionChangedEventArgs e)
         {
             if (e.Status == LiveConnectSessionStatus.Connected)
             {
                 _skydrive = new Skydrive(e.Session);
                 _skydrive.PropertyChanged += SkydrivePropertyChanged;
-                infoTextBlock.Text = "Accessing SkyDrive...";
-            }
-            else
-            {
-                infoTextBlock.Text = "Not signed in.";
+
+                this._progressIndicator.Text = "Accessing SkyDrive...";
+                this._progressIndicator.IsVisible = true;
             }
         }
 
@@ -107,47 +115,40 @@ namespace WeightWatch.Views
             {
                 buttonBackup.IsEnabled = false;
                 buttonRestore.IsEnabled = false;
+                dateTextBlock.Text = String.Empty;
 
                 switch (this._skydrive.Status)
                 {
+                    case SkydriveStatus.Error:
+                        MessageBox.Show(this._skydrive.ErrorMessage);
+                        break;
                     case SkydriveStatus.GetFoldersPending:
-                        break;
                     case SkydriveStatus.GetFilesPending:
-                        dateTextBlock.Text = "Obtaining previous backup...";
-                        break;
                     case SkydriveStatus.CreateFolderPending:
-                        break;
                     case SkydriveStatus.UploadPending:
-                        infoTextBlock.Text = "Uploading backup...";
-                        dateTextBlock.Text = "";
-                        break;
                     case SkydriveStatus.DownloadPending:
-                        infoTextBlock.Text = "Restoring backup...";
-                        dateTextBlock.Text = "";
-                        break;
                     case SkydriveStatus.GetFoldersComplete:
                         break;
                     case SkydriveStatus.CreateFolderComplete:
                     case SkydriveStatus.GetFilesComplete:
                     case SkydriveStatus.UploadCompleted:
-                        buttonBackup.IsEnabled = true;
-                        infoTextBlock.Text = "Ready to backup.";
-                        break;
                     case SkydriveStatus.DownloadCompleted:
                         buttonBackup.IsEnabled = true;
-                        infoTextBlock.Text = "Restore complete.";
+                        this._progressIndicator.IsVisible = false;
+
+                        if (this._skydrive.LastBackUpDateTime != null)
+                        {
+                            buttonRestore.IsEnabled = true;
+                            dateTextBlock.Text = "Last backup on " + this._skydrive.LastBackUpDateTime;
+                        }
+                        else
+                        {
+                            dateTextBlock.Text = "No previous backup available to restore.";
+                        }
                         break;
                 }
 
-                if (this._skydrive.LastBackUpDateTime != null)
-                {
-                    buttonRestore.IsEnabled = true;
-                    dateTextBlock.Text = "Last backup on " + this._skydrive.LastBackUpDateTime.ToString();
-                }
-                else
-                {
-                    dateTextBlock.Text = "No previous backup available to restore.";
-                }
+
             }
         }
 
@@ -159,17 +160,14 @@ namespace WeightWatch.Views
             }
             else
             {
-                if (MessageBox.Show("Are you sure you want to backup? This will overwrite your old backup file!", "Backup?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("This will overwrite your old backup file.", "Backup?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    var stream = IsoStorage.GetStream();
-                    var backupResponse = this._skydrive.Upload(stream, stream.Dispose);
+                    this._progressIndicator.Text = "Uploading backup...";
+                    this._progressIndicator.IsVisible = true;
 
-                    if (!backupResponse)
-                    {
-                        MessageBox.Show("Error accessing IsolatedStorage. Please close the app and re-open it, and then try backing up again!", "Backup Failed", MessageBoxButton.OK);
-                        infoTextBlock.Text = "Error. Close the app and start again.";
-                        dateTextBlock.Text = "";
-                    }
+                    var stream = IsoStorage.GetStream();
+
+                    this._skydrive.Upload(stream, stream.Dispose);
                 }
             }
         }
@@ -182,8 +180,11 @@ namespace WeightWatch.Views
             }
             else
             {
-                if (MessageBox.Show("Are you sure you want to restore your data? This will overwrite all your current items and settings in the app!", "Restore?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show("This will overwrite your existing weight history.", "Restore?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
+                    this._progressIndicator.Text = "Restoring backup...";
+                    this._progressIndicator.IsVisible = true;
+
                     this._skydrive.Download(IsoStorage.Save);
                 }
             }

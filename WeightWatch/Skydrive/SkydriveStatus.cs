@@ -24,6 +24,7 @@ namespace WeightWatch.Skydrive
     public enum SkydriveStatus
     {
         None,
+        Error,
         GetFoldersPending,
         GetFoldersComplete,
         CreateFolderPending,

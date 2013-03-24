@@ -132,6 +132,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AppBar\appbar.feature.settings.rest.png" />
     <Content Include="Assets\AppIcon\ApplicationIcon_99x99.png" />
     <Content Include="changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -48,6 +48,7 @@ namespace WeightWatch.Skydrive
             }
         }
 
+        public string ErrorMessage { get; private set; }
         public DateTime? LastBackUpDateTime { get; private set; }
 
         private readonly LiveConnectClient _liveClient;
@@ -65,28 +66,17 @@ namespace WeightWatch.Skydrive
             this.Status = SkydriveStatus.GetFoldersPending;
             LastBackUpDateTime = null;
 
-            _liveClient.GetCompleted += LiveClient_GetFoldersCompleted;
+            _liveClient.GetCompleted += LiveClientGetFoldersCompleted;
             _liveClient.GetAsync("me/skydrive/files?filter=folders,albums");
         }
 
-        public bool Upload(Stream stream, Action backupCompleted = null)
+        public void Upload(Stream stream, Action backupCompleted = null)
         {
-            var isSuccess = true;
             this.Status = SkydriveStatus.UploadPending;
             this._backupCompleted = backupCompleted;
 
-            try
-            {
-                _liveClient.UploadCompleted += LiveClient_UploadCompleted;
-                _liveClient.UploadAsync(_backupPathId, BackupFileName, stream, OverwriteOption.Overwrite, null);
-            }
-            catch (Exception e)
-            {
-                // log
-                isSuccess = false;
-            }
-
-            return isSuccess;
+            _liveClient.UploadCompleted += LiveClientUploadCompleted;
+            _liveClient.UploadAsync(_backupPathId, BackupFileName, stream, OverwriteOption.Overwrite, null);
         }
 
         public void Download(Action<Stream> downloadCompleted)
@@ -99,8 +89,14 @@ namespace WeightWatch.Skydrive
             this._downloadCompleted = downloadCompleted;
             this.Status = SkydriveStatus.DownloadPending;
 
-            _liveClient.DownloadCompleted += LiveClient_DownloadCompleted;
+            _liveClient.DownloadCompleted += LiveClientDownloadCompleted;
             _liveClient.DownloadAsync(this._backupFileId + "/content");
+        }
+
+        private void SkydriveError(string errorMessage)
+        {
+            this.ErrorMessage = errorMessage;
+            this.Status = SkydriveStatus.Error;
         }
 
         protected void OnPropertyChanged(string name)
@@ -112,20 +108,33 @@ namespace WeightWatch.Skydrive
             }
         }
 
-        private void LiveClient_DownloadCompleted(object sender, LiveDownloadCompletedEventArgs e)
+        #region Event Handlers
+
+        private void LiveClientDownloadCompleted(object sender, LiveDownloadCompletedEventArgs e)
         {
-            _liveClient.DownloadCompleted -= LiveClient_DownloadCompleted;
+            _liveClient.DownloadCompleted -= LiveClientDownloadCompleted;
+
+            if (e.Error != null)
+            {
+                SkydriveError(e.Error.Message);
+                return;
+            }
+
             this.Status = SkydriveStatus.DownloadCompleted;
 
             this._downloadCompleted.Invoke(e.Result);
         }
 
-        #region Event Handlers
-
-        private void LiveClient_UploadCompleted(object sender, LiveOperationCompletedEventArgs e)
+        private void LiveClientUploadCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
-            _liveClient.UploadCompleted -= LiveClient_UploadCompleted;
-            Console.WriteLine(e.RawResult);
+            _liveClient.UploadCompleted -= LiveClientUploadCompleted;
+
+            if (e.Error != null)
+            {
+                SkydriveError(e.Error.Message);
+                return;
+            }
+
             this.Status = SkydriveStatus.UploadCompleted;
 
             if (this._backupCompleted != null)
@@ -134,59 +143,66 @@ namespace WeightWatch.Skydrive
             }
 
             this.Status = SkydriveStatus.GetFilesPending;
-            _liveClient.GetCompleted += LiveClient_GetFilesCompleted;
+            _liveClient.GetCompleted += LiveClientGetFilesCompleted;
             _liveClient.GetAsync(_backupPathId + "/files");
         }
 
-        private void LiveClient_GetFoldersCompleted(object sender, LiveOperationCompletedEventArgs e)
+        private void LiveClientGetFoldersCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
-            _liveClient.GetCompleted -= LiveClient_GetFoldersCompleted;
+            _liveClient.GetCompleted -= LiveClientGetFoldersCompleted;
+
+            if (e.Error != null)
+            {
+                SkydriveError(e.Error.Message);
+                return;
+            }
+            
             this.Status = SkydriveStatus.GetFoldersComplete;
 
             var folderData = (Dictionary<string, object>)e.Result;
             var folders = (List<object>)folderData["data"];
 
-            foreach (var item in folders)
+            foreach (var folder in folders.Cast<Dictionary<string, object>>().Where(folder => folder["name"].ToString() == BackupFolderName))
             {
-                var folder = (Dictionary<string, object>)item;
-                if (folder["name"].ToString() == BackupFolderName)
-                {
-                    _backupPathId = folder["id"].ToString();
-                }
+                _backupPathId = folder["id"].ToString();
             }
 
             if (String.IsNullOrEmpty(_backupPathId))
             {
                 // create folder
-                var skyDriveFolderData = new Dictionary<string, object>();
-                skyDriveFolderData.Add("name", BackupFolderName);
+                var skyDriveFolderData = new Dictionary<string, object> { {"name", BackupFolderName }};
 
                 this.Status = SkydriveStatus.CreateFolderPending;
-                _liveClient.PostCompleted += LiveClient_CreateFolderCompleted;
+                _liveClient.PostCompleted += LiveClientCreateFolderCompleted;
                 _liveClient.PostAsync("me/skydrive", skyDriveFolderData);
             }
             else
             {
                 // otherwise check if the backup file is in the folder
                 this.Status = SkydriveStatus.GetFilesPending;
-                _liveClient.GetCompleted += LiveClient_GetFilesCompleted;
+                _liveClient.GetCompleted += LiveClientGetFilesCompleted;
                 _liveClient.GetAsync(_backupPathId + "/files");
             }
         }
 
-        private void LiveClient_GetFilesCompleted(object sender, LiveOperationCompletedEventArgs e)
+        private void LiveClientGetFilesCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
-            _liveClient.PostCompleted -= LiveClient_GetFilesCompleted;
+            _liveClient.PostCompleted -= LiveClientGetFilesCompleted;
+
+            if (e.Error != null)
+            {
+                SkydriveError(e.Error.Message);
+                return;
+            }
 
             var data = (List<object>)e.Result["data"];
 
-            DateTimeOffset date;
             foreach (var content in data.Cast<IDictionary<string, object>>().Where(content => ((string)content["name"]).Equals(BackupFileName)))
             {
                 this._backupFileId = (string)content["id"];
                 try
                 {
-                    date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));
+                    var date = DateTimeOffset.Parse(((string)content["updated_time"]).Substring(0, 19));
                     LastBackUpDateTime = date.Add(date.Offset).DateTime;
                 }
                 catch { }
@@ -196,21 +212,21 @@ namespace WeightWatch.Skydrive
             this.Status = SkydriveStatus.GetFilesComplete;
         }
 
-        private void LiveClient_CreateFolderCompleted(object sender, LiveOperationCompletedEventArgs e)
+        private void LiveClientCreateFolderCompleted(object sender, LiveOperationCompletedEventArgs e)
         {
-            _liveClient.GetCompleted -= LiveClient_CreateFolderCompleted;
+            _liveClient.GetCompleted -= LiveClientCreateFolderCompleted;
 
-            if (e.Error == null)
+            if (e.Error != null)
             {
-                var folder = (Dictionary<string, object>)e.Result;
-                _backupPathId = folder["id"].ToString(); 
-            }
-            else
-            {
-                //MessageBox.Show(e.Error.Message);
+                SkydriveError(e.Error.Message);
+                return;
             }
 
             this.Status = SkydriveStatus.CreateFolderComplete;
+
+            var folder = (Dictionary<string, object>)e.Result;
+            _backupPathId = folder["id"].ToString(); 
+
         }
 
         #endregion
