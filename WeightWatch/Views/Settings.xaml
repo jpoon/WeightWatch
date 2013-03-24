@@ -44,8 +44,8 @@
                         Branding="Windows" 
                         TextType="SignIn" 
                         SessionChanged="LiveIdSignIn_Button_SessionChanged"/>
-                    <Button x:Name="buttonBackup" Click="buttonBackup_Click" Content="Backup" IsEnabled="False" />
-                    <Button x:Name="buttonRestore" Click="buttonRestore_Click" Content="Restore" IsEnabled="False"/>
+                    <Button x:Name="buttonBackup" Click="ButtonBackupClick" Content="Backup" IsEnabled="False" />
+                    <Button x:Name="buttonRestore" Click="ButtonRestoreClick" Content="Restore" IsEnabled="False"/>
                     <TextBlock x:Name="infoTextBlock" TextWrapping="Wrap" Margin="12, 30, 12, 12"/>
                     <TextBlock x:Name="dateTextBlock" TextWrapping="Wrap" Margin="12, 30, 12, 12"/>
                 </StackPanel>

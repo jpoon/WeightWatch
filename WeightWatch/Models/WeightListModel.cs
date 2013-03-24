@@ -22,10 +22,10 @@
 namespace WeightWatch.Models
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using WeightWatch.Classes;
-    using WeightWatch.MeasurementSystem;
 
     public class WeightListModel : INotifyCollectionChanged
     {
@@ -66,9 +66,7 @@ namespace WeightWatch.Models
 
         public WeightModel Get(DateTime date)
         {
-            var data = new WeightModel(String.Empty, date, MeasurementUnit.Imperial);
-            var index = WeightList.BinarySearch(data);
-            return index >= 0 ? WeightList[index] : null;
+            return WeightList.FirstOrDefault(c => c.Date.Equals(date));
         }
 
         public void Delete(WeightModel data)

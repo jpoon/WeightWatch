@@ -102,6 +102,10 @@ namespace WeightWatch.Models
             {
                 throw new ArgumentException("There is no way you are this heavy...");
             }
+            if (weight <= 0)
+            {
+                throw new ArgumentException("You weigh nothing?");
+            }
 
             Weight = weight;
             Date = date.Value;
