@@ -19,8 +19,6 @@
  * THE SOFTWARE.
  */
 
-using System.Linq;
-
 namespace WeightWatch.Skydrive
 {
     using Microsoft.Live;
@@ -28,6 +26,8 @@ namespace WeightWatch.Skydrive
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Linq;
+
 
     public class Skydrive : INotifyPropertyChanged
     {

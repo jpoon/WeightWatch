@@ -22,17 +22,18 @@
 namespace WeightWatch.Models
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Linq;
     using WeightWatch.Classes;
 
     public class WeightListModel : INotifyCollectionChanged
     {
-        private static List<WeightModel> _weightList;
-        public List<WeightModel> WeightList
+        private readonly List<WeightModel> _weightList;
+        public ReadOnlyCollection<WeightModel> WeightList
         {
-            get { return _weightList; }
+           get { return _weightList.AsReadOnly(); } 
         }
 
         public WeightListModel()
@@ -46,18 +47,18 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
-            var index = WeightList.BinarySearch(data);
+            var index = _weightList.BinarySearch(data);
             if (index >= 0)
             {
                 var oldItem = WeightList[index];
-                WeightList[index] = data;
+                _weightList[index] = data;
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, data, oldItem, index));
             }
             else
             {
-                WeightList.Add(data);
-                WeightList.Sort();
-                index = WeightList.BinarySearch(data);
+                _weightList.Add(data);
+                _weightList.Sort();
+                index = _weightList.BinarySearch(data);
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
 
@@ -66,16 +67,16 @@ namespace WeightWatch.Models
 
         public WeightModel Get(DateTime date)
         {
-            return WeightList.FirstOrDefault(c => c.Date.Equals(date));
+            return _weightList.FirstOrDefault(c => c.Date.Equals(date));
         }
 
         public void Delete(WeightModel data)
         {
-            var index = WeightList.BinarySearch(data);
+            var index = _weightList.BinarySearch(data);
             if (index >= 0)
             {
-                WeightList.RemoveAt(index);
-                WeightList.Sort();
+                _weightList.RemoveAt(index);
+                _weightList.Sort();
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
 
@@ -94,7 +95,7 @@ namespace WeightWatch.Models
 
         private void Save()
         {
-            IsoStorage.Save(WeightList);
+            IsoStorage.Save(_weightList);
         }
     }
 }

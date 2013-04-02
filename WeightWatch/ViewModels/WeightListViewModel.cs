@@ -40,8 +40,13 @@ namespace WeightWatch.ViewModels
             WeightHistoryList = new ObservableCollection<WeightViewModel>();
 
             _dataList = new WeightListModel();
-            _dataList.WeightList.ForEach(x => WeightHistoryList.Add(new WeightViewModel(x)));
             _dataList.CollectionChanged += DataListCollectionChanged;
+
+            foreach (var item in _dataList.WeightList)
+            {
+                WeightHistoryList.Add(new WeightViewModel(item));
+            }
+
         }
 
         #region Properties
@@ -52,20 +57,25 @@ namespace WeightWatch.ViewModels
             private set;
         }
 
+        private ObservableCollection<WeightListGroup<WeightViewModel>> _weightHistoryGroup;
         public ObservableCollection<WeightListGroup<WeightViewModel>> WeightHistoryGroup
         {
             get
             {
-                var results = from item in WeightHistoryList
-                              group item by item.DateStrMonthYear into g
-                              select new WeightListGroup<WeightViewModel>(g.Key, g);
-
-                var weightListGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
-                foreach (var result in results)
+                if (_weightHistoryGroup == null)
                 {
-                    weightListGroup.Add(result);
+                    var results = from item in WeightHistoryList
+                                  group item by item.DateStrMonthYear
+                                  into g
+                                  select new WeightListGroup<WeightViewModel>(g.Key, g);
+
+                    _weightHistoryGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
+                    foreach (var result in results)
+                    {
+                        _weightHistoryGroup.Add(result);
+                    }
                 }
-                return weightListGroup;
+                return _weightHistoryGroup;
             }
         }
 

@@ -80,6 +80,5 @@ namespace WeightWatch.ViewModels
         }
 
         #endregion
-
     }
 }

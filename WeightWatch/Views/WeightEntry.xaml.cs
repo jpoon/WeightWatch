@@ -134,7 +134,7 @@ namespace WeightWatch.Views
 
         private void GoToMainMenu()
         {
-            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
+            NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative));
         }
     }
 }
