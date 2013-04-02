@@ -24,6 +24,7 @@ namespace WeightWatch
     using Microsoft.Phone.Controls;
     using Microsoft.Phone.Shell;
     using System;
+    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Navigation;
 
@@ -121,6 +122,11 @@ namespace WeightWatch
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
+
+            var attributes = new Dictionary<string, string>();
+            attributes.Add("exceptionMessage", e.ExceptionObject.Message);
+            attributes.Add("exceptionStackTrace", e.ExceptionObject.StackTrace);
+            appSession.tagEvent("UnhandledException", attributes);
         }
 
         #region Phone application initialization
