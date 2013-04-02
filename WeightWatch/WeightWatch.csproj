@@ -58,6 +58,7 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
       <HintPath>..\External\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -65,12 +66,11 @@
       <HintPath>..\External\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Classes\IsoStorage.cs" />
+    <Compile Include="Localytics.cs" />
     <Compile Include="MeasurementSystem\IMeasurementSystem.cs" />
     <Compile Include="MeasurementSystem\Imperial.cs" />
     <Compile Include="MeasurementSystem\Metric.cs" />
