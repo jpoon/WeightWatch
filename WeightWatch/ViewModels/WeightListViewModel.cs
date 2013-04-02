@@ -37,11 +37,13 @@ namespace WeightWatch.ViewModels
 
         public WeightListViewModel()
         {
+            if (_dataList == null)
+            {
+                _dataList = new WeightListModel();
+                _dataList.CollectionChanged += DataListCollectionChanged;
+            }
+
             WeightHistoryList = new ObservableCollection<WeightViewModel>();
-
-            _dataList = new WeightListModel();
-            _dataList.CollectionChanged += DataListCollectionChanged;
-
             foreach (var item in _dataList.WeightList)
             {
                 WeightHistoryList.Add(new WeightViewModel(item));
