@@ -71,7 +71,7 @@ namespace WeightWatch.Views
         {
             // Title
             var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
-            string weightAbbrev = MeasurementSystemFactory.Get(defaultMeasurementSystem).Abbreviation;
+            var weightAbbrev = MeasurementSystemFactory.Get(defaultMeasurementSystem).Abbreviation;
             linearAxis.Title = "Weight (" + weightAbbrev + ")";
 
             // Interval, Range
