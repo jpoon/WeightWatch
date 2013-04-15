@@ -19,9 +19,11 @@
  * THE SOFTWARE.
  */
 
+
 namespace WeightWatch.Classes
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.Serialization;
@@ -29,9 +31,12 @@ namespace WeightWatch.Classes
 
     public class IsoStorage
     {
+        public static PropertyChangedEventHandler WeightListDataModelPropertyChanged;
+
+        private const string WeightListDataModelPropertyName = "WeightListDataModel";
         private const string WeightFile = "weight.xml";
 
-        public static List<WeightModel> GetContent()
+        public static List<WeightModel> Get()
         {
             List<WeightModel> contents = null;
             using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -49,17 +54,7 @@ namespace WeightWatch.Classes
             return contents ?? new List<WeightModel>();
         }
 
-        public static Stream GetStream()
-        {
-            Stream stream;
-            using (var isoStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                stream = new IsolatedStorageFileStream(WeightFile, FileMode.OpenOrCreate, isoStorage);
-            }
-            return stream;
-        }
-
-        public static void Save(List<WeightModel> weightList)
+        public static void Save(List<WeightModel> weightList, bool triggerCacheInvalidation = false)
         {
             using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -69,16 +64,11 @@ namespace WeightWatch.Classes
                     dcs.WriteObject(stream, weightList);
                 }
             }
-        }
 
-        public static void Save(Stream streamToSave)
-        {
-            using (var isf = IsolatedStorageFile.GetUserStoreForApplication())
+            if (triggerCacheInvalidation)
             {
-                using (var stream = new IsolatedStorageFileStream(WeightFile, FileMode.Create, isf))
-                {
-                    streamToSave.CopyTo(stream);
-                }
+                var handler = WeightListDataModelPropertyChanged;
+                if (handler != null) handler(null, new PropertyChangedEventArgs(WeightListDataModelPropertyName));
             }
         }
     }

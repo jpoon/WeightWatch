@@ -90,7 +90,7 @@ namespace WeightWatch.Views
             }
         }
 
-        private void SetWeightTextBlock(TextBlock textBlock, WeightViewModel viewModel)
+        private static void SetWeightTextBlock(TextBlock textBlock, WeightViewModel viewModel)
         {
             textBlock.Inlines.Clear();
 

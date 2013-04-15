@@ -1,5 +1,6 @@
 ﻿Version 3.0
 * Skydrive Restore/Backup
+* Improved performance
 
 Version 2.1
 * Added 'Stones' measurement unit

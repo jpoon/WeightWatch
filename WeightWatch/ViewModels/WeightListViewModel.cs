@@ -26,58 +26,66 @@ namespace WeightWatch.ViewModels
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using WeightWatch.Classes;
-    using WeightWatch.Models;
     using WeightWatch.MeasurementSystem;
+    using WeightWatch.Models;
 
     public class WeightListViewModel : INotifyPropertyChanged
     {
         private static WeightListModel _dataList;
+        private static ObservableCollection<WeightViewModel> _weightHistoryList;
+        private static bool _invalidateCache;
 
         public WeightListViewModel()
         {
-            if (_dataList == null)
+            IsoStorage.WeightListDataModelPropertyChanged = (sender, args) =>
+            {
+                _invalidateCache = true;
+            };
+
+            if (_dataList == null || _invalidateCache)
             {
                 _dataList = new WeightListModel();
                 _dataList.CollectionChanged += DataListCollectionChanged;
+
+                _invalidateCache = false;
             }
 
-            WeightHistoryList = new ObservableCollection<WeightViewModel>();
+            _weightHistoryList = new ObservableCollection<WeightViewModel>();
             foreach (var item in _dataList.WeightList)
             {
-                WeightHistoryList.Add(new WeightViewModel(item));
+                _weightHistoryList.Add(new WeightViewModel(item));
             }
-
         }
 
         #region Properties
 
         public ObservableCollection<WeightViewModel> WeightHistoryList
         {
-            get;
-            private set;
+            get 
+            { 
+                return _weightHistoryList;
+            }
         }
 
-        private ObservableCollection<WeightListGroup<WeightViewModel>> _weightHistoryGroup;
         public ObservableCollection<WeightListGroup<WeightViewModel>> WeightHistoryGroup
         {
             get
             {
-                if (_weightHistoryGroup == null)
-                {
-                    var results = from item in WeightHistoryList
-                                  group item by item.DateStrMonthYear
-                                  into g
-                                  select new WeightListGroup<WeightViewModel>(g.Key, g);
+                var results = from item in _weightHistoryList
+                              group item by item.DateStrMonthYear
+                              into g
+                              select new WeightListGroup<WeightViewModel>(g.Key, g);
 
-                    _weightHistoryGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
-                    foreach (var result in results)
-                    {
-                        _weightHistoryGroup.Add(result);
-                    }
+                var weightHistoryGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
+                foreach (var result in results)
+                {
+                    weightHistoryGroup.Add(result);
                 }
-                return _weightHistoryGroup;
+
+                return weightHistoryGroup;
             }
         }
 
@@ -85,7 +93,7 @@ namespace WeightWatch.ViewModels
 
         #region Public Methods
 
-        public static void Delete(WeightViewModel data)
+        public void Delete(WeightViewModel data)
         {
             if (data == null || data.WeightModel == null)
             {
@@ -108,9 +116,25 @@ namespace WeightWatch.ViewModels
                     select item;
         }
 
-        public static void Save(string weight, DateTime? date, MeasurementUnit unit)
+        public void Save(string weightStr, DateTime? date, MeasurementUnit unit)
         {
-            var model = new WeightModel(weight, date, unit);
+            if (date == null || !date.HasValue)
+            {
+                throw new ArgumentException("Please enter a non-empty date");
+            }
+
+            if (String.IsNullOrEmpty(weightStr))
+            {
+                throw new ArgumentException("Please enter a non-empty weight");
+            }
+
+            double weight;
+            if (!Double.TryParse(weightStr, NumberStyles.Number, CultureInfo.CurrentCulture, out weight))
+            {
+                throw new ArgumentException("Please enter a valid weight");
+            }
+
+            var model = new WeightModel(weight, date.Value, unit);
             _dataList.Add(model);
         }
 
@@ -130,16 +154,17 @@ namespace WeightWatch.ViewModels
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    WeightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
+                    _weightHistoryList.Insert(e.NewStartingIndex, new WeightViewModel(e.NewItems[0] as WeightModel));
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    WeightHistoryList[e.NewStartingIndex] = new WeightViewModel(e.NewItems[0] as WeightModel);
+                    _weightHistoryList[e.NewStartingIndex] = new WeightViewModel(e.NewItems[0] as WeightModel);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    WeightHistoryList.RemoveAt(e.OldStartingIndex);
+                    _weightHistoryList.RemoveAt(e.OldStartingIndex);
                     break;
             }
             InvokePropertyChanged("WeightHistoryGroup");
+            InvokePropertyChanged("WeightHistoryList");
         }
 
         #endregion

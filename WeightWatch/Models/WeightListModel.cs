@@ -19,10 +19,11 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+
 namespace WeightWatch.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Linq;
@@ -31,14 +32,18 @@ namespace WeightWatch.Models
     public class WeightListModel : INotifyCollectionChanged
     {
         private readonly List<WeightModel> _weightList;
-        public ReadOnlyCollection<WeightModel> WeightList
-        {
-           get { return _weightList.AsReadOnly(); } 
-        }
 
         public WeightListModel()
         {
-            _weightList = IsoStorage.GetContent();
+            _weightList = IsoStorage.Get();
+        }
+
+        public ReadOnlyCollection<WeightModel> WeightList
+        {
+            get
+            {
+                return new ReadOnlyCollection<WeightModel>(_weightList);
+            }
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -47,7 +52,7 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
-            var index = _weightList.BinarySearch(data);
+            var index = _weightList.IndexOf(data);
             if (index >= 0)
             {
                 var oldItem = WeightList[index];
@@ -57,8 +62,7 @@ namespace WeightWatch.Models
             else
             {
                 _weightList.Add(data);
-                _weightList.Sort();
-                index = _weightList.BinarySearch(data);
+                index = _weightList.IndexOf(data);
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }
 
@@ -72,11 +76,10 @@ namespace WeightWatch.Models
 
         public void Delete(WeightModel data)
         {
-            var index = _weightList.BinarySearch(data);
+            var index = _weightList.IndexOf(data);
             if (index >= 0)
             {
                 _weightList.RemoveAt(index);
-                _weightList.Sort();
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
             }
 
@@ -95,6 +98,7 @@ namespace WeightWatch.Models
 
         private void Save()
         {
+            _weightList.Sort();
             IsoStorage.Save(_weightList);
         }
     }

@@ -19,6 +19,8 @@
  * THE SOFTWARE.
  */
 
+using System.Linq;
+
 namespace WeightWatch.Views
 {
     using Microsoft.Phone.Controls;
@@ -38,6 +40,11 @@ namespace WeightWatch.Views
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            while (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+            }
 
             var c = weightLongListSelector.SelectedItem;
             if (c == null)
@@ -79,9 +86,9 @@ namespace WeightWatch.Views
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var item = (sender as MenuItem).DataContext as WeightViewModel;
-            WeightListViewModel.Delete(item);
+            _viewModel.Delete(item);
+
             Dispatcher.BeginInvoke(SetupSummaryPivot);
-            SetupSummaryPivot();
         }
 
         #endregion Event Handlers

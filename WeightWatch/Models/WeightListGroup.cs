@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-namespace WeightWatch.Classes
+namespace WeightWatch.Models
 {
     using System.Collections.Generic;
 

@@ -118,7 +118,7 @@ namespace WeightWatch.Views
 
             try
             {
-                WeightListViewModel.Save(_newEntry.Weight, _newEntry.Date, MeasurementSystemFactory.Get((string) Measurement_ListPicker.SelectedItem).MeasurementSystem);
+                _weightListViewModel.Save(_newEntry.Weight, _newEntry.Date, MeasurementSystemFactory.Get((string)Measurement_ListPicker.SelectedItem).MeasurementSystem);
                 GoToMainMenu();
             }
             catch (ArgumentException exception)

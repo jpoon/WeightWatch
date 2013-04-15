@@ -19,6 +19,10 @@
  * THE SOFTWARE.
  */
 
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+
 namespace WeightWatch.Views
 {
     using Microsoft.Live;
@@ -165,8 +169,11 @@ namespace WeightWatch.Views
                     this._progressIndicator.Text = "Uploading backup...";
                     this._progressIndicator.IsVisible = true;
 
-                    var stream = IsoStorage.GetStream();
-
+                    var list = IsoStorage.Get();
+                    var stream = new MemoryStream();
+                    var dcs = new DataContractSerializer(typeof(List<WeightModel>));
+                    dcs.WriteObject(stream, list);
+                    stream.Position = 0;
                     this._skydrive.Upload(stream, stream.Dispose);
                 }
             }
@@ -185,7 +192,28 @@ namespace WeightWatch.Views
                     this._progressIndicator.Text = "Restoring backup...";
                     this._progressIndicator.IsVisible = true;
 
-                    this._skydrive.Download(IsoStorage.Save);
+                    try
+                    {
+                        this._skydrive.Download(stream =>
+                                                    {
+                                                        var dcs = new DataContractSerializer(typeof(List<WeightModel>));
+                                                        try
+                                                        {
+                                                            stream.Position = 0;
+                                                            var weightModel = (List<WeightModel>) dcs.ReadObject(stream);
+                                                            IsoStorage.Save(weightModel, true);
+                                                        } 
+                                                        catch (SerializationException)
+                                                        {
+                                                            MessageBox.Show("Failed to restore backup. Backup file is malformed or is corrupted.");
+                                                        }
+                                                    });
+                    }
+                    catch (InvalidOperationException exception)
+                    {
+                        MessageBox.Show(exception.Message);
+                    }
+
                 }
             }
         }

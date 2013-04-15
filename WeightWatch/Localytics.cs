@@ -84,11 +84,11 @@ public class LocalyticsSession
     /// <param name="filename">Name of file to append to</param>
     private static void appendTextToFile(string text, string filename)
     {
-        IsolatedStorageFileStream file = getStreamForFile(filename);
-        TextWriter writer = new StreamWriter(file);
-        writer.Write(text);
-        writer.Close();
-        file.Close();
+        using (var file = getStreamForFile(filename))
+        using (var writer = new StreamWriter(file))
+        {
+            writer.Write(text);
+        }
     }
 
     /// <summary>
@@ -235,15 +235,15 @@ public class LocalyticsSession
             HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
 
-            Stream streamResponse = response.GetResponseStream();
-            StreamReader streamRead = new StreamReader(streamResponse);
-            string responseString = streamRead.ReadToEnd();
+            using (var streamResponse = response.GetResponseStream())
+            using (var streamRead = new StreamReader(streamResponse))
+            {
+                string responseString = streamRead.ReadToEnd();
 
-            LogMessage("Upload complete. Response: " + responseString);
-            DeleteUploadFiles();
+                LogMessage("Upload complete. Response: " + responseString);
+                DeleteUploadFiles();
 
-            streamResponse.Close();
-            streamRead.Close();
+            }
             response.Close();
         }
         catch (WebException e)

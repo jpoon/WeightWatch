@@ -46,6 +46,15 @@ namespace WeightWatch.Models
 
             set
             {
+                if (value > 9999)
+                {
+                    throw new ArgumentException("There is no way you are this heavy...");
+                }
+                if (value <= 0)
+                {
+                    throw new ArgumentException("You weigh nothing?");
+                }
+
                 _weight = value;
                 OnPropertyChanged("Weight");
             }
@@ -81,34 +90,10 @@ namespace WeightWatch.Models
             }
         }
 
-        public WeightModel(string weightStr, DateTime? date, MeasurementUnit unit)
+        public WeightModel(double weight, DateTime date, MeasurementUnit unit)
         {
-            if (date == null)
-            {
-                throw new ArgumentException("Please enter a non-empty date");
-            }
-
-            if (String.IsNullOrEmpty(weightStr))
-            {
-                throw new ArgumentException("Please enter a non-empty weight");
-            }
-
-            double weight;
-            if (!Double.TryParse(weightStr, NumberStyles.Number, CultureInfo.CurrentCulture, out weight))
-            {
-                throw new ArgumentException("Please enter a valid weight");
-            }
-            if (weight > 9999)
-            {
-                throw new ArgumentException("There is no way you are this heavy...");
-            }
-            if (weight <= 0)
-            {
-                throw new ArgumentException("You weigh nothing?");
-            }
-
             Weight = weight;
-            Date = date.Value;
+            Date = date;
             MeasurementUnit = unit;
         }
 

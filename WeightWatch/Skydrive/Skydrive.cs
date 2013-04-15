@@ -28,7 +28,6 @@ namespace WeightWatch.Skydrive
     using System.IO;
     using System.Linq;
 
-
     public class Skydrive : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
