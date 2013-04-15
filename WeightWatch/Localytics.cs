@@ -99,11 +99,16 @@ public class LocalyticsSession
     private static string GetFileContents(string filename)
     {
         IsolatedStorageFile store = getStore();
-        var file = store.OpenFile(LocalyticsSession.directoryName + @"\" + filename, FileMode.Open);
-        TextReader reader = new StreamReader(file);
-        string contents = reader.ReadToEnd();
-        reader.Close();
-        file.Close();
+        string contents;
+
+        using (var file = store.OpenFile(LocalyticsSession.directoryName + @"\" + filename, FileMode.Open))
+        {
+            TextReader reader = new StreamReader(file);
+            contents = reader.ReadToEnd();
+            reader.Close();
+            file.Close();
+        }
+
         return contents;
     }
     #endregion
