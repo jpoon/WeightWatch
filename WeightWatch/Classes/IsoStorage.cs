@@ -19,7 +19,6 @@
  * THE SOFTWARE.
  */
 
-
 namespace WeightWatch.Classes
 {
     using System.Collections.Generic;

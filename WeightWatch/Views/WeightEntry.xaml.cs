@@ -19,7 +19,6 @@
  * THE SOFTWARE.
  */
 
-
 namespace WeightWatch.Views
 {
     using Microsoft.Phone.Controls;

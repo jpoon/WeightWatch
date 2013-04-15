@@ -19,16 +19,15 @@
  * THE SOFTWARE.
  */
 
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-
 namespace WeightWatch.Views
 {
     using Microsoft.Live;
     using Microsoft.Phone.Controls;
     using Microsoft.Phone.Shell;
     using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Runtime.Serialization;
     using System.Windows;
     using System.Windows.Controls;
     using WeightWatch.Classes;
