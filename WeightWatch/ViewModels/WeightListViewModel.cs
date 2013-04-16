@@ -101,11 +101,15 @@ namespace WeightWatch.ViewModels
             }
 
             _dataList.Delete(data.WeightModel);
+
+            InvokePropertyChanged("WeightHistoryList");
+            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         public WeightViewModel Get(DateTime date)
         {
             return new WeightViewModel(_dataList.Get(date));
+
         }
 
         public IEnumerable<WeightViewModel> Get(DateTime start, DateTime end)
@@ -136,6 +140,9 @@ namespace WeightWatch.ViewModels
 
             var model = new WeightModel(weight, date.Value, unit);
             _dataList.Add(model);
+
+            InvokePropertyChanged("WeightHistoryList");
+            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         #endregion
@@ -163,8 +170,8 @@ namespace WeightWatch.ViewModels
                     _weightHistoryList.RemoveAt(e.OldStartingIndex);
                     break;
             }
-            InvokePropertyChanged("WeightHistoryGroup");
-            InvokePropertyChanged("WeightHistoryList");
+
+
         }
 
         #endregion

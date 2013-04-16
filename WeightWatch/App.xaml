@@ -8,13 +8,6 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <Style x:Key="PhoneTextGroupHeaderStyle" TargetType="TextBlock">
-            <Setter Property="Text" Value="{StaticResource PhoneForegroundColor}" />
-            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}" />
-            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
-            <Setter Property="Padding" Value="5 15 25 0" />
-        </Style> 
-        
         <!-- Page Transitions -->
         <Style x:Key="TurnstilePage" TargetType="phone:PhoneApplicationPage">
             <Setter Property="toolkit:TransitionService.NavigationInTransition">
