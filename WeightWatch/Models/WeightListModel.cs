@@ -51,7 +51,7 @@ namespace WeightWatch.Models
 
         public void Add(WeightModel data)
         {
-            var index = _weightList.IndexOf(data);
+            var index = _weightList.IndexOf(this.Get(data.Date));
             if (index >= 0)
             {
                 var oldItem = WeightList[index];
