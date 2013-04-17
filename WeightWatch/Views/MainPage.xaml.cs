@@ -58,8 +58,7 @@ namespace WeightWatch.Views
 
         private void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(SetupSummaryPivot);
-            Dispatcher.BeginInvoke(SetupGraphPivot);
+            UpdatePivots();
         }
 
         private void AppBarIconClick_AddWeight(object sender, EventArgs e)
@@ -81,6 +80,8 @@ namespace WeightWatch.Views
         {
             var item = (sender as MenuItem).DataContext as WeightViewModel;
             Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml?Date=" + item.DateStr, UriKind.Relative)));
+
+            UpdatePivots();
         }
 
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -88,7 +89,13 @@ namespace WeightWatch.Views
             var item = (sender as MenuItem).DataContext as WeightViewModel;
             _viewModel.Delete(item);
 
+            UpdatePivots();
+        }
+
+        private void UpdatePivots()
+        {
             Dispatcher.BeginInvoke(SetupSummaryPivot);
+            Dispatcher.BeginInvoke(SetupGraphPivot);
         }
 
         #endregion Event Handlers

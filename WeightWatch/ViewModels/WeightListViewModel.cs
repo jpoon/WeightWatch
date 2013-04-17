@@ -169,8 +169,6 @@ namespace WeightWatch.ViewModels
                     _weightHistoryList.RemoveAt(e.OldStartingIndex);
                     break;
             }
-
-
         }
 
         #endregion
