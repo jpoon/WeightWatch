@@ -61,6 +61,7 @@ namespace WeightWatch.Models
             else
             {
                 _weightList.Add(data);
+                _weightList.Sort();
                 index = _weightList.IndexOf(data);
                 NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data, index));
             }

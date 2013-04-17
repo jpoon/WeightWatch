@@ -50,13 +50,13 @@ namespace WeightWatch.ViewModels
                 _dataList = new WeightListModel();
                 _dataList.CollectionChanged += DataListCollectionChanged;
 
-                _invalidateCache = false;
-            }
+                _weightHistoryList.Clear();
+                foreach (var item in _dataList.WeightList)
+                {
+                    _weightHistoryList.Add(new WeightViewModel(item));
+                }
 
-            _weightHistoryList.Clear();
-            foreach (var item in _dataList.WeightList)
-            {
-                _weightHistoryList.Add(new WeightViewModel(item));
+                _invalidateCache = false;
             }
         }
 
