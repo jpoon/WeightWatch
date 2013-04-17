@@ -118,7 +118,7 @@ namespace WeightWatch.Views
             try
             {
                 _weightListViewModel.Save(_newEntry.Weight, _newEntry.Date, MeasurementSystemFactory.Get((string)Measurement_ListPicker.SelectedItem).MeasurementSystem);
-                GoToMainMenu();
+                GoToBackOrMainMenu();
             }
             catch (ArgumentException exception)
             {
@@ -128,21 +128,19 @@ namespace WeightWatch.Views
 
         private void AppBarIconButtonCancelClick(object sender, EventArgs e)
         {
-            GoToMainMenu();
+            GoToBackOrMainMenu();
         }
 
-        private void GoToMainMenu()
+        private void GoToBackOrMainMenu()
         {
-            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
-        }
-
-        private void WeightTextBoxKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            // 27 is the PKC for the hardware back button
-            if (e.PlatformKeyCode == 27)
+            if (NavigationService.CanGoBack)
             {
-                GoToMainMenu();
-            }    
+                Dispatcher.BeginInvoke(() => NavigationService.GoBack());
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
+            }
         }
     }
 }

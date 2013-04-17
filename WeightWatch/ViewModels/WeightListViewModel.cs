@@ -35,7 +35,7 @@ namespace WeightWatch.ViewModels
     public class WeightListViewModel : INotifyPropertyChanged
     {
         private static WeightListModel _dataList;
-        private static ObservableCollection<WeightViewModel> _weightHistoryList;
+        private static ObservableCollection<WeightViewModel> _weightHistoryList = new ObservableCollection<WeightViewModel>();
         private static bool _invalidateCache;
 
         public WeightListViewModel()
@@ -53,7 +53,7 @@ namespace WeightWatch.ViewModels
                 _invalidateCache = false;
             }
 
-            _weightHistoryList = new ObservableCollection<WeightViewModel>();
+            _weightHistoryList.Clear();
             foreach (var item in _dataList.WeightList)
             {
                 _weightHistoryList.Add(new WeightViewModel(item));
@@ -109,7 +109,6 @@ namespace WeightWatch.ViewModels
         public WeightViewModel Get(DateTime date)
         {
             return new WeightViewModel(_dataList.Get(date));
-
         }
 
         public IEnumerable<WeightViewModel> Get(DateTime start, DateTime end)
