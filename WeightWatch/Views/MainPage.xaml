@@ -22,23 +22,15 @@
             <Setter Property="YearsIntervalStringFormat" Value="{}{0:yy}"/>
         </Style>
         <Style x:Key="AreaSeriesStyle" TargetType="chartingToolkit:AreaSeries">
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="PathStyle">
-                <Setter.Value>
-                    <Style TargetType="Path">
-                        <Setter Property="Opacity" Value="0.6"/>
-                    </Style>
-                </Setter.Value>
-            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="chartingToolkit:AreaSeries">
                         <Canvas x:Name="PlotArea">
                             <Path Data="{TemplateBinding Geometry}" Style="{TemplateBinding PathStyle}" Stroke="{StaticResource PhoneAccentBrush}">
                                 <Path.Fill>
-                                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                                        <GradientStop Color="{StaticResource PhoneAccentColor}" Offset="0"/>
-                                        <GradientStop Color="{StaticResource PhoneForegroundColor}" Offset="1"/>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" Opacity="0.8">
+                                        <GradientStop Color="{StaticResource PhoneAccentColor}" Offset="0.5" />
+                                        <GradientStop Color="{StaticResource PhoneBackgroundColor}" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Path.Fill>
                             </Path>
@@ -100,77 +92,9 @@
             </Setter>
         </Style>
         <Style x:Key="AreaDataPointStyle" TargetType="chartingToolkit:AreaDataPoint">
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="Width" Value="6"/>
-            <Setter Property="Height" Value="6"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="chartingToolkit:AreaDataPoint">
-                        <Grid x:Name="Root" Opacity="0">
-                            <ToolTipService.ToolTip>
-                                <ContentControl Content="{TemplateBinding FormattedDependentValue}"/>
-                            </ToolTipService.ToolTip>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0:0:0.1"/>
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="MouseOverHighlight">
-                                                <SplineColorKeyFrame KeyTime="00:00:00" Value="#FFFFDF00"/>
-                                            </ColorAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MouseOverHighlight">
-                                                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.24"/>
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="SelectionStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0:0:0.1"/>
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState x:Name="Unselected"/>
-                                    <VisualState x:Name="Selected">
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectionHighlight">
-                                                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.18"/>
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="RevealStates">
-                                    <VisualStateGroup.Transitions>
-                                        <VisualTransition GeneratedDuration="0:0:0.5"/>
-                                    </VisualStateGroup.Transitions>
-                                    <VisualState x:Name="Shown">
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Root"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Hidden">
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Root"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Ellipse Stroke="{TemplateBinding BorderBrush}" Fill="White"/>
-                            <Ellipse RenderTransformOrigin="0.661,0.321">
-                                <Ellipse.Fill>
-                                    <RadialGradientBrush GradientOrigin="0.680999994277954,0.30799999833107">
-                                        <GradientStop Color="Transparent"/>
-                                        <GradientStop Color="White" Offset="1"/>
-                                    </RadialGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <Ellipse x:Name="SelectionHighlight" Fill="White" Opacity="0"/>
-                            <Ellipse x:Name="MouseOverHighlight" Fill="White" Opacity="0"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="{StaticResource PhoneForegroundColor}" />
+            <Setter Property="Width" Value="7"/>
+            <Setter Property="Height" Value="7"/>
         </Style>
     </phone:PhoneApplicationPage.Resources>
     
