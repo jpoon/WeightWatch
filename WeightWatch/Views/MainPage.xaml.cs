@@ -62,23 +62,23 @@ namespace WeightWatch.Views
 
         private void AppBarIconClick_AddWeight(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml", UriKind.Relative));
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml", UriKind.Relative)));
         }
 
         private void AppBarIconClick_Settings(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.Relative));
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/Settings.xaml", UriKind.Relative)));
         }
 
         private void AppBarIconClick_About(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/About.xaml", UriKind.Relative));
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/About.xaml", UriKind.Relative)));
         }
 
         private void EditMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var item = (sender as MenuItem).DataContext as WeightViewModel;
-            NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml?Date=" + item.DateStr, UriKind.Relative));
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml?Date=" + item.DateStr, UriKind.Relative)));
         }
 
         private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)

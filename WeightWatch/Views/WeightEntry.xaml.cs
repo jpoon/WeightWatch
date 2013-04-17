@@ -133,7 +133,16 @@ namespace WeightWatch.Views
 
         private void GoToMainMenu()
         {
-            NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative));
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/MainPage.xaml", UriKind.Relative)));
+        }
+
+        private void WeightTextBoxKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // 27 is the PKC for the hardware back button
+            if (e.PlatformKeyCode == 27)
+            {
+                GoToMainMenu();
+            }    
         }
     }
 }

@@ -129,11 +129,11 @@
             <controls:PivotItem Header="progress">
                 <Grid>
                     <Image Name="summary_arrowImage" Width="550" Margin="71,30,-165,-38" VerticalAlignment="Center" Height="550" HorizontalAlignment="Center" Opacity="0.3" Canvas.ZIndex="-1" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="20,20,0,0" Name="weightCurrent_label" Text="Recent:" VerticalAlignment="Top" Width="100" TextAlignment="Right" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="150,20,0,0" Name="currentWeight_textBlock" VerticalAlignment="Top" Width="250" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="20,20,0,0" Name="lastWeight_label" Text="Last:" VerticalAlignment="Top" Width="100" TextAlignment="Right" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="150,20,0,0" Name="lastWeight_textBlock" VerticalAlignment="Top" Width="250" />
                     
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="20,60,0,0" Name="startWeight_label" Text="Starting:" VerticalAlignment="Top" Width="100" TextAlignment="Right" />
-                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="150,60,0,0" Name="startingWeight_textBlock" VerticalAlignment="Top" Width="250" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="20,60,0,0" Name="firstWeight_label" Text="First:" VerticalAlignment="Top" Width="100" TextAlignment="Right" />
+                    <TextBlock Height="30" HorizontalAlignment="Left" Margin="150,60,0,0" Name="firstWeight_textBlock" VerticalAlignment="Top" Width="250" />
 
                     <TextBlock Height="80" HorizontalAlignment="Left" Margin="150,110,50,0" Name="summary_weightTextBlock" VerticalAlignment="Top" Width="Auto" TextWrapping="Wrap" />
                     <TextBlock Height="Auto" HorizontalAlignment="Center" x:Name="summary_messageTextBlock" Text="" VerticalAlignment="Bottom" Width="400" TextWrapping="Wrap" Margin="28,0,28,30" Foreground="{StaticResource PhoneSubtleBrush}" />

@@ -40,8 +40,8 @@ namespace WeightWatch.Views
 
         private void SetupSummaryPivot()
         {
-            startingWeight_textBlock.Text = String.Empty;
-            currentWeight_textBlock.Text = String.Empty;
+            firstWeight_textBlock.Text = String.Empty;
+            lastWeight_textBlock.Text = String.Empty;
             summary_arrowImage.Source = null;
 
             var currentWeight = _viewModel.WeightHistoryList.FirstOrDefault();
@@ -49,8 +49,8 @@ namespace WeightWatch.Views
 
             if (startingWeight == null || currentWeight == null)
             {
-                startingWeight_textBlock.Text = "N/A";
-                currentWeight_textBlock.Text = "N/A";
+                firstWeight_textBlock.Text = "N/A";
+                lastWeight_textBlock.Text = "N/A";
 
                 summary_messageTextBlock.Text =
                     "Need help?\n" +
@@ -59,8 +59,8 @@ namespace WeightWatch.Views
             }
             else
             {
-                SetWeightTextBlock(startingWeight_textBlock, startingWeight);
-                SetWeightTextBlock(currentWeight_textBlock, currentWeight);
+                SetWeightTextBlock(firstWeight_textBlock, startingWeight);
+                SetWeightTextBlock(lastWeight_textBlock, currentWeight);
 
                 summary_messageTextBlock.Text = string.Empty;
 
