@@ -10,6 +10,7 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     xmlns:visualizationToolkit="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    xmlns:chartingprimitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     d:DesignWidth="480" d:DesignHeight="696"
     mc:Ignorable="d"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -47,6 +48,31 @@
             </Setter>
         </Style>
         <Style x:Key="ChartStyle" TargetType="chartingToolkit:Chart">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="chartingToolkit:Chart">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Use a nested Grid to avoid possible clipping behavior resulting from ColumnSpan+Width=Auto -->
+                            <Grid Grid.Row="1" Margin="0,5,15,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <chartingprimitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}">
+                                    <Grid Canvas.ZIndex="-1" Style="{TemplateBinding PlotAreaStyle}" />
+                                    <Border Canvas.ZIndex="10" BorderBrush="{StaticResource PhoneSubtleBrush}" BorderThickness="1" />
+                                </chartingprimitives:EdgePanel>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <!-- Hide Title -->
             <Setter Property="TitleStyle">
                 <Setter.Value>
