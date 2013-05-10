@@ -53,7 +53,7 @@ namespace WeightWatch.Views
                 lastWeight_textBlock.Text = "N/A";
 
                 summary_messageTextBlock.Text =
-                    "Need help?\n" +
+                    "Instructions:\n" +
                     "(1) Add your daily weight\n" +
                     "(2) Tap and hold a weight entry 'Details' pivot to edit or delete\n";
             }
@@ -67,7 +67,7 @@ namespace WeightWatch.Views
                 var weightDifference = currentWeight.Weight - startingWeight.Weight;
                 var runSummaryWeight = new Run
                 {
-                    Text = weightDifference.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture),
+                    Text = weightDifference.ToString("+0.#;-0.#;0", CultureInfo.CurrentCulture),
                     FontSize = (Double)Application.Current.Resources["PhoneFontSizeExtraExtraLarge"],
                 };
 

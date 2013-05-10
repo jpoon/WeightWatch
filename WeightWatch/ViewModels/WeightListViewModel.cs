@@ -132,7 +132,7 @@ namespace WeightWatch.ViewModels
             }
 
             double weight;
-            if (!Double.TryParse(weightStr, NumberStyles.Number, CultureInfo.CurrentCulture, out weight))
+            if (!Double.TryParse(weightStr, NumberStyles.Number, CultureInfo.CurrentUICulture, out weight))
             {
                 throw new ArgumentException("Please enter a valid weight");
             }

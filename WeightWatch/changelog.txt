@@ -1,7 +1,10 @@
-﻿Version 3.0
-* Skydrive Restore/Backup
+﻿Version 3.1
+* Reduced permissions requested from SkyDrive 
+* Fixed localization bugs
+
+Version 3.0
+* SkyDrive Restore/Backup
 * Improved performance
-* Bug fixes
 
 Version 2.1
 * Added 'Stones' measurement unit

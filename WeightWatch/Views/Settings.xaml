@@ -19,7 +19,7 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
-        <controls:Pivot Title="WEIGHT WATCH">
+        <controls:Pivot Title="WEIGHTWATCH">
             <!--Backup Pivot -->
             <controls:PivotItem Header="backup">
                 <Grid>
@@ -31,45 +31,39 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                     
                     <live:SignInButton 
                         Name="LiveIdSignIn_Button" 
                         ClientId="00000000480DCFDD" 
-                        Scopes="wl.basic wl.signin wl.offline_access wl.skydrive_update" 
-                        Branding="Windows" 
+                        Scopes="wl.signin wl.offline_access wl.skydrive_update" 
+                        Branding="Skydrive" 
                         TextType="SignIn" 
                         SessionChanged="LiveIdSignInButtonSessionChanged"
-                        Grid.Column="0" 
                         Grid.Row="0" />
                     <Button 
                         x:Name="buttonBackup" 
                         Click="ButtonBackupClick" 
                         Content="Backup" 
                         IsEnabled="False" 
-                        Grid.Column="0" 
                         Grid.Row="1" />
                     <Button 
                         x:Name="buttonRestore" 
                         Click="ButtonRestoreClick" 
                         Content="Restore" 
                         IsEnabled="False"
-                        Grid.Column="0" 
                         Grid.Row="2" />
                     <TextBlock 
                         x:Name="dateTextBlock" 
                         TextWrapping="Wrap" 
                         Margin="12, 30, 12, 12"
-                        Grid.Column="0" Grid.Row="3" />
+                        Grid.Row="3" />
                     <TextBlock 
                         x:Name="skyDriveHelp" 
                         Foreground="{StaticResource PhoneSubtleBrush}"
                         Text="A 'WeightWatch' folder will be created in your Skydrive which will store all backup files"
                         Margin="15, 30, 15, 50"
                         TextWrapping="Wrap" 
-                        Grid.Column="0" Grid.Row="5" />                    
+                        Grid.Row="5" />                    
                 </Grid>
 
             </controls:PivotItem>

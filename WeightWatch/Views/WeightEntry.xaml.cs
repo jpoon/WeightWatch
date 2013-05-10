@@ -81,7 +81,7 @@ namespace WeightWatch.Views
                         weightDatePicker.Value = datetime;
                         weightDatePicker.IsEnabled = false;
 
-                        weightTextBox.Text = viewModel.Weight.ToString(CultureInfo.InvariantCulture);
+                        weightTextBox.Text = viewModel.Weight.ToString(CultureInfo.CurrentCulture);
                         selectedSystem = viewModel.WeightModel.MeasurementUnit;
 
                         PageTitle.Text = "edit";

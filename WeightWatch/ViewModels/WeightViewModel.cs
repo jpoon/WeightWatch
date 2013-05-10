@@ -49,7 +49,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return WeightModel.Date.ToString("MMM. d, yyyy", CultureInfo.InvariantCulture);
+                return WeightModel.Date.ToString("MMM d, yyyy", CultureInfo.CurrentCulture);
             }
         }
 
@@ -57,7 +57,7 @@ namespace WeightWatch.ViewModels
         {
             get
             {
-                return WeightModel.Date.ToString("MMM yyyy", CultureInfo.InvariantCulture);
+                return WeightModel.Date.ToString("MMM yyyy", CultureInfo.CurrentCulture);
             }
         }
 
@@ -66,7 +66,7 @@ namespace WeightWatch.ViewModels
             get
             {
                 var defaultSystem = ApplicationSettings.DefaultMeasurementSystem;
-                return Weight.ToString("0.##", CultureInfo.InvariantCulture) + " " + MeasurementSystemFactory.Get(defaultSystem).Abbreviation;
+                return Weight.ToString("0.##", CultureInfo.CurrentCulture) + " " + MeasurementSystemFactory.Get(defaultSystem).Abbreviation;
             }
         }
 

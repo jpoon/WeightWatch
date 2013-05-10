@@ -17,7 +17,7 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
-        <controls:Pivot Title="WEIGHT WATCH" SelectionChanged="Pivot_SelectionChanged">
+        <controls:Pivot Title="WEIGHTWATCH" SelectionChanged="Pivot_SelectionChanged">
             <!-- About Pivot-->
             <controls:PivotItem Header="about">
                 <ScrollViewer>

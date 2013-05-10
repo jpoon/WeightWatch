@@ -49,7 +49,7 @@ namespace WeightWatch.MeasurementSystem
                 default:
                     throw new ArgumentException(
                         string.Format(
-                            CultureInfo.InvariantCulture,
+                            CultureInfo.CurrentUICulture,
                             "Measurement system of type {0} cannot be found",
                             Enum.GetName(typeof(MeasurementUnit), system)));
             }
