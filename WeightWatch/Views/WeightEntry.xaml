@@ -37,7 +37,7 @@
             <TextBox Margin="108,67,148,0" Name="weightTextBox" Text="{Binding Weight, Mode=TwoWay}" Height="72" VerticalAlignment="Top" RenderTransformOrigin="0.51,0.486">
                 <TextBox.InputScope>
                     <InputScope>
-                        <InputScopeName NameValue="Digits" />
+                        <InputScopeName NameValue="CurrencyAmount" />
                     </InputScope>
                 </TextBox.InputScope>
             </TextBox>

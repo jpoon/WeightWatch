@@ -55,7 +55,7 @@ namespace WeightWatch.Views
                 summary_messageTextBlock.Text =
                     "Instructions:\n" +
                     "(1) Add your daily weight\n" +
-                    "(2) Tap and hold a weight entry 'Details' pivot to edit or delete\n";
+                    "(2) Tap and hold a weight entry on the 'Details' pivot to edit or delete\n";
             }
             else
             {
