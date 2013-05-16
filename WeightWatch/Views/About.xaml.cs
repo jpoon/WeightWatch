@@ -66,7 +66,12 @@ namespace WeightWatch.Views
                     browser.Show();
                     break;
                 case "Feedback":
-                    var email = new EmailComposeTask { To = App.FeedbackEmail, Body = "Version: " + _asmName.Version };
+                    var email = new EmailComposeTask 
+                    { 
+                        To = App.FeedbackEmail, 
+                        Subject = "[WeightWatch]", 
+                        Body = "Version: " + _asmName.Version 
+                    };
                     email.Show();
                     break;
             }
