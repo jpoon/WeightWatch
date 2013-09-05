@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
-    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
@@ -125,8 +124,8 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot Title="WEIGHTWATCH">
-            <controls:PivotItem Header="progress">
+        <phone:Pivot Title="WEIGHTWATCH">
+            <phone:PivotItem Header="progress">
                 <Grid>
                     <Image Name="summary_arrowImage" Width="550" Margin="71,30,-165,-38" VerticalAlignment="Center" Height="550" HorizontalAlignment="Center" Opacity="0.3" Canvas.ZIndex="-1" />
                     <TextBlock Height="30" HorizontalAlignment="Left" Margin="20,20,0,0" Name="lastWeight_label" Text="Last:" VerticalAlignment="Top" Width="100" TextAlignment="Right" />
@@ -139,9 +138,9 @@
                     <TextBlock Height="Auto" HorizontalAlignment="Center" x:Name="summary_messageTextBlock" Text="" VerticalAlignment="Bottom" Width="400" TextWrapping="Wrap" Margin="28,0,28,30" Foreground="{StaticResource PhoneSubtleBrush}" />
                     <Path Data="M122,106.25 L375.38705,106.25" Height="2" Margin="150,105,81,0" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="230" Stroke="{StaticResource PhoneInactiveBrush}" StrokeThickness="2"/>
                 </Grid>
-            </controls:PivotItem>
+            </phone:PivotItem>
 
-            <controls:PivotItem Header="graph">
+            <phone:PivotItem Header="graph">
                 <chartingToolkit:Chart x:Name="weightChart" Style="{StaticResource ChartStyle}">
                     <chartingToolkit:Chart.Axes>
                         <chartingToolkit:DateTimeAxis 
@@ -157,14 +156,13 @@
                         DependentValuePath="Weight"
                         IndependentValuePath="Date" Style="{StaticResource AreaSeriesStyle}" DataPointStyle="{StaticResource AreaDataPointStyle}" />
                 </chartingToolkit:Chart>
-            </controls:PivotItem>
+            </phone:PivotItem>
 
-            <controls:PivotItem Header="details">
-                <toolkit:LongListSelector
+            <phone:PivotItem Header="details">
+                <phone:LongListSelector
                 x:Name="weightLongListSelector"
-                ItemsSource="{Binding WeightHistoryGroup}"
-                IsFlatList="False">
-                    <toolkit:LongListSelector.GroupHeaderTemplate>
+                ItemsSource="{Binding WeightHistoryGroup}">
+                    <phone:LongListSelector.GroupHeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Border Background="{StaticResource PhoneAccentBrush}" Margin="8 10 10 15">
@@ -178,8 +176,8 @@
                                 </Border>
                             </StackPanel>
                         </DataTemplate>
-                    </toolkit:LongListSelector.GroupHeaderTemplate>
-                    <toolkit:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector.GroupHeaderTemplate>
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <toolkit:ContextMenuService.ContextMenu>
@@ -204,10 +202,10 @@
                                 <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding WeightStr}" Style="{StaticResource PhoneTextNormalStyle}" />
                             </Grid>
                         </DataTemplate>
-                    </toolkit:LongListSelector.ItemTemplate>
-                </toolkit:LongListSelector>
-            </controls:PivotItem>
-        </controls:Pivot>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
 </phone:PhoneApplicationPage>
