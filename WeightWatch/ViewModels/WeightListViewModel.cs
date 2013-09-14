@@ -35,7 +35,7 @@ namespace WeightWatch.ViewModels
     public class WeightListViewModel : INotifyPropertyChanged
     {
         private static WeightListModel _dataList;
-        private static ObservableCollection<WeightViewModel> _weightHistoryList = new ObservableCollection<WeightViewModel>();
+        private static readonly ObservableCollection<WeightViewModel> _weightHistoryList = new ObservableCollection<WeightViewModel>();
         private static bool _invalidateCache;
 
         public WeightListViewModel()
@@ -70,40 +70,20 @@ namespace WeightWatch.ViewModels
             }
         }
 
-        public ObservableCollection<WeightListGroup<WeightViewModel>> WeightHistoryGroup
-        {
-            get
-            {
-                var results = from item in _weightHistoryList
-                              group item by item.DateStrMonthYear
-                              into g
-                              select new WeightListGroup<WeightViewModel>(g.Key, g);
-
-                var weightHistoryGroup = new ObservableCollection<WeightListGroup<WeightViewModel>>();
-                foreach (var result in results)
-                {
-                    weightHistoryGroup.Add(result);
-                }
-
-                return weightHistoryGroup;
-            }
-        }
-
         #endregion Properties
 
         #region Public Methods
 
-        public void Delete(WeightViewModel data)
+        public void Delete(DateTime? date)
         {
-            if (data == null || data.WeightModel == null)
+            if (date == null || !date.HasValue)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException("date");
             }
 
-            _dataList.Delete(data.WeightModel);
+            _dataList.Delete((DateTime)date);
 
             InvokePropertyChanged("WeightHistoryList");
-            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         public WeightViewModel Get(DateTime date)
@@ -142,7 +122,6 @@ namespace WeightWatch.ViewModels
             _dataList.Add(model);
 
             InvokePropertyChanged("WeightHistoryList");
-            InvokePropertyChanged("WeightHistoryGroup");
         }
 
         #endregion

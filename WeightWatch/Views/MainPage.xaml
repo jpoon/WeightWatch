@@ -6,9 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     xmlns:visualizationToolkit="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:chartingprimitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     d:DesignWidth="480" d:DesignHeight="696"
     mc:Ignorable="d"
@@ -159,51 +159,26 @@
             </phone:PivotItem>
 
             <phone:PivotItem Header="details">
-                <phone:LongListSelector
-                x:Name="weightLongListSelector"
-                ItemsSource="{Binding WeightHistoryGroup}">
-                    <phone:LongListSelector.GroupHeaderTemplate>
+                <telerikPrimitives:RadDataBoundListBox ItemsSource="{Binding WeightHistoryList}" Margin="12,0">
+                    <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Border Background="{StaticResource PhoneAccentBrush}" Margin="8 10 10 15">
-                                    <TextBlock 
-                                        Text="{Binding GroupHeader}" 
-                                        FontFamily="{StaticResource PhoneFontFamilyNormal}"
-                                        FontSize="{StaticResource PhoneFontSizeMedium}"
-                                        Padding="5 10 20 0"
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center" />
-                                </Border>
-                            </StackPanel>
-                        </DataTemplate>
-                    </phone:LongListSelector.GroupHeaderTemplate>
-                    <phone:LongListSelector.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <toolkit:ContextMenuService.ContextMenu>
-                                    <toolkit:ContextMenu>
-                                        <toolkit:MenuItem Header="edit" Click="EditMenuItem_Click" />
-                                        <toolkit:MenuItem Header="delete" Click="DeleteMenuItem_Click" />
-                                    </toolkit:ContextMenu>
-                                </toolkit:ContextMenuService.ContextMenu>
-
+                            <Grid Tap="EditMenuItem_Click" Tag="{Binding DateStr}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
                                     <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="30"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateStr}" Style="{StaticResource PhoneTextNormalStyle}" />
-                                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding WeightStr}" Style="{StaticResource PhoneTextNormalStyle}" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding DateStr}" Style="{StaticResource PhoneTextNormalStyle}" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding WeightStr}" Style="{StaticResource PhoneTextNormalStyle}" />
                             </Grid>
                         </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
+                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                </telerikPrimitives:RadDataBoundListBox>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

@@ -74,13 +74,14 @@ namespace WeightWatch.Models
             return _weightList.FirstOrDefault(c => c.Date.Equals(date));
         }
 
-        public void Delete(WeightModel data)
+        public void Delete(DateTime date)
         {
-            var index = _weightList.IndexOf(data);
+            var model = this.Get(date);
+            var index = _weightList.IndexOf(model);
             if (index >= 0)
             {
                 _weightList.RemoveAt(index);
-                NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, data, index));
+                NotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, model, index));
             }
 
             Save();

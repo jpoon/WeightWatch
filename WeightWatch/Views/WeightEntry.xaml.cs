@@ -126,8 +126,13 @@ namespace WeightWatch.Views
             }
         }
 
-        private void AppBarIconButtonCancelClick(object sender, EventArgs e)
+        private void AppBarIconButtonDeleteClick(object sender, EventArgs e)
         {
+            // Force update binding first
+            var binding = weightTextBox.GetBindingExpression(TextBox.TextProperty);
+            if (binding != null) binding.UpdateSource();
+
+            _weightListViewModel.Delete(_newEntry.Date);
             GoToBackOrMainMenu();
         }
 

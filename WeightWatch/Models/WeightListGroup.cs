@@ -23,7 +23,7 @@ namespace WeightWatch.Models
 {
     using System.Collections.Generic;
 
-    public class WeightListGroup<T> : IEnumerable<T>
+    public class WeightListGroup<T> : List<T>
     {
         public WeightListGroup(string date, IEnumerable<T> items)
         {
@@ -47,18 +47,6 @@ namespace WeightWatch.Models
 
         #endregion
 
-        #region IEnumerable Members
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-
         public override bool Equals(object obj)
         {
             var that = obj as WeightListGroup<T>;
@@ -69,7 +57,5 @@ namespace WeightWatch.Models
         {
             return base.GetHashCode();
         }
-
-        #endregion
     }
 }

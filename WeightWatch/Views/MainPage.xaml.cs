@@ -20,6 +20,7 @@
  */
 
 using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace WeightWatch.Views
 {
@@ -46,12 +47,16 @@ namespace WeightWatch.Views
                 NavigationService.RemoveBackEntry();
             }
 
+            _viewModel = new WeightListViewModel();
+            DataContext = _viewModel;
+            /*
             var c = weightLongListSelector.SelectedItem;
             if (c == null)
             {
                 _viewModel = new WeightListViewModel();
                 DataContext = _viewModel;
             }
+             */
         }
 
         #region Event Handlers
@@ -78,16 +83,8 @@ namespace WeightWatch.Views
 
         private void EditMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var item = (sender as MenuItem).DataContext as WeightViewModel;
-            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml?Date=" + item.DateStr, UriKind.Relative)));
-
-            UpdatePivots();
-        }
-
-        private void DeleteMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var item = (sender as MenuItem).DataContext as WeightViewModel;
-            _viewModel.Delete(item);
+            var grid = sender as Grid;
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/Views/WeightEntry.xaml?Date=" + grid.Tag, UriKind.Relative)));
 
             UpdatePivots();
         }
