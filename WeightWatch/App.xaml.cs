@@ -123,9 +123,11 @@ namespace WeightWatch
                 System.Diagnostics.Debugger.Break();
             }
 
-            var attributes = new Dictionary<string, string>();
-            attributes.Add("exceptionMessage", e.ExceptionObject.Message);
-            attributes.Add("exceptionStackTrace", e.ExceptionObject.StackTrace);
+            var attributes = new Dictionary<string, string>
+            {
+                { "exceptionMessage", e.ExceptionObject.Message },
+                { "exceptionStackTrace", e.ExceptionObject.StackTrace },
+            };
             appSession.tagEvent("UnhandledException", attributes);
         }
 
