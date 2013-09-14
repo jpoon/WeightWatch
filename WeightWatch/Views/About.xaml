@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
@@ -17,9 +16,9 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
-        <controls:Pivot Title="WEIGHTWATCH" SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot Title="WEIGHTWATCH" SelectionChanged="Pivot_SelectionChanged">
             <!-- About Pivot-->
-            <controls:PivotItem Header="about">
+            <phone:PivotItem Header="about">
                 <ScrollViewer>
                     <StackPanel Margin="0,-12,0,24">
                         <TextBlock Style="{StaticResource PhoneTextLargeStyle}" Text="by Jason Poon" />
@@ -54,13 +53,13 @@
                             Foreground="{StaticResource PhoneAccentBrush}" />
                     </StackPanel>
                 </ScrollViewer>
-            </controls:PivotItem>
+            </phone:PivotItem>
 
             <!-- what's new Pivot-->
-            <controls:PivotItem Header="what's new">
+            <phone:PivotItem Header="what's new">
                 <ScrollViewer x:Name="changelogScrollViewer" Margin="0,-12,0,24">
                 </ScrollViewer>
-            </controls:PivotItem>
-        </controls:Pivot>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 </phone:PhoneApplicationPage>

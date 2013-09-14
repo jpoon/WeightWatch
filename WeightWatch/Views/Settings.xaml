@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,9 +18,9 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid Background="Transparent">
-        <controls:Pivot Title="WEIGHTWATCH">
+        <phone:Pivot Title="WEIGHTWATCH">
             <!--Backup Pivot -->
-            <controls:PivotItem Header="backup">
+            <phone:PivotItem Header="backup">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -66,21 +65,19 @@
                         Grid.Row="5" />                    
                 </Grid>
 
-            </controls:PivotItem>
+            </phone:PivotItem>
             
             <!--Settings Pivot -->
-            <controls:PivotItem Header="settings">
+            <phone:PivotItem Header="settings">
                 <StackPanel>
                     <toolkit:ListPicker
                         Name="Measurement_ListPicker"
-                        Header="Default Measurement Unit"
-                        ItemsSource="{Binding MeasurementList}" />
+                        Header="Default Measurement Unit" />
                     <toolkit:ListPicker
                         Name="Graph_ListPicker"
-                        Header="Graph"
-                        ItemsSource="{Binding GraphViewList}" />
+                        Header="Graph" />
                 </StackPanel>
-            </controls:PivotItem>
-        </controls:Pivot>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 </phone:PhoneApplicationPage>
