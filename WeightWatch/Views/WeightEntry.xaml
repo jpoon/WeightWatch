@@ -41,9 +41,7 @@
                     </InputScope>
                 </TextBox.InputScope>
             </TextBox>
-            <toolkit:ListPicker
-                Margin="316,69,32,119" Name="Measurement_ListPicker"
-                        ItemsSource="{Binding MeasurementList}" />
+            <toolkit:ListPicker Margin="316,69,32,119" Name="Measurement_ListPicker" />
         </Grid>
     </Grid>
 
