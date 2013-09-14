@@ -40,34 +40,43 @@ namespace WeightWatch.Views
             var areaSeries = (AreaSeries)weightChart.Series[0];
             areaSeries.Refresh();
 
+            var latestWeightEntry = _viewModel.WeightHistoryList.FirstOrDefault();
+
+            var endDate = DateTime.Today;
+            if (latestWeightEntry != null)
+            {
+                endDate = latestWeightEntry.Date;
+            }
+
             var startDate = new DateTime();
             switch (ApplicationSettings.DefaultGraphMode)
             {
                 case ApplicationSettings.GraphMode.Week:
-                    startDate = DateTime.Today.AddDays(-6);
+                    startDate = endDate.AddDays(-6);
                     break;
                 case ApplicationSettings.GraphMode.Month:
-                    startDate = DateTime.Today.AddDays(-35);
+                    startDate = endDate.AddDays(-35);
                     break;
                 case ApplicationSettings.GraphMode.Year:
-                    startDate = DateTime.Today.AddMonths(-12);
+                    startDate = endDate.AddMonths(-12);
                     break;
             }
+
             foreach (var axis in weightChart.Axes)
             {
                 var axisType = axis.GetType();
                 if (axisType == typeof(DateTimeAxis))
                 {
-                    SetupDateTimeAxis((DateTimeAxis)axis, startDate);
+                    SetupDateTimeAxis((DateTimeAxis)axis, startDate, endDate);
                 }
                 else if (axisType == typeof(LinearAxis))
                 {
-                    SetupLinearAxis((LinearAxis)axis, startDate);
+                    SetupLinearAxis((LinearAxis)axis, startDate, endDate);
                 }
             }
         }
 
-        private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate)
+        private void SetupLinearAxis(LinearAxis linearAxis, DateTime startDate, DateTime endDate)
         {
             // Title
             var defaultMeasurementSystem = ApplicationSettings.DefaultMeasurementSystem;
@@ -75,7 +84,7 @@ namespace WeightWatch.Views
             linearAxis.Title = "Weight (" + weightAbbrev + ")";
 
             // Interval, Range
-            var weightList = _viewModel.Get(startDate, DateTime.Today);
+            var weightList = _viewModel.Get(startDate, endDate);
 
             double? weightRangeMin = null;
             double? weightRangeMax = null;
@@ -121,10 +130,10 @@ namespace WeightWatch.Views
             linearAxis.Interval = Math.Floor((double)(linearAxis.Maximum - linearAxis.Minimum) / GraphDefaultResolution);
         }
 
-        private static void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate)
+        private static void SetupDateTimeAxis(DateTimeAxis dateTimeAxis, DateTime startDate, DateTime endDate)
         {
             dateTimeAxis.Minimum = startDate;
-            dateTimeAxis.Maximum = DateTime.Today;
+            dateTimeAxis.Maximum = endDate;
             switch (ApplicationSettings.DefaultGraphMode)
             {
                 case ApplicationSettings.GraphMode.Week:
