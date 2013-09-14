@@ -10,6 +10,7 @@
 *.user
 */Bin/
 */obj/
+*/lib/
 
 # OS generated files #
 ######################
